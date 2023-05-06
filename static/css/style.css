@@ -1,0 +1,129 @@
+#logo {
+    width: 260px;
+    height: 80px;
+    margin-right: 4%;
+}
+
+.navbar {
+    background-color: #0000001f;
+}
+
+.navbar_text {
+    text-transform: uppercase;
+}
+
+/* INDEX */
+body {
+	color: #E9E9E9;
+	background: radial-gradient(30% 40% at 40% 30%, rgba(33, 36, 41, .5) 0%, rgba(33, 36, 41, 0) 100%) no-repeat, url( '../img/acc_account_back.png' ) -30vw 0 no-repeat, #212429;
+	font-family: "Motiva Sans", Sans-serif;
+	font-weight: normal;
+}
+/* LOGIN */
+
+.form-signin {
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+
+.form-signin .mb-4 {
+    margin-bottom: 1.5rem !important;
+}
+
+.form-signin .form-control {
+    padding: 10px;
+}
+
+.form-signin h1 {
+    font-family: 'Noto Sans JP', sans-serif;
+    text-transform: uppercase;
+    color: #b8b6b4;
+    text-align: center;
+    padding-top: 40%;
+    padding-bottom: 5%;
+}
+
+.form-signin p {
+    color: white;
+    font-size: 13px;
+}
+
+#checkbox-text {
+    color: #b8b6b4;
+}
+
+.form-signin input {
+    background-color:#32353C;
+    border: 1px solid #26282D;
+    color: #E9E9E9;
+}
+
+body.login {
+	color: #E9E9E9;
+	background: radial-gradient(30% 40% at 40% 30%, rgba(33, 36, 41, .5) 0%, rgba(33, 36, 41, 0) 100%) no-repeat, url( '../img/acc_account_back.png' ) -30vw 0 no-repeat, #212429;
+	font-family: "Motiva Sans", Sans-serif;
+	font-weight: normal;
+}
+
+.login-title {
+    font-family: 'Noto Sans JP', sans-serif;
+    text-transform: uppercase;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    font-size: 34px;
+    color:white;
+    margin-bottom:30px;
+    margin-top: 50px;
+    font-weight: 200;
+    letter-spacing: 2px;
+    text-align: center;
+}
+
+.login .form-control, .login select {
+	max-width: 300px;
+	background: #32353C;
+	border-radius: 3px;
+	color: #E9E9E9;
+	padding: 8px 6px;
+	display: block;
+	box-shadow: none;
+	width: 100%;
+	transition: border ease-in-out .5s;
+	border: 1px solid #26282D;
+	outline: none;
+	font-family: "Motiva Sans", Sans-serif;
+	font-weight: normal;
+}
+
+.joinmanga {
+    padding-top: 15%;
+}
+
+#join-photo img{
+    border-radius: 244px;
+}
+
+.login .signin-join {
+	max-width: 60%;
+	text-align: center;
+	font-size: 14px;
+    margin-top: 15%;
+}
+
+.login .signup-join {
+	max-width: 60%;
+	text-align: center;
+	font-size: 14px;
+    margin-top: 61%;
+}
+
+.signup-join-image {
+    width: 320px;
+}
+
+.joinmanga a {
+    margin-left: 11%;
+    margin-top: 5%;
+}
+

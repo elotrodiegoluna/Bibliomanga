@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %} Registrarse en BiblioManga {% endblock %}
+
+{% load static %}
+
+{% block content %}
+
+<body class="login">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 order-md-2 mb-4">
+          <div class="joinsteam container">
+            <div class="signup-join subtext">
+                {% for field in registration_form %}
+                    {% if field.help_text %}
+                        <small style="color: grey;">{{field.help_text}}</small>
+                    {% endif %}
+                {% endfor %}
+
+            </div>
+            <!--<img alt="Join Steam" class="signup-join" src="{% static 'img/waifu-login.png' %}">
+            <a class="btn btn-dark my-2" href="{% url 'login' %}">Iniciar sesión</a>-->
+          </div>
+        </div>
+        <div class="col-md-8 order-md-1">
+            <form class="form-signin" data-parsley-validate="" method="POST">{% csrf_token %}
+            <div class="login-title">Registrarse</div>
+            <label for="email" >Email</label>
+            <small style="color: rgb(197, 16, 16);">{{ registration_form.email.errors }}</small>
+            <input type="email" id="email" class="form-control" name="email" data-parsley-trigger="change" required="">
+            <hr class="mb-1">
+  
+            <label for="username" >Nombre de usuario</label>
+            <small style="color: rgb(197, 16, 16);">{{ registration_form.username.errors }}</small>
+            <input type="text" id="username" class="form-control" name="username" data-parsley-length="[4, 20]" required="">
+            <hr class="mb-1">
+  
+            <label for="password1" >Contraseña</label>
+            <small style="color: rgb(197, 16, 16);">{{ registration_form.password1.errors }}</small>
+            <input type="password" id="password1" class="form-control" name="password1" data-parsley-length="[6, 20]" required="">
+            <hr class="mb-1">
+
+            <label for="password2" >Confirmar contraseña</label>
+            <small style="color: rgb(197, 16, 16);">{{ registration_form.password2.errors }}</small>
+            <input type="password" id="password2" class="form-control" name="password2" data-parsley-length="[6, 20]" required="">
+            <hr class="mb-2">
+  
+            <div class="checkbox mb-3" >
+              <label for="rememberme">
+                <input type="checkbox" id="rememberme" name="rememberme" data-parsley-mincheck="1" required data-parsley-required-message="Debes aceptar los términos de acuerdo de notSteam">
+                Tengo más de 13 años y acepto los términos de acuerdo de Bibliomanga.
+              </label>
+            </div>
+
+            
+              <!--  {% for field in registration_form %}
+                    <label for="{{ field.label.tag }}"
+                    <p>
+                        {{field.label.tag}}
+                        {{field}}
+            
+                        {% if field.help_text %}
+                            <small style="color: grey;">{{field.help_text}}</small>
+                        {% endif %}
+            
+                        {% for error in field.errors %}
+                            <p style="color: red;">{{error}}</p>
+                        {% endfor %}
+                        
+                    </p>
+                {% endfor %}
+            
+                <button type="submit">register</button>
+            </form>
+            -->
+            <button class="btn btn-lg btn-dark btn-block" type="submit">Registrarse</button>
+            <p class="mt-5 mb-3">Bibliomanga© 2023-2024</p>
+          </form>
+        </div>
+      </div>
+    </div>
+    <script src="js/parsley.js"></script>
+    <script src="js/parsley-es.js"></script>
+  </body>
+
+{% endblock %}

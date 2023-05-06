@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %} Iniciar sesion en BiblioManga {% endblock %}
+
+{% load static %}
+
+{% block content %}
+<body class="login">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 order-md-2 mb-4">
+                <div class="joinmanga container">
+                    <img id="join-photo" class="signin-join" src="{% static 'img/waifu-login.png' %}" alt="joinbmanga">
+                    <div class="signin-join subtext">
+                        Únete a esta comunidad y descubre una variedad de mangas tanto en digital como fisico.
+                        <br>
+                        <a class="register-btn btn btn-dark mb-2" href="{% url 'register' %}">Registrarse</a>
+                    </div>
+                   
+                </div>
+            </div>
+            <div class="col-md-8 order-md-1">
+                <form class="form-signin" method="POST" action=""> {% csrf_token %}
+                    <div class="login-title">Iniciar sesión</div>
+                    <div class="input_title">Email</div>
+                    <small style="color: rgb(197, 16, 16);">{{ login_form.email.errors }}</small>
+                    <small style="color: rgb(197, 16, 16);">{{ login_form.email.non_field_errors }}</small>
+                    <input type="email" id="email" class="form-control" type="text" name="email">
+                    <hr class="mb-1">
+                    <div class="input_title">Contraseña</div>
+                    <small style="color: rgb(197, 16, 16);">{{ login_form.password.errors }}</small>
+                    <small style="color: rgb(197, 16, 16);">{{ login_form.password.non_field_errors }}</small>
+                    <input id="password" class="form-control" type="password" name="password">
+                    <hr class="mb-2">
+
+                    {% for error in login_form.field.errors %}
+                        <small style="color: rgb(197, 16, 16);">{{ errors }}</small>
+                    {% endfor %}
+                    {% if login_form.non_field_errors %}
+                        <small style="color: rgb(197, 16, 16);">{{ login_form.non_field_errors }}</small>
+                    {% endif %}
+
+                    <button class="btn login_btn btn-lg btn-dark btn-block" type="submit" value="login">Iniciar sesión</button>
+                    <p class="mt-5 mb-3">BiblioManga© 2023-2024</p>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock %}
