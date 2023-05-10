@@ -98,9 +98,16 @@ body.login {
 
 .joinmanga {
     padding-top: 15%;
+    padding-left: 92px;
+    margin-right: auto;
+    margin-left: auto;
 }
 
-#join-photo img{
+.joinmanga a {
+    margin-top: 5%;
+}
+
+#join-photo{
     border-radius: 244px;
 }
 
@@ -122,8 +129,5 @@ body.login {
     width: 320px;
 }
 
-.joinmanga a {
-    margin-left: 11%;
-    margin-top: 5%;
-}
+
 

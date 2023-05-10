@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %} Tu tienda en Bibliomanga {% endblock %}
+
+{% load static %}
+
+{% block styles %}
+<link type="text/css" rel="stylesheet" href="{% static 'css/storestyle.css' %}"/>
+{% endblock %}
+
+{% block content %}
+
+{% load humanize%}
+
+    <div class="container">
+        <h1 class="tienda-titulo">Mangas</h1>
+        
+        <div class="row">
+            {% for i in mangas %}
+            <div class="column">
+                <div class="card">
+                    <a href="">
+                        <img class="img-fluid" src="{{ i.portada }}" alt="{{ i.nombre }}">
+                    </a>
+                    <div class="card-body">
+                        <p class="manga-nombre">{{ i.nombre }} <br>
+                        </p>
+                        <p class="manga-precio">${{ i.precio|intcomma }} CLP</p>
+                        <button class="btn tienda_btn btn-lg btn-dark btn-block" type="submit" value="carrito">Añadir al carrito</button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+    </div>
+
+{% endblock %}

@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'users',
     'bmanga',
+    'store',
+    'django.contrib.humanize',
 ]
 
 AUTH_USER_MODEL = 'users.User'
