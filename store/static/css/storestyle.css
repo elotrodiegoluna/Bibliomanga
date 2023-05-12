@@ -1,5 +1,10 @@
 .tienda-titulo {
-    color:white;
+    font-family: 'Noto Sans JP', sans-serif;
+    text-transform: uppercase;
+    color: white;
+    text-align: left;
+    font-size: 17px;
+    padding-top: 18px;
 }
 
 .column {
@@ -23,6 +28,15 @@
     flex-wrap: wrap;
     margin-right: -15px;
     margin-left: -15px;
+    display: inherit;
+}
+
+.col-md-4 {
+    width: 82%;
+}
+
+.col-md-8 {
+    width: 100%;
 }
 
 .manga-nombre {

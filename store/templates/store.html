@@ -11,28 +11,40 @@
 {% block content %}
 
 {% load humanize%}
-
-    <div class="container">
-        <h1 class="tienda-titulo">Mangas</h1>
-        
-        <div class="row">
-            {% for i in mangas %}
-            <div class="column">
-                <div class="card">
-                    <a href="">
-                        <img class="img-fluid" src="{{ i.portada }}" alt="{{ i.nombre }}">
-                    </a>
-                    <div class="card-body">
-                        <p class="manga-nombre">{{ i.nombre }} <br>
-                        </p>
-                        <p class="manga-precio">${{ i.precio|intcomma }} CLP</p>
-                        <button class="btn tienda_btn btn-lg btn-dark btn-block" type="submit" value="carrito">Añadir al carrito</button>
+    <div class="col-md-4 order-md-2 mb-4">
+        <div class="container">
+            <h1 class="tienda-titulo">Nuestros productos</h1>
+            <div class="row">
+                {% for i in mangas %}
+                <div class="column">
+                    <div class="card">
+                        <a href="">
+                            <img class="img-fluid" src="{{ i.portada }}" alt="{{ i.nombre }}">
+                        </a>
+                        <div class="card-body">
+                            <p class="manga-nombre">{{ i.nombre }} <br>
+                            </p>
+                            <p class="manga-precio">${{ i.precio|intcomma }} CLP</p>
+                            <button class="btn tienda_btn btn-lg btn-dark btn-block" type="submit" value="carrito">Añadir al carrito</button>
+                        </div>
                     </div>
                 </div>
+                {% endfor %}
             </div>
-            {% endfor %}
         </div>
-        
     </div>
+    <div class="col-md-8 order-md-2 mb-4">
+        <nav id="sidebar">
+            <h5>categorias</h5>
+            <ul class="list-unstyled components mb-5">
+                <li>
+                    <a class="dropdown-toggle" href="" data-toggle="collapse" aria-expanded="false">
+                        Mangas
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+        
 
 {% endblock %}
