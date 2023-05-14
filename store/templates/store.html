@@ -11,40 +11,60 @@
 {% block content %}
 
 {% load humanize%}
-    <div class="col-md-4 order-md-2 mb-4">
-        <div class="container">
-            <h1 class="tienda-titulo">Nuestros productos</h1>
+<h2 class="tienda-titulo"> Nuestros productos a tu disposición, ¡Echa un vistazo!</h2>
+
+<section id="sidebar">
+    <div>
+        <h6 class="p-1">Filtrar por nombre</h6>
+        <input type="text" id="filter-name" class="form-control" onkeyup="FilterByName()"  placeholder="Nombre del producto">
+    </div>
+    <div>
+        <h6 class="p-1 border-top">Rango de precio:</h6>
+        <div class="slider">
+            <div class="progress"></div>
+        </div>
+        <div class="range-input">
+            <input type="range" class="range-min" min="0" max="150000" value="0">
+            <input type="range" class="range-max" min="0" max="150000" value="150000">
+        </div>
+        <div class="price-text">
             <div class="row">
-                {% for i in mangas %}
-                <div class="column">
-                    <div class="card">
-                        <a href="">
-                            <img class="img-fluid" src="{{ i.portada }}" alt="{{ i.nombre }}">
-                        </a>
-                        <div class="card-body">
-                            <p class="manga-nombre">{{ i.nombre }} <br>
-                            </p>
-                            <p class="manga-precio">${{ i.precio|intcomma }} CLP</p>
-                            <button class="btn tienda_btn btn-lg btn-dark btn-block" type="submit" value="carrito">Añadir al carrito</button>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
+                <div class="col-xs-6" id="value-min">$ 0</div>
+                <div class="col-xs-6" id="separator">-</div>
+                <div class="col-xs-6" id="value-max">$ 150,000</div>
             </div>
         </div>
     </div>
-    <div class="col-md-8 order-md-2 mb-4">
-        <nav id="sidebar">
-            <h5>categorias</h5>
-            <ul class="list-unstyled components mb-5">
-                <li>
-                    <a class="dropdown-toggle" href="" data-toggle="collapse" aria-expanded="false">
-                        Mangas
-                    </a>
-                </li>
-            </ul>
-        </nav>
+    <div>
+        <h6 class="p-1 border-top">Categoria</h6>
+        <ul>
+            <li><a href="#">Mangas</a></li>
+            <li><a href="#">Figuras</a></li>
+            <li><a href="#">Ropa</a></li>
+            <li><a href="#">Misc</a></li>
+        </ul>
     </div>
-        
+</section>
+<section id="products">
+    <div class="container">
+        <div class="row">
+            {% for i in mangas %}
+            <div class="col-lg-3 col-sm-4 col-11 offset-sm-0 offset-1">
+                <div class="card">
+                    <img class="card-img-top" src="{{ i.portada }}" alt="{{ i.nombre }}">
+                    <div class="card-body">
+                        <p class="manga-nombre">{{ i.nombre }}</p>
+                        <p class="manga-precio">${{ i.precio|intcomma }} CLP</p>
+                        <button class="btn tienda-btn btn-lg btn-dark btn-block" type="submit" value="carrito">Añadir al carrito</button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<script src="{% static 'js/store.js' %}"></script>
+
 
 {% endblock %}
