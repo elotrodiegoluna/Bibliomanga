@@ -2,7 +2,6 @@ from django.db import models
 
 # Create your models here.
 class Manga(models.Model):
-    id = models.IntegerField(primary_key=True)
     nombre = models.CharField(max_length=64, unique=True)
     precio = models.IntegerField(default=10000)
     stock = models.IntegerField(null=True)
