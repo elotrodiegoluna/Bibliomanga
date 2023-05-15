@@ -57,7 +57,7 @@
     float:left;
     background: #22252ab0;
     margin-top: 10px;
-    position: fixed;
+    position: absolute;
 }
 
 #products {
@@ -97,7 +97,6 @@ li a:hover {
 /* PRICE INPUT */
 
 #filter-name {
-    width: 250px;
     height: 30px;
     margin-bottom: 10px;
     margin-top: 10px;
@@ -175,3 +174,16 @@ input[type="range"]::-moz-range-thumb {
     background: #AA0B36;
 }
 
+/* CARRITO */
+
+.cart-widget-side {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 0px;
+    overflow: auto;
+    z-index: 500;
+    background-color: white;
+    transition: transform .3s ease;
+}
