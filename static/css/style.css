@@ -1,3 +1,7 @@
+#wrapper { 
+    position: relative; 
+}
+
 #logo {
     width: 260px;
     height: 80px;
@@ -6,6 +10,37 @@
 
 .navbar {
     background-color: #0000001f;
+    width: 100%;
+    height: 15%;
+}
+
+.navbar-brand {
+    position: absolute;
+    display: flex;
+    left: 40%;
+}
+
+#options-left {
+    position: relative;
+    right: 2%;
+}
+
+#options-right {
+    position: relative;
+    left: 18%;
+}
+
+.carrito-boton {
+    padding-top: 7px;
+    padding-left: 10px;
+}
+
+.carrito-boton a {
+    color: grey;
+}
+
+.carrito-boton a:hover {
+    color: white;
 }
 
 .navbar_text {
@@ -129,5 +164,28 @@ body.login {
     width: 320px;
 }
 
+/* FOOTER */
+
+.footer-container {
+    padding-top: 6%;
+}
 
 
+#footer-enlaces {
+    margin-left: 140px;
+}
+
+ul {
+    list-style: none;
+    padding: 5px;
+}
+
+li a{
+    color: darkgray;
+    text-decoration: none;
+}
+
+li a:hover {
+    text-decoration: none;
+    color:#AA0B36;
+}
