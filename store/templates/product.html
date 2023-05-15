@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %} Tu tienda en Bibliomanga {% endblock %}
+
+{% load static %}
+
+{% block styles %}
+<link type="text/css" rel="stylesheet" href="{% static 'css/storestyle.css' %}"/>
+{% endblock %}
+
+{% block content %}
+{% load humanize%}
+
+<a>{{ mangas.id }}</a>
+<a>{{ mangas.nombre }}</a>
+<a>{{ mangas.precio }}</a>
+
+
+{% endblock %}
