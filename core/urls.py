@@ -28,6 +28,7 @@ from bmanga.views import (
 
 from store.views import (
     store_view,
+    product_view,
 )
 
 urlpatterns = [
@@ -36,5 +37,6 @@ urlpatterns = [
     path('register/', registration_view, name="register"),
     path('login/', login_view, name="login"),
     path('logout/', logout_view, name="logout"),
-    path('store/', store_view, name="store")
+    path('store/', store_view, name="store"),
+    path('product/<pk>', product_view, name="product")
     ]

@@ -9,4 +9,11 @@ def store_view(request):
     }
     return render(request, 'store.html', context)
 
+def product_view(request, pk):
+    manga = Manga.objects.get(id=pk)
+    context = {
+        'mangas': manga
+    }
+    return render(request, 'product.html', context)
+
     
