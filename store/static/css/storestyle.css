@@ -187,3 +187,30 @@ input[type="range"]::-moz-range-thumb {
     background-color: white;
     transition: transform .3s ease;
 }
+
+/* PRODUCTS */
+
+#product-image {
+    width: 53%;
+    height: auto;
+}
+
+.product-image-container {
+    margin-left: 15%;
+    margin-top: 10%
+}
+
+.product-info-container {
+    margin-top: 14%
+}
+
+.product-name {
+    font-size: 34px;
+    color: white;
+    text-transform: uppercase;
+}
+
+.product-price {
+    color: #aa0b36;
+    font-size: 27px;
+}

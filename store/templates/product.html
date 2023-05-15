@@ -11,9 +11,31 @@
 {% block content %}
 {% load humanize%}
 
-<a>{{ mangas.id }}</a>
-<a>{{ mangas.nombre }}</a>
-<a>{{ mangas.precio }}</a>
-
+<div class="product-main-container">
+    <div class="container row-container">
+        <div class="row">
+            <div class="col-6">
+                <div class="container product-image-container">
+                    <img id="product-image" src="{{ mangas.portada }}">
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="container product-info-container">
+                    <div class="product-name">
+                        <a>{{ mangas.nombre }}</a>
+                    </div>
+                    <div class="product-price">
+                        <a>$ {{ mangas.precio|intcomma }}</a>
+                    </div>
+                    <span>
+                        <p class="stock">{{ mangas.stock }} en stock</p>
+                    </span>
+                    
+                    <div>asd</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% endblock %}
