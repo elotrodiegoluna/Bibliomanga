@@ -65,3 +65,18 @@ function FilterAll() {
         }
     }
 }
+
+/* CARRITO */
+//variables
+let products = document.querySelector('#products');
+
+//funciones
+loadEventListeners();
+function loadEventListeners() {
+    products.addEventListener('click', addProduct);
+}
+
+function addProduct(e) {
+    console.log(e.target);
+}
+

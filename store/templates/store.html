@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %} Tu tienda en Bibliomanga {% endblock %}
+{% block title %} Tu tienda en {% endblock %}
 
 {% load static %}
 
@@ -27,12 +27,10 @@
                 <input type="range" class="range-min" min="0" max="150000" value="0">
                 <input type="range" class="range-max" min="0" max="150000" value="150000">
             </div>
-            <div class="price-text">
-                <div class="row">
-                    <div class="col-xs-6" id="value-min">$ 0</div>
-                    <div class="col-xs-6" id="separator">-</div>
-                    <div class="col-xs-6" id="value-max">$ 150,000</div>
-                </div>
+            <div class="price-text flex-container">
+                <div class="flex-child" id="value-min">$ 0</div>
+                <div class="flex-child" id="separator">-</div>
+                <div class="flex-child" id="value-max">$ 150,000</div>
             </div>
         </div>
         <div>
@@ -57,11 +55,14 @@
                         <div class="card-body">
                             <p class="manga-nombre" href="{% url 'product' i.id %}">{{ i.nombre }}</p>
                             <p class="manga-precio">${{ i.precio|intcomma }} CLP</p>
-                            <button class="btn tienda-btn btn-lg btn-dark btn-block" type="submit" value="carrito">Añadir al carrito</button>
+                            <div class="col-md-12 text-center">
+                                <a href="{% url 'add_to_cart' i.id %}" class="btn tienda-btn btn-lg btn-dark btn-block">Añadir al carrito</a>
+                            </div>
                         </div>
                     </div>
                 </div>
                 {% endfor %}
+
             </div>
         </div>
     </div>
@@ -73,7 +74,9 @@
         </div>
     </div>
 </div>
-
-
 <script src="{% static 'js/store.js' %}"></script>
+{% endblock %}
+
+{% block scripts %}
+
 {% endblock %}

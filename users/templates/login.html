@@ -39,8 +39,10 @@
                     {% if login_form.non_field_errors %}
                         <small style="color: rgb(197, 16, 16);">{{ login_form.non_field_errors }}</small>
                     {% endif %}
-
-                    <button class="btn login_btn btn-lg btn-dark btn-block" type="submit" value="login">Iniciar sesión</button>
+                    <div class="col-md-12 text-center">
+                        <button class="btn login_btn btn-lg btn-dark btn-block" type="submit" value="login">Iniciar sesión</button>
+                    </div>
+                    
                     <p class="mt-5 mb-3">BiblioManga© 2023-2024</p>
                 </form>
             </div>

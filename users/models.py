@@ -1,6 +1,8 @@
 from django.db import models
+from django.contrib.sessions.models import Session
 from django.contrib.auth.models import AbstractBaseUser
 from .manager import MyUserManager
+from store.models import CartItem, Cart
 
 
 class User(AbstractBaseUser):
@@ -14,6 +16,17 @@ class User(AbstractBaseUser):
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username',]
+
+    def get_cart_count(self):
+        if self.is_authenticated:
+
+            return CartItem.objects.filter(cart__is_paid = False, cart__user = self).count()
+        else:
+            cart_id = self.session.get('cart_id')
+            if cart_id:
+                return CartItem.objects.filter(cart_id=cart_id, cart__is_paid = False).count()
+            else:
+                return 0
 
     def __str__(self):
         return self.email

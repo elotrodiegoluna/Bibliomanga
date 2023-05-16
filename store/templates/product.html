@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %} Tu tienda en Bibliomanga {% endblock %}
+{% block title %} Tu tienda en{% endblock %}
 
 {% load static %}
 
@@ -27,11 +27,17 @@
                     <div class="product-price">
                         <a>$ {{ mangas.precio|intcomma }}</a>
                     </div>
-                    <span>
+                    <div class="product-desc">
+                        <a>{{ mangas.desc }}</a>
+                    </div>
+                    <div class="product-actions">
                         <p class="stock">{{ mangas.stock }} en stock</p>
-                    </span>
-                    
-                    <div>asd</div>
+                        <button id="cart-add" class="btn btn-dark mr-md-3 mb-2 mb-md-0" type="button">Agregar al carrito</button>
+                        <a href="#" class="wishlist-add">
+                            <i id="wishlist-icon" class="bi bi-heart"></i>
+                            Añadir a deseados
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -39,3 +45,7 @@
 </div>
 
 {% endblock %}
+
+{% block scripts %}
+{% endblock %}
+

@@ -10,8 +10,8 @@
 
 .navbar {
     background-color: #0000001f;
-    width: 100%;
-    height: 15%;
+    padding-top: 4%;
+    padding-bottom: 4%;
 }
 
 .navbar-brand {
@@ -21,13 +21,13 @@
 }
 
 #options-left {
-    position: relative;
-    right: 2%;
+    position: absolute;
+    right: 64%;
 }
 
 #options-right {
-    position: relative;
-    left: 18%;
+    position: absolute;
+    left: 62%;
 }
 
 .carrito-boton {
