@@ -22,7 +22,6 @@ def registration_view(request):
     return render(request, 'register.html', context)
 
 def login_view(request):
-
     context = {}
 
     user = request.user

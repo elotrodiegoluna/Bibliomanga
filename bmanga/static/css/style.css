@@ -188,3 +188,174 @@ li a:hover {
     text-decoration: none;
     color:#AA0B36;
 }
+
+/* CAROUSEL */
+
+.container-carousel {
+    width: 65%;
+    margin-top: 5%;
+}
+
+.carousel-control.left {
+    left: 0;
+    margin-left: 5%;
+}
+
+.carousel-control.right {
+    right: 0;
+    margin-right: 5%;
+}
+
+.carousel-control:hover {
+    color: red;
+}
+
+.carousel-control {
+    top: auto;
+    bottom: 50%;
+    position: absolute;
+    background: rgb(0, 0, 0);
+    opacity: 0.6;
+    border: 0;
+    border-radius: 50%;
+    width: 4%;
+    height: 10%;
+    z-index: 5;
+}
+
+.carousel-control .bi {
+    font-size: 24px;
+    color: white;
+    line-height: 35px;
+    margin-left: 5px;
+}
+
+.carousel-news {
+    background: #0000009c;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+}
+
+.carousel-caption h5 {
+    color: white;
+}
+
+.carousel-caption p {
+    color: white;
+}
+
+.carousel-indicators {
+    margin-bottom: 0rem;
+}
+
+.carousel-inner > .item {
+    position: relative;
+    display: none;
+    -webkit-transition: 0.1s ease-in-out left;
+    -moz-transition: 0.1s ease-in-out left;
+    -o-transition: 0.1s ease-in-out left;
+    transition: 0.1s ease-in-out left;
+}
+
+/* CAROUSEL TENDENCIAS */
+.tendencias h1 {
+    font-family: 'Noto Sans JP', sans-serif;
+    text-transform: uppercase;
+    color: white;
+    text-align: center;
+    font-size: 17px;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+/* MANGAS DIGITALES */
+.mangas-digitales h1 {
+    font-family: 'Noto Sans JP', sans-serif;
+    text-transform: uppercase;
+    color: white;
+    text-align: center;
+    font-size: 17px;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+#mangas {
+    padding-left: 10%;
+    padding-right: 10%
+}
+
+.border-bottom {
+    border-bottom: 1px solid #626262 !important
+}
+
+.border-top {
+    border-top: 1px solid #626262 !important
+}
+
+.column {
+    float: left;
+    width: 24%;
+    padding: 16px;
+}
+
+.card-img-top{
+    max-width: 100%;
+    height: 358px;
+}
+
+.card {
+    background-color:#22252A;
+    border-color: #000;
+    border-width: 1px;
+    display: inline-block;
+}
+
+.card-body {
+    padding: 0;
+    margin: 12px;
+}
+
+.manga-nombre {
+    text-align: center;
+    margin-bottom: 2px;
+}
+
+.btn-dark{
+    color:white;
+    background-color: #aa0b3600;
+    border-color: #aa0b36;
+    margin-top:4%
+}
+
+ul {
+    list-style: none;
+    padding: 5px;
+}
+
+li a{
+    color: darkgray;
+    text-decoration: none;
+}
+
+li a:hover {
+    text-decoration: none;
+    color:#AA0B36;
+}
+
+.col-lg-3 {
+    padding-bottom: 25px;
+}
+
+.card-body .btn {
+    color: white;
+    border-color: black;
+    background-color: black;
+    text-transform: uppercase;
+    font-size: 10px;
+}
+
+.card-body .btn:hover {
+    background-color: #aa0b36;
+    color: white;
+}

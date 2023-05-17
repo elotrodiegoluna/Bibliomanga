@@ -1,3 +1,7 @@
+.content {
+    padding-bottom:400px;
+}
+
 #wrapper { 
     position: relative; 
 }
@@ -165,11 +169,6 @@ body.login {
 }
 
 /* FOOTER */
-
-.footer-container {
-    padding-top: 6%;
-}
-
 
 #footer-enlaces {
     margin-left: 140px;

@@ -1,4 +1,87 @@
 {% extends "base.html" %}
 
+{% block title %} Inicio de {% endblock %}
 
-<h1>hola</h1>
+{% load static %}
+
+{% block content %}
+
+<section class="carousel">
+  <div class="container container-carousel">
+    <div id="carousel-news" class="carousel slide carousel-fade" data-bs-ride="carousel">
+      <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carousel-news" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carousel-news" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carousel-news" data-bs-slide-to="2" aria-label="Slide 3"></button>
+      </div>  
+      <div class="carousel-inner">
+        <div class="carousel-item active" data-bs-interval="10000">
+          <img src="{% static 'img/CAROUSEL1.png' %}" class="d-block w-100 carousel-img" alt="..."/>
+          <div class="carousel-news carousel-caption d-none d-md-block">
+            <h5>¡Bienvenido a Bibliomanga!</h5>
+            <p>Te ofrecemos un cátalogo de mangas extenso el cual puedes leer de manera digital o si lo prefieres, puedes usar nuestra tienda y comprar mangas fisicos como también articulos.</p>
+          </div>
+        </div>
+        <div class="carousel-item" data-bs-interval="10000">
+          <img src="{% static 'img/CAROUSEL2.png' %}" class="d-block w-100 carousel-img" alt="..."/>
+          <div class="carousel-news carousel-caption d-none d-md-block">
+            <h5>Nuevos volumenes de Haikyu!!</h5>
+            <p>Están disponibles nuevos volumenes de Haikyuu en digital de manera gratuita, también hay nuevo stock en nuestra tienda.</p>
+          </div>
+        </div>
+        <div class="carousel-item" data-bs-interval="10000">
+          <img src="{% static 'img/CAROUSEL3.png' %}" class="d-block w-100 carousel-img" alt="..."/>
+          <div class="carousel-news carousel-caption d-none d-md-block">
+            <h5>Llega Jujutsu Kaisen</h5>
+            <p>Ya está disponible Jujutsu Kaisen en nuestra tienda!</p>
+          </div>
+        </div>
+      </div>
+      <a class="carousel-control left" role="button" data-bs-target="#carousel-news" data-bs-slide="prev">
+        <span class="bi bi-arrow-left" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </a>
+      <a class="carousel-control right" role="button" data-bs-target="#carousel-news" data-bs-slide="next">
+        <span class="bi bi-arrow-right" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="popular">
+  <div class="container tendencias">
+    <h1>Lo más leido esta semana (usar carousel)</h1>
+  </div>
+</section>
+
+<section class="digital">
+  <div class="container mangas-digitales">
+    <h1>Todos los mangas digitales</h1>
+    <div id="mangas">
+      <div class="container">
+        <div class="row">
+          {% for i in mangas %}
+          <div class="col-lg-3 col-sm-4 col-11 offset-sm-0 offset-1">
+            <div class="card">
+              <a href="#">
+                <img class="card-img-top" src="{{ i.portada }}" alt="{{ i.nombre }}">
+              </a>
+              <div class="card-body">
+                <p class="manga-nombre" href="#">{{ i.nombre }}</p>
+
+                <div class="col-md-12 text-center">
+                  <a href="#" class="btn manga-btn btn-lg btn-dark btn-block">Leer</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{% endblock %}
