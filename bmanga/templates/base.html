@@ -24,6 +24,7 @@
 
 </head>
 <body>
+  {% load humanize %}
     <!--NAVEGACION-->
   <nav class="navbar navbar-expand-md navbar-dark">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -70,7 +71,7 @@
                   
                   <a href="#">
                     <span class="fa fa-cart-shopping"></span>
-                    {% if request.user.is_authenticated %}{{ request.user.get_cart_count }}{% else %} 0 {% endif %} / {{cart_total}}
+                    {% if request.user.is_authenticated %}{{ request.user.get_cart_count }}{% else %} 0 {% endif %} / ${{cart_total|intcomma}}
                     
                   </a>
                 </div>
