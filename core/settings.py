@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-7f43l$*2%2%ahk07q6!l3gq&wr1%@a6!0i_)&=*%%ex=$x=1j*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [*]
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'bibliomanga.onrender.com']
 
 
 # Application definition
