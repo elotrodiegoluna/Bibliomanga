@@ -46,15 +46,19 @@
         <ul class="navbar-nav mr-auto" id="options-right">
           {% if user.is_authenticated %}
               <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                       MI CUENTA
                   </a>
-                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <a class="dropdown-item" href="{% url 'logout' %}">Cerrar sesión</a>
+                  <ul class="dropdown-menu">
+                      <li>
+                        <a class="dropdown-item" href="{% url 'logout' %}">Cerrar sesión</a>
+                      </li>
+                      <li>                 
                       {% if user.is_superuser or user.is_admin or user.is_staff %}
-                      <a class="dropdown-item" href="/admin">Panel de administrador</a>
+                        <a class="dropdown-item" href="/admin">Panel de administrador</a>
+                      </li> 
                       {% endif %}
-                  </div>
+                  </ul>
               </li>
           {% else %}
               <li class="nav-item">
