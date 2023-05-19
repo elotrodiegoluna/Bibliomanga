@@ -40,7 +40,7 @@ def add_to_cart(request, pk):
     if request.user.is_authenticated:
         # Usuario autenticado
         user = request.user
-        cart , _ = Cart.objects.get_or_create(user = user.id, is_paid = False)
+        cart , _ = Cart.objects.get_or_create(user = user, is_paid = False)
     else:
         # Anonimo => crear sesión
         session_cart_id = request.session.get('cart_id')
