@@ -6,11 +6,41 @@
     position: relative; 
 }
 
+/* NEW NAVBAR START */
 #logo {
     width: 260px;
     height: 80px;
     margin-right: 4%;
 }
+
+.home-nav-main {
+    margin-top: 2%;
+}
+
+.home-nav {
+    display: flex;
+}
+#homenav-dropdown {
+    margin-right: 15px;
+    text-transform: uppercase;
+}
+
+.home-nav .nav-item-left{
+    padding-left: 5%;
+}
+
+.home-nav .nav-item-right{
+    padding-right: 5%;
+}
+
+.home-nav .nav-text {
+    text-transform: uppercase;
+}
+
+.home-nav-logo {
+    padding-right: 15px;
+}
+/* NEW NAVBAR END */
 
 .navbar {
     background-color: #0000001f;
@@ -34,21 +64,13 @@
     left: 62%;
 }
 
-.carrito-boton {
-    padding-top: 7px;
-    padding-left: 10px;
-}
-
 .carrito-boton a {
     color: grey;
+    padding-left: 15px;
 }
 
 .carrito-boton a:hover {
     color: white;
-}
-
-.navbar_text {
-    text-transform: uppercase;
 }
 
 /* INDEX */
@@ -359,3 +381,5 @@ li a:hover {
     background-color: #aa0b36;
     color: white;
 }
+
+/* ADMIN PANEL */

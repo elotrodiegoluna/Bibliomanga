@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+load_dotenv()
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -41,6 +44,7 @@ INSTALLED_APPS = [
     'users',
     'bmanga',
     'store',
+    'adminpanel',
 ]
 
 AUTH_USER_MODEL = 'users.User'
@@ -80,22 +84,15 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-#DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.sqlite3',
-#        'NAME': BASE_DIR / 'db.sqlite3',
-#    }
-#}
-
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'elotrodiego$bibliomanga',
-        'USER': 'elotrodiego',
-        'PASSWORD': 'bibliomanga',
-        'HOST': 'elotrodiego.mysql.pythonanywhere-services.com',
-        'PORT': '3306',
-    }
+  'default': {
+    'ENGINE': 'django.db.backends.mysql',
+    'NAME': os.getenv('DB_NAME'),
+    'HOST': os.getenv('DB_HOST'),
+    'PORT': os.getenv('DB_PORT'),
+    'USER': os.getenv('DB_USER'),
+    'PASSWORD': os.getenv('DB_PASSWORD'),
+  }
 }
 
 # Password validation

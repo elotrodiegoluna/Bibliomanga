@@ -32,6 +32,15 @@ from store.views import (
     add_to_cart,
 )
 
+from adminpanel.views import (
+    adminmain_view,
+    adminusers_view,
+    adminstore_view,
+    adminmangas_view,
+)
+
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index, name='index'),
@@ -40,5 +49,9 @@ urlpatterns = [
     path('logout/', logout_view, name="logout"),
     path('store/', store_view, name="store"),
     path('product/<pk>', product_view, name="product"),
-    path('add-to-cart/<pk>/', add_to_cart, name="add_to_cart")
+    path('add-to-cart/<pk>/', add_to_cart, name="add_to_cart"),
+    path('adminpanel/main', adminmain_view, name="adminmain"),
+    path('adminpanel/users', adminusers_view, name="adminusers"),
+    path('adminpanel/store', adminstore_view, name="adminstore"),
+    path('adminpanel/mangas', adminmangas_view, name="adminmangas"),
     ]
