@@ -1,143 +1,94 @@
-@import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css');
-@media(min-width:768px) {
-    body {
-        margin-top: 50px;
-    }
-    /*html, body, #wrapper, #page-wrapper {height: 100%; overflow: hidden;}*/
+body {
+    background-color: #212529;
 }
-
-#wrapper {
-    padding-left: 0;    
-}
-
-#page-wrapper {
-    width: 100%;        
-    padding: 0;
-    background-color: #fff;
-}
-
-@media(min-width:768px) {
-    #wrapper {
-        padding-left: 225px;
-    }
-
-    #page-wrapper {
-        padding: 22px 10px;
+@media (min-width: 991.98px) {
+    main {
+        padding-left: 240px;
     }
 }
 
-/* Top Navigation */
-
-.top-nav {
-    padding: 0 15px;
+.logo {
+    height: 50px;
+}
+    
+/* Sidebar */
+.sidebar {
+position: fixed;
+top: 0;
+bottom: 0;
+left: 0;
+padding: 58px 0 0; /* Height of navbar */
+box-shadow: 0 2px 5px 0 rgb(0 0 0 / 5%), 0 2px 10px 0 rgb(0 0 0 / 5%);
+width: 240px;
+z-index: 600;
 }
 
-.top-nav>li {
-    display: inline-block;
-    float: left;
+@media (max-width: 991.98px) {
+.sidebar {
+width: 100%;
 }
 
-.top-nav>li>a {
-    padding-top: 20px;
-    padding-bottom: 20px;
-    line-height: 20px;
-    color: #fff;
+}
+.sidebar .active {
+box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
+background-color: #aa0b36;
+border-color: #aa0b36;
 }
 
-.top-nav>li>a:hover,
-.top-nav>li>a:focus,
-.top-nav>.open>a,
-.top-nav>.open>a:hover,
-.top-nav>.open>a:focus {
-    color: #fff;
-    background-color: #1a242f;
+.sidebar-sticky {
+position: relative;
+top: 0;
+height: calc(100vh - 48px);
+padding-top: 0.5rem;
+overflow-x: hidden;
+overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
 }
 
-.top-nav>.open>.dropdown-menu {
-    float: left;
-    position: absolute;
-    margin-top: 0;
-    /*border: 1px solid rgba(0,0,0,.15);*/
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    background-color: #fff;
-    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
-    box-shadow: 0 6px 12px rgba(0,0,0,.175);
+.list-group-item span {
+    color: white;
 }
 
-.top-nav>.open>.dropdown-menu>li>a {
-    white-space: normal;
+.list-group-item {
+    color:white;
+    background-color: #212529;
 }
 
-/* Side Navigation */
-
-@media(min-width:768px) {
-    .side-nav {
-        position: fixed;
-        top: 60px;
-        left: 225px;
-        width: 225px;
-        margin-left: -225px;
-        border: none;
-        border-radius: 0;
-        border-top: 1px rgba(0,0,0,.5) solid;
-        overflow-y: auto;
-        background-color: #222;
-        /*background-color: #5A6B7D;*/
-        bottom: 0;
-        overflow-x: hidden;
-        padding-bottom: 40px;
-    }
-
-    .side-nav>li>a {
-        width: 225px;
-        border-bottom: 1px rgba(0,0,0,.3) solid;
-    }
-
-    .side-nav li a:hover,
-    .side-nav li a:focus {
-        outline: none;
-        background-color: #1a242f !important;
-    }
+.list-group-item:hover {
+    background-color: #aa0b36;
 }
 
-.side-nav>li>ul {
-    padding: 0;
-    border-bottom: 1px rgba(0,0,0,.3) solid;
+.volver {
+    color: white;
+    border: 2px solid #aa0b36;
+    background: #aa0b36;
 }
 
-.side-nav>li>ul>li>a {
-    display: block;
-    padding: 10px 15px 10px 38px;
-    text-decoration: none;
-    /*color: #999;*/
-    color: #fff;    
+.fa-solid, .fas {
+    font-weight: 900;
+    color: white;
+    padding-right: 10px;
+  }
+
+
+
+/*tablas usuario*/
+.table-title {
+    color: white;
 }
 
-.side-nav>li>ul>li>a:hover {
-    color: #fff;
+.table th {
+    color: white;
 }
 
-.navbar .nav > li > a > .label {
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
-  border-radius: 50%;
-  position: absolute;
-  top: 14px;
-  right: 6px;
-  font-size: 10px;
-  font-weight: normal;
-  min-width: 15px;
-  min-height: 15px;
-  line-height: 1.0em;
-  text-align: center;
-  padding: 2px;
+.table td {
+    color:white;
 }
 
-.navbar .nav > li > a:hover > .label {
-  top: 10px;
+.table-striped > tbody > tr:nth-of-type(2n+1) > *{
+    background-color: #dbdbdb;
+    color: black;
 }
 
-.navbar-brand {
-    padding: 5px 15px;
+.table-striped > tbody > tr:nth-of-type(2n+1) .fa-solid {
+    color: black;
 }

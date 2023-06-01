@@ -13,7 +13,11 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 load_dotenv()
+import transbank
+from transbank.webpay.webpay_plus.transaction import Transaction
 
+transbank.webpay.webpay_plus.commerce_code = "597055555532"
+transbank.webpay.webpay_plus.api_key = "9KWITTNFZVZGI5DN4UZ1MQ=="
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -32,6 +36,8 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'bibliomanga.onrender.com', 'elotrodi
 
 
 # Application definition
+
+os.environ["TRANSBANK_ENVIRON"] = "INTEGRACION" #transbank
 
 INSTALLED_APPS = [
     'django.contrib.admin',

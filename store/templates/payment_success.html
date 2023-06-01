@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block title %} Detalle de compra en{% endblock %}
+
+{% load static %}
+
+{% block styles %}
+<link type="text/css" rel="stylesheet" href="{% static 'css/cartstyle.css' %}"/>
+{% endblock %}
+
+{% block content %}
+{% load humanize%}
+<section>
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-lg-8 col-xl-6">
+          <div class="card border-top border-bottom border-3" style="border-color: #aa0b36 !important;">
+            <div class="card-body p-5">
+  
+              <p class="titulo lead fw-bold mb-5">Comprobante de pago</p>
+  
+              <div class="detalle-compra row">
+                <div class="col mb-3">
+                  <p class="small mb-1">Fecha:</p>
+                  <p>{{ boleta.fecha }}</p>
+                </div>
+                <div class="col mb-3">
+                  <p class="small mb-1">N° de orden:</p>
+                  <p>{{ response.buy_order }}</p>
+                </div>
+              </div>
+              
+              <div class="boleta-detalle mx-n5 px-5 py-4">
+                <div class="row">
+                    {% for producto in boleta.detalle_compra.productos %}
+                    <div class="col-md-8 col-lg-9">
+                        <p>{{ producto.nombre }}</p>
+                    </div>
+                    <div class="col-md-4 col-lg-3">
+                        <p>${{ producto.precio|intcomma }}</p>
+                    </div>
+                    <hr>
+                    {% endfor %}
+                </div>
+                <div class="row">
+                  <div class="col-md-8 col-lg-9">
+                    <p class="mb-0">Precio del envio</p>
+                  </div>
+                  <div class="col-md-4 col-lg-3">
+                    <p class="mb-0">$5.000</p>
+                  </div>
+                </div>
+              </div>
+  
+              <div class="row my-4">
+                <div class="col-md-8">
+                    <p class="lead fw-bold mb-4 pb-2" style="color:white;">Total pagado:</p>
+                </div>
+                <div class="col-md-4">
+                  <p class="lead fw-bold mb-0" style="color:white;">${{ boleta.detalle_compra.total|intcomma }} CLP</p>
+                </div>
+              </div>
+              <a class="mt-4 pt-2 mb-0 color-bmanga" href="#">Descargar comprobante de pago</a>>
+  
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+{% endblock %}
+<!--
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmación de pago</title>
+</head>
+<body>
+    <h1>Confirmación de pago</h1>
+    
+    <h2>Detalles de la respuesta:</h2>
+    <ul>
+        {% for key, value in response.items %}
+            <li>{{ key }}: {{ value }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+-->

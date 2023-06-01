@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %} Detalle de compra en{% endblock %}
+
+{% load static %}
+
+{% block styles %}
+<link type="text/css" rel="stylesheet" href="{% static 'css/cartstyle.css' %}"/>
+{% endblock %}
+
+{% block content %}
+{% load humanize%}
+<section>
+    <h1 style="color:white;"> CONFIRMATION </h1>
+</section>
+{% endblock %}
+<!--
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmación de pago</title>
+</head>
+<body>
+    <h1>Confirmación de pago</h1>
+    
+    <h2>Detalles de la respuesta:</h2>
+    <ul>
+        {% for key, value in response.items %}
+            <li>{{ key }}: {{ value }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+-->

@@ -30,6 +30,9 @@ from store.views import (
     store_view,
     product_view,
     add_to_cart,
+    cart_view,
+    payment_confirm_view,
+    payment_success_view,
 )
 
 from adminpanel.views import (
@@ -50,8 +53,11 @@ urlpatterns = [
     path('store/', store_view, name="store"),
     path('product/<pk>', product_view, name="product"),
     path('add-to-cart/<pk>/', add_to_cart, name="add_to_cart"),
+    path('cart/', cart_view, name="cart"),
     path('adminpanel/main', adminmain_view, name="adminmain"),
     path('adminpanel/users', adminusers_view, name="adminusers"),
     path('adminpanel/store', adminstore_view, name="adminstore"),
     path('adminpanel/mangas', adminmangas_view, name="adminmangas"),
+    path('payment-confirmation/', payment_confirm_view, name='payment_confirmation'),
+    path('payment-success/<uuid:boleta_token>', payment_success_view, name='payment_success'),
     ]

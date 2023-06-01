@@ -40,3 +40,14 @@ class User(AbstractBaseUser):
     @property
     def is_staff(self):
         return self.is_admin
+
+import uuid
+class Boleta(models.Model):
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    fecha = models.DateTimeField(auto_now_add=True)
+    detalle_compra = models.JSONField()
+    token_boleta = models.CharField(max_length=100, unique=True, blank=True, null=True)
+    pagado = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Boleta {self.pk} - Usuario: {self.usuario.username}"

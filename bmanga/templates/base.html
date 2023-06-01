@@ -78,14 +78,9 @@
             </li>
             <li>
               <div class="carrito-boton">
-                <a href="#">
+                <a href="{% url 'cart' %}">
                   <span class="fa fa-cart-shopping"></span>
-                  {% if request.user.is_authenticated %}
-                    {{ request.user.get_cart_count }}
-                  {% else %}
-                    0
-                  {% endif %}
-                  / ${{cart_total|intcomma}}
+                  {{ request.session.cart_total_quantity|default:0 }} / ${{ request.session.cart_total_price|intcomma|default:0 }} CLP
                 </a>
               </div>
             </li>
