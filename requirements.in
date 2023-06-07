@@ -2,3 +2,5 @@ django
 mysqlclient
 plotly
 transbank-sdk
+patool
+python-dotenv

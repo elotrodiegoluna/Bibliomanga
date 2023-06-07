@@ -22,7 +22,11 @@ packaging==23.1
     # via
     #   marshmallow
     #   plotly
+patool==1.12
+    # via -r requirements.in
 plotly==5.14.1
+    # via -r requirements.in
+python-dotenv==1.0.0
     # via -r requirements.in
 requests==2.31.0
     # via transbank-sdk
