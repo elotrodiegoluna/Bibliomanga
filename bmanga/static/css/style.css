@@ -31,6 +31,7 @@
 
 .home-nav .nav-text {
     text-transform: uppercase;
+    color: #919191;
 }
 
 .home-nav-logo {
@@ -337,6 +338,7 @@ li a:hover {
 .manga-nombre {
     text-align: center;
     margin-bottom: 2px;
+    color:white;
 }
 
 .btn-dark{
@@ -365,7 +367,7 @@ li a:hover {
     padding-bottom: 25px;
 }
 
-.card-body .btn {
+.card-mangadigital .btn {
     color: white;
     border-color: black;
     background-color: black;
@@ -373,7 +375,7 @@ li a:hover {
     font-size: 10px;
 }
 
-.card-body .btn:hover {
+.card-mangadigital .btn:hover {
     background-color: #aa0b36;
     color: white;
 }

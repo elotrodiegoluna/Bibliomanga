@@ -30,8 +30,9 @@
     border: 1px solid #aa0b36;
 }
 
-.color-bmanga {
+#descargar-comprobante {
     color: #aa0b36;
+    text-align: center;
 }
 
 #error-nocartitem {
@@ -75,4 +76,13 @@
         border-bottom-left-radius: 16px;
         border-bottom-right-radius: 16px;
     }
+}
+
+.cart-pagar.btn:hover {
+    scale: 1.06;
+}
+
+.cart-pagar.btn {
+    background-color:#aa0b36;
+    border-color:#aa0b36;
 }

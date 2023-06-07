@@ -1,2 +1,4 @@
 django
 mysqlclient
+plotly
+transbank-sdk

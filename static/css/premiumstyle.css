@@ -1,0 +1,14 @@
+.celeste {
+    background-color: #00bfff; /* Color celeste */
+    padding: 50px;
+    color: #fff; /* Color de texto blanco */
+  }
+
+.blanco {
+    background-color: #fff; /* Color blanco */
+    padding: 50px;
+}
+
+.blanco h1 {
+    color: red;
+}

@@ -13,7 +13,10 @@
             <div class="table-title">
                 <div class="row">
                     <div class="col-xs-6">
-                        <h2>Manage <b>Mangas</b></h2>
+                        <h2>Administrar <b>Mangas Digitales</b></h2>
+                        <a class="add-product btn btn-primary" type="button" href="{% url 'addmanga' %}" role="button">
+                            Añadir Manga
+                        </a>
                     </div>
                 </div>
             </div>
@@ -28,15 +31,14 @@
                         </th>
                         <th>Manga </th>
                         <th>Premium</th>
-                        <th>Digital</th>
-                        <th>Estado</th>
+                        <th>Activo</th>
+                        <th>Directorio</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     
-                    {% for i in mangas %}
-                    {% if i.digital %}
+                    {% for manga in mangas %}
                     <tr>
                         <td>
                             <span class="custom-checkbox">
@@ -44,14 +46,19 @@
                                 <label for="checkbox1"></label>
                             </span>
                         </td>
-                        <td>{{ i.nombre }}</td>
-                        {% if i.premium %}
-                        <td>verde</td>
+                        <td>{{ manga.nombre }}</td>
+                        {% if manga.premium %}
+                        <td><i class="fa-solid fa-circle" style="color:green;"></i></td>
                         {% else %}
-                        <td>rojo</td>
+                        <td><i class="fa-solid fa-circle" style="color:red;"></i></td>
                         {% endif %}
-                        <td>{{ i.digital }}</td>
-                        <td>Suspendido</td>
+                        {% if manga.activo %}
+                        <td><i class="fa-solid fa-circle" style="color:green;"></i></td>
+                        {% else %}
+                        <td><i class="fa-solid fa-circle" style="color:red;"></i></td>
+                        {% endif %}
+                        
+                        <td>{{ manga.path }}</td>
                         <td>
                             <a class="ver" href="#">
                                 <span class="fa-solid fa-eye"></span>
@@ -61,10 +68,9 @@
                             </a>
                             <a class="eliminar" href="#">
                                 <span class="fa-solid fa-trash-can"></span>
-                            </a>                  
+                            </a>            
                         </td>
                     </tr>
-                    {% endif %}
                     {% endfor %}
                 </tbody>
             </table>

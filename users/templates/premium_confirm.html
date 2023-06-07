@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Confirma tu suscripción en{% endblock %}
+
+{% load static %}
+
+{% block styles %}
+<link type="text/css" rel="stylesheet" href="{% static 'css/premiumstyle.css' %}"/>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid premium-container">
+    <div class="arriba-confirm">
+        <div class="card">
+            <div class="card-header">Premium
+                <small class="text-muted">Plan Básico</small>
+            </div>
+            <div class="card-body text-primary">
+                <div class="container first-line">
+                    <div class="line-items">
+                        <h5 class="card-title">Empezando hoy</h5>
+                        <p class="card-text">$3,500 CLP/mes</p>
+                    </div>
+                </div>
+                <div class="container second-line">
+                    <div class="line-items">
+                        <h5 class="card-title">Próximo cobro</h5>
+                        <p class="card-text">Jun 8, 2023</p>
+                    </div>
+                </div>
+                <div class="container third-line">
+                    <div class="list-with-bullets">
+                        <ul>
+                            <li>Tu próximo cobro será el día Jun 8, 2023</li>
+                            <li>Puedes cancelar en cualquier momento</li>
+                          </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pagar-plan d-flex justify-content-center">
+        <form id="payment-form" action="{{ response.url }}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="token_ws" value="{{ response.token }}">
+            <input type="submit" value="Pagar con Transbank" class="plan-button btn btn-primary btn-block btn-lg">
+        </form>
+    </div>
+</div>
+
+{% endblock %}

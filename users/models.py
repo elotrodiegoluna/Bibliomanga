@@ -1,13 +1,16 @@
 from django.db import models
 from django.contrib.sessions.models import Session
 from django.contrib.auth.models import AbstractBaseUser
+from django.utils import timezone
 from .manager import MyUserManager
 from store.models import CartItem, Cart
 
 
 class User(AbstractBaseUser):
     email = models.EmailField(max_length=64,unique=True,)
-    username = models.CharField(max_length=64, unique=True,)
+    username = models.CharField(max_length=64, unique=True)
+    premium = models.BooleanField(default=False)
+    date_joined = models.DateTimeField(default=timezone.now)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
@@ -51,3 +54,13 @@ class Boleta(models.Model):
 
     def __str__(self):
         return f"Boleta {self.pk} - Usuario: {self.usuario.username}"
+
+class PlanPremium(models.Model):
+    nombre_plan = models.CharField(max_length=64, unique=True)
+    precio = models.IntegerField(default=0)
+
+class Suscripcion(models.Model):
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    plan = models.ForeignKey(PlanPremium, on_delete=models.CASCADE, null=True)
+    activo = models.BooleanField(default=False)
+    

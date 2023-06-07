@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block title %}Suscripciones en {% endblock %}
+
+{% load static %}
+
+{% block styles %}
+<link type="text/css" rel="stylesheet" href="{% static 'css/premiumstyle.css' %}"/>
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid premium-container">
+    <div class="row">
+      <div class="col arriba">
+        <h1>Tus mangas digitales sin limites</h1>
+        <a>Accede a un cátalogo de manga extenso y disfruta sin restricciones</a>
+        <div class="container">
+            <button id="scroll-button" class="ver-planes btn btn-primary btn-lg">Ver planes</button>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+        <div class="col abajo">
+            <h1>¿Por qué optar por una suscripción?</h1>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="feature">
+                            <i class="fa-solid fa-book"></i>
+                            <h3>Más mangas</h3>
+                            <p>Un catálogo con mangas solo para usuarios premium.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="feature">
+                             <i class="fa-solid fa-ban"></i>
+                            <h3>Sin anuncios</h3>
+                            <p>Disfruta tu lectura sin interrupciones.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="feature">
+                            <i class="fa-solid fa-bookmark"></i>
+                            <h3>Marcador</h3>
+                            <p>Resume tu lectura desde la última página leida.</p>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <div id="scroll-target" class="invisible"></div>
+                <h1>Elige un plan</h1>
+                <div class="pricing-section">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-8 offset-md-2">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3 class="plan-name">Suscripción Básica</h3>
+                                        <div class="plan-price">$3,500/mes</div>
+                                    </div>
+                                    <div class="card-body pricing-card">
+                                    <ul class="plan-features">
+                                        <li>Lectura sin anuncios</li>
+                                        <li>Accede a toda la libreria de mangas digitales</li>
+                                        <li>Continúa leyendo dónde lo dejaste</li>
+                                        <li>Cancela en cualquier momento</li>
+                                    </ul>
+                                    {% if request.user.is_authenticated %}
+                                    <a type="button" href="{% url 'premiumconfirm' 'basico' %}" class="plan-button btn btn-primary btn-lg">Elegir Plan</a>
+                                    {% else %}
+                                    <a type="button" href="{% url 'register' %}" class="plan-button btn btn-primary btn-lg">Elegir Plan</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('scroll-button').addEventListener('click', function() {
+    document.getElementById('scroll-target').scrollIntoView({ behavior: 'smooth' });
+    });
+</script>
+
+{% endblock %}
+

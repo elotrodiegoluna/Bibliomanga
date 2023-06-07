@@ -29,7 +29,7 @@
                     <div class="row mb-4 d-flex justify-content-between align-items-center">
                       <div class="col-md-2 col-lg-2 col-xl-2">
                         <img
-                          src="{{ cart_item.product.portada }}"
+                          src="{{ cart_item.product.imagen }}"
                           class="img-fluid" alt="producto-img">
                       </div>
                       <div class="col-md-3 col-lg-3 col-xl-3">
@@ -86,7 +86,7 @@
                     <form id="payment-form" action="{{ response.url }}" method="POST">
                         {% csrf_token %}
                         <input type="hidden" name="token_ws" value="{{ response.token }}">
-                        <input type="submit" value="Pagar con Transbank" class="btn btn-dark btn-block btn-lg">
+                        <input type="submit" value="Pagar con Transbank" class="cart-pagar btn btn-primary btn-block btn-lg">
                     </form>
                     <br>
                   </div>
@@ -107,6 +107,24 @@
             </div>
             <div class="modal-body">
               ¡Tu carrito está vacío!
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+    {% if pago_rechazado %}
+    <div class="modal fade" id="error-nocartitem" tabindex="-1" aria-labelledby="error-nocartitem" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="error-nocartitem">No puedes continuar con la compra</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              ¡Tu pago ha sido rechazado!
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

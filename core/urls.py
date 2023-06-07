@@ -15,11 +15,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 
 from users.views import (
     registration_view,
     login_view,
-    logout_view
+    logout_view,
+    premiumplans_view,
+    premiumconfirm_view,
+    premium_pay,
+    premium_success_view,
 )
 
 from bmanga.views import (
@@ -40,6 +46,9 @@ from adminpanel.views import (
     adminusers_view,
     adminstore_view,
     adminmangas_view,
+    subir_manga,
+    add_product_view,
+    add_manga_view,
 )
 
 
@@ -47,17 +56,31 @@ from adminpanel.views import (
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index, name='index'),
+    # premium
+    path('premium/', premiumplans_view, name="premiumplans"),
+    path('premium/confirm-<str:plan>/', premiumconfirm_view, name="premiumconfirm"),
+    path('premium-confirmation/', premium_pay, name='premium_confirmation'),
+    path('premium-success/<uuid:boleta_token>', premium_success_view, name='premium_success'),
+    # registro y login
     path('register/', registration_view, name="register"),
     path('login/', login_view, name="login"),
     path('logout/', logout_view, name="logout"),
+    # tienda
     path('store/', store_view, name="store"),
     path('product/<pk>', product_view, name="product"),
     path('add-to-cart/<pk>/', add_to_cart, name="add_to_cart"),
     path('cart/', cart_view, name="cart"),
+    # admin
     path('adminpanel/main', adminmain_view, name="adminmain"),
     path('adminpanel/users', adminusers_view, name="adminusers"),
     path('adminpanel/store', adminstore_view, name="adminstore"),
     path('adminpanel/mangas', adminmangas_view, name="adminmangas"),
+    # admin store
+    path('adminpanel/store/add-product', add_product_view, name="addproduct"),
+    # pago
     path('payment-confirmation/', payment_confirm_view, name='payment_confirmation'),
     path('payment-success/<uuid:boleta_token>', payment_success_view, name='payment_success'),
-    ]
+    # mangas digitales
+    path('adminpanel/mangas/add', add_manga_view, name='addmanga'),
+    path('adminpanel/mangas-upload', subir_manga, name='subirmanga'),
+    ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -12,7 +12,7 @@
             <div class="table-title">
                 <div class="row">
                     <div class="col-xs-6">
-                        <h2>Manage <b>Employees</b></h2>
+                        <h2>Administrar <b>Usuarios</b></h2>
                     </div>
                 </div>
             </div>
@@ -27,7 +27,7 @@
                         </th>
                         <th>Nombre </th>
                         <th>Email</th>
-                        <th>Rol</th>
+                        <th>Tipo de cuenta</th>
                         <th>Estado</th>
                         <th>Acciones</th>
                     </tr>
@@ -44,8 +44,19 @@
                         </td>
                         <td>{{ i.username }}</td>
                         <td>{{ i.email }}</td>
+                        {% if i.is_staff %}
+                        <td>Administrador</td>
+                        {% elif i.premium %}
                         <td>Premium</td>
+                        {% else %}
+                        <td>Gratuito</td>
+                        {% endif %}
+                        {% if i.is_active %}
+                        <td>Activo</td>
+                        {% else %}
                         <td>Suspendido</td>
+                        {% endif %}
+                        
                         <td>
                             <a class="ver" href="#">
                                 <span class="fa-solid fa-eye"></span>

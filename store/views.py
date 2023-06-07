@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.http import HttpResponseRedirect
-from .models import Manga, Cart, CartItem
+from .models import Producto, Cart, CartItem
 from users.models import Boleta
 
 import random
@@ -14,7 +14,7 @@ from transbank.webpay.webpay_plus.transaction import Transaction, WebpayOptions,
 # Create your views here.
 def store_view(request):
     context = {}
-    manga = Manga.objects.all()
+    productos = Producto.objects.all()
 
     if request.user.is_authenticated:
         user = request.user
@@ -27,19 +27,19 @@ def store_view(request):
             cart = None
 
     context = {
-        'mangas': manga
+        'productos': productos
     }
     return render(request, 'store.html', context)
 
 def product_view(request, pk):
-    manga = Manga.objects.get(id=pk)
+    productos = Producto.objects.get(id=pk)
     context = {
-        'mangas': manga
+        'productos': productos
     }
     return render(request, 'product.html', context)
 
 def add_to_cart(request, pk):
-    manga = Manga.objects.get(pk=pk)
+    productos = Producto.objects.get(pk=pk)
     
     if request.user.is_authenticated: # usuario esta autenticado
         user = request.user
@@ -52,7 +52,7 @@ def add_to_cart(request, pk):
             cart = Cart.objects.create()
             request.session['cart_id'] = cart.id
 
-    cart_items = CartItem.objects.create(cart = cart, product = manga)
+    cart_items = CartItem.objects.create(cart = cart, product = productos)
 
     # get carrito / actualizar sesion
     if request.user.is_authenticated:
@@ -82,7 +82,6 @@ def cart_view(request):
     cart_items = CartItem.objects.filter(cart=cart).select_related('product') if cart else []
 
     if request.POST:
-        print("POOOOOOOOOOOOOOOOOOOOOOOOST")
         if cart and cart_items.exists():
             random_string = ''.join(random.choices(string.ascii_letters + string.digits, k=6))
             buy_order = f"{random_string}{cart.id}"
@@ -95,13 +94,11 @@ def cart_view(request):
                 amount=amount,
                 return_url=return_url
             )
-
             context = {
                 'cart_items': cart_items,
                 'cart_total': cart.get_cart_total() if cart else 0,
                 'response': response
             }
-            print(response)
             return redirect(response["url"] + '?token_ws=' + response["token"])
         else:
             context = {
@@ -110,11 +107,19 @@ def cart_view(request):
                 'show_modal': True  # Agrega la clave 'show_modal' con valor True al contexto
             }
             return render(request, 'cart.html', context)
+    
     context = {
         'cart_items': cart_items,
         'cart_total': cart.get_cart_total() if cart else 0
     }
-    print("end")
+    
+    if request.session.get('pago_rechazado'):
+        del request.session['pago_rechazado']
+        context = {
+            'cart_items': cart_items,
+            'cart_total': cart.get_cart_total() if cart else 0,
+            'pago_rechazado': True
+        }
     return render(request, 'cart.html', context)
 
 @login_required
@@ -171,8 +176,9 @@ def payment_confirm_view(request): # redireccionar aqui para confirmar el pago
 
         return render(request, 'payment_success.html', context)
     else: # pago rechazado
-        print("error")
-        return redirect('index')
+        print("error de pago")
+        request.session['pago_rechazado'] = True
+        return redirect('cart')
     
 
 

@@ -1,17 +1,13 @@
 from django.conf import settings
 from django.db import models
 
-
-
 # Create your models here.
-class Manga(models.Model):
+class Producto(models.Model):
     nombre = models.CharField(max_length=64, unique=True)
     desc = models.TextField(default="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
+    imagen = models.TextField(null=True) #URL a la imagen
     precio = models.IntegerField(default=10000)
     stock = models.IntegerField(null=True)
-    digital = models.BooleanField(default=False)
-    portada = models.TextField(null=True) #URL a la imagen
-    premium = models.BooleanField(default=False)
 
     def __str__(self):
         return self.nombre
@@ -30,7 +26,7 @@ class Cart(models.Model):
 
 class CartItem(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='cart_items')
-    product = models.ForeignKey(Manga, on_delete=models.SET_NULL, null=True, blank=True)
+    product = models.ForeignKey(Producto, on_delete=models.SET_NULL, null=True, blank=True)
 
     def get_product_price(self):
         price = [self.product.precio]

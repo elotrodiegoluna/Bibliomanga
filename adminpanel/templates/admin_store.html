@@ -12,8 +12,11 @@
         <div class="table-wrapper">
             <div class="table-title">
                 <div class="row">
-                    <div class="col-xs-6">
-                        <h2>Manage <b>Mangas</b></h2>
+                    <div class="col">
+                        <h2>Administrar <b>Productos</b></h2>
+                        <a class="add-product btn btn-primary" type="button" href="{% url 'addproduct' %}" role="button">
+                            Añadir Producto
+                        </a>
                     </div>
                 </div>
             </div>
@@ -28,15 +31,14 @@
                         </th>
                         <th>Producto </th>
                         <th>Precio</th>
-                        <th>Digital</th>
+                        <th>Stock</th>
                         <th>Estado</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     
-                    {% for i in mangas %}
-                    {% if i.digital == False  %}
+                    {% for producto in productos %}
                     <tr>
                         <td>
                             <span class="custom-checkbox">
@@ -44,9 +46,9 @@
                                 <label for="checkbox1"></label>
                             </span>
                         </td>
-                        <td>{{ i.nombre }}</td>
-                        <td>${{ i.precio|intcomma }} CLP</td>
-                        <td>{{ i.digital }}</td>
+                        <td>{{ producto.nombre }}</td>
+                        <td>${{ producto.precio|intcomma }} CLP</td>
+                        <td>{{ producto.stock }}</td>
                         <td>Suspendido</td>
                         <td>
                             <a class="ver" href="#">
@@ -60,7 +62,6 @@
                             </a>                  
                         </td>
                     </tr>
-                    {% endif %}
                     {% endfor %}
                 </tbody>
             </table>

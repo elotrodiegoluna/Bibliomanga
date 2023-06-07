@@ -16,22 +16,22 @@
         <div class="row">
             <div class="col-6">
                 <div class="container product-image-container">
-                    <img id="product-image" src="{{ mangas.portada }}">
+                    <img id="product-image" src="{{ productos.portada }}">
                 </div>
             </div>
             <div class="col-6">
                 <div class="container product-info-container">
                     <div class="product-name">
-                        <a>{{ mangas.nombre }}</a>
+                        <a>{{ productos.nombre }}</a>
                     </div>
                     <div class="product-price">
-                        <a>$ {{ mangas.precio|intcomma }}</a>
+                        <a>$ {{ productos.precio|intcomma }}</a>
                     </div>
                     <div class="product-desc">
-                        <a>{{ mangas.desc }}</a>
+                        <a>{{ productos.desc }}</a>
                     </div>
                     <div class="product-actions">
-                        <p class="stock">{{ mangas.stock }} en stock</p>
+                        <p class="stock">{{ productos.stock }} en stock</p>
                         <button id="cart-add" class="btn btn-dark mr-md-3 mb-2 mb-md-0" type="button">Agregar al carrito</button>
                         <a href="#" class="wishlist-add">
                             <i id="wishlist-icon" class="bi bi-heart"></i>

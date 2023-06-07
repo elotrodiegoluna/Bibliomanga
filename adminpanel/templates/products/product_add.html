@@ -1,0 +1,45 @@
+{% extends "admin_base.html" %}
+
+{% block title %} ... {% endblock %}
+
+{% load static %}
+
+{% block content %}
+<form method="POST" id="form-addproduct">
+    <h1> Agregar productos a la tienda</h1>
+    {% csrf_token %}
+
+    <div class="form-group">
+        <label for="{{ form.nombre.id_for_label }}">Nombre:</label>
+        <br>
+        {{ form.nombre }}
+    </div>
+
+    <div class="form-group">
+        <label for="{{ form.desc.id_for_label }}">Descripción:</label>
+        <br>
+        {{ form.desc }}
+    </div>
+
+    <div class="form-group">
+        <label for="{{ form.imagen.id_for_label }}">URL Imagen:</label>
+        <br>
+        {{ form.imagen }}
+    </div>
+
+    <div class="form-group">
+        <label for="{{ form.precio.id_for_label }}">Precio:</label>
+        <br>
+        {{ form.precio }}
+    </div>
+
+    <div class="form-group">
+        <label for="{{ form.stock.id_for_label }}">Stock:</label>
+        <br>
+        {{ form.stock }}
+    </div>
+
+    <button class="add-product btn btn-primary" type="submit">Agregar producto</button>
+</form>
+
+{% endblock %}

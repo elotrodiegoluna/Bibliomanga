@@ -61,14 +61,14 @@
     <div id="mangas">
       <div class="container">
         <div class="row">
-          {% for i in mangas %}
+          {% for manga in mangas %}
           <div class="col-lg-3 col-sm-4 col-11 offset-sm-0 offset-1">
             <div class="card">
               <a href="#">
-                <img class="card-img-top" src="{{ i.portada }}" alt="{{ i.nombre }}">
+                <img class="card-img-top" src="{{ manga.portada }}" alt="{{ manga.nombre }}">
               </a>
-              <div class="card-body">
-                <p class="manga-nombre" href="#">{{ i.nombre }}</p>
+              <div class="card-body card-mangadigital">
+                <p class="manga-nombre" href="#">{{ manga.nombre }}</p>
 
                 <div class="col-md-12 text-center">
                   <a href="#" class="btn manga-btn btn-lg btn-dark btn-block">Leer</a>

@@ -17,7 +17,7 @@
           <div class="card border-top border-bottom border-3" style="border-color: #aa0b36 !important;">
             <div class="card-body p-5">
   
-              <p class="titulo lead fw-bold mb-5">Comprobante de pago</p>
+              <p class="titulo lead fw-bold mb-5">Comprobante de pago:</p>
   
               <div class="detalle-compra row">
                 <div class="col mb-3">
@@ -32,26 +32,14 @@
               
               <div class="boleta-detalle mx-n5 px-5 py-4">
                 <div class="row">
-                    {% for producto in boleta.detalle_compra.productos %}
                     <div class="col-md-8">
-                        <p>{{ producto.nombre }}</p>
+                        <p>{{ boleta.detalle_compra.producto }}</p>
                     </div>
                     <div class="col-md-4">
-                        <p>${{ producto.precio|intcomma }}</p>
+                        <p>${{ boleta.detalle_compra.total|intcomma }}</p>
                     </div>
                     <hr>
-                    {% endfor %}
                 </div>
-                <div class="row">
-                  <div class="col-md-8">
-                    <p class="mb-0">Precio del envio</p>
-                  </div>
-                  <div class="col-md-4">
-                    <p class="mb-0">$5.000</p>
-                  </div>
-                </div>
-              </div>
-  
               <div class="row my-4">
                 <div class="col-md-8">
                     <p class="lead fw-bold mb-4 pb-2" style="color:white;">Total pagado:</p>

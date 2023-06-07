@@ -6,8 +6,15 @@
 
 {% block content %}
 
-<div class="container">
-    <h1>HOLA</h1>
+<div class="dash-title"><h1>Dashboard</h1></div>
+<div class="graph-container">
+    <div class="graph-left">
+      {{ graph_ganancias | safe }} <!-- Gráfico de ganancias -->
+    </div>
+    <div class="graph-right">
+      {{ graph_usuarios_registrados | safe }} <!-- Gráfico de usuarios registrados -->
+    </div>
 </div>
+  
 
 {% endblock %}

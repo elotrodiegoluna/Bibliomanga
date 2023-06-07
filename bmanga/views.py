@@ -1,10 +1,10 @@
 from django.shortcuts import render
-from store.models import Manga
+from mangas.models import MangaDigital
 
 # Create your views here.
 def index(request):
-    context = {}
-    manga = Manga.objects.filter(digital=True)
+    context = {} 
+    manga = MangaDigital.objects.all()
 
     context = {
         'mangas': manga
