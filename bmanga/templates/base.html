@@ -67,6 +67,7 @@
                 </a>
                 <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="homenav-dropdown">
                   <li><a class="dropdown-item" href="#">Mi perfil</a></li>
+                  <li><a class="dropdown-item" href="{% url 'myorders' %}">Mis pedidos</a></li>
                   {% if user.is_superuser or user.is_admin or user.is_staff %}
                     <li><a class="dropdown-item" href="{% url 'adminmain' %}">Panel administrador</a></li>
                   {% endif %}

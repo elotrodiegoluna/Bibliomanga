@@ -8,6 +8,7 @@ class Producto(models.Model):
     imagen = models.TextField(null=True) #URL a la imagen
     precio = models.IntegerField(default=10000)
     stock = models.IntegerField(null=True)
+    timestamp = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return self.nombre

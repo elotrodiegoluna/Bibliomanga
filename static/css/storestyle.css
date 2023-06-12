@@ -1,3 +1,19 @@
+/* PRODUCTOS NUEVOS */
+.news.card {
+    width:18%;
+}
+
+
+/**/
+
+@media (min-width: 992px) {
+    .col-lg-3 {
+        flex: 0 0 auto;
+        width: 24%;
+      }
+}
+
+
 .tienda-titulo {
     font-family: 'Noto Sans JP', sans-serif;
     text-transform: uppercase;
@@ -17,6 +33,7 @@
 .card-img-top{
     max-width: 100%;
     height: 358px;
+    width: 244px;
 }
 
 .card {
@@ -33,14 +50,21 @@
 
 .manga-nombre {
     text-align: center;
-    margin-bottom: 2px;
+    color: white;
+    font-size: 20px;
+    overflow: hidden;
+    height: 79px;
 }
 
 .manga-precio {
     text-align: center;
     margin-bottom: 8px;
-    font-size: 13px;
-    color: #d90841;
+    font-size: 18px;
+    color: #ffffff;
+}
+
+.card-footer {
+    border-color:#aa0b36;
 }
 
 .btn-dark{

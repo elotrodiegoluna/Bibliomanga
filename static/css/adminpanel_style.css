@@ -85,10 +85,72 @@ overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
 }
 
 .table-striped > tbody > tr:nth-of-type(2n+1) > *{
-    background-color: #dbdbdb;
-    color: black;
+    background-color: #292e33;
+    color: white;
 }
 
 .table-striped > tbody > tr:nth-of-type(2n+1) .fa-solid {
-    color: black;
+    color: rgb(255, 255, 255);
 }
+
+.graph-container {
+    display: flex;
+}
+
+.graph-left,
+.graph-right {
+    width: 50%;
+}
+
+.dash-title h1 {
+    color: white;
+}
+
+/* producto */
+.add-product.btn {
+    background-color:#aa0b36;
+    border-color:#aa0b36;
+    margin-bottom:1%;
+}
+
+.add-product.btn:hover {
+    background-color:#aa0b36;
+    border-color:#aa0b36;
+    scale: 1.06;
+}
+
+.add-product.btn:hover {
+    scale: 1.06;
+}
+
+.form-group {
+    margin-bottom:20px;
+}
+.form-group label {
+    color: white;
+}
+
+#form-addproduct {
+    margin-left: 10%;
+}
+
+#form-addproduct .btn {
+    margin-top:25px;
+    margin-bottom:10%;
+}
+
+#form-addproduct h1 {
+    color: white;
+    text-transform: uppercase;
+    font-size: 26px;
+    text-align: left;
+    margin-bottom: 3%;
+    font-weight: 600;
+}
+
+.product-form {
+    background: #32353C;
+    border: 1px solid #32353C;
+    color: white;
+}
+

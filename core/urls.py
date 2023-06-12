@@ -26,6 +26,8 @@ from users.views import (
     premiumconfirm_view,
     premium_pay,
     premium_success_view,
+    order_view,
+    orderdetails_view,
 )
 
 from bmanga.views import (
@@ -36,6 +38,7 @@ from store.views import (
     store_view,
     product_view,
     add_to_cart,
+    remove_from_cart,
     cart_view,
     payment_confirm_view,
     payment_success_view,
@@ -51,7 +54,9 @@ from adminpanel.views import (
     add_manga_view,
 )
 
-
+from mangas.views import (
+    reader_view,
+)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -69,6 +74,7 @@ urlpatterns = [
     path('store/', store_view, name="store"),
     path('product/<pk>', product_view, name="product"),
     path('add-to-cart/<pk>/', add_to_cart, name="add_to_cart"),
+    path('remove_from_cart/<pk>/', remove_from_cart, name='remove_from_cart'),
     path('cart/', cart_view, name="cart"),
     # admin
     path('adminpanel/main', adminmain_view, name="adminmain"),
@@ -83,4 +89,8 @@ urlpatterns = [
     # mangas digitales
     path('adminpanel/mangas/add', add_manga_view, name='addmanga'),
     path('adminpanel/mangas-upload', subir_manga, name='subirmanga'),
+    path('manga/<int:manga_id>/reader/', reader_view, name='reader'),
+    # usuarios
+    path('user/orders', order_view, name='myorders'),
+    path('user/order-details/<str:buy_order>/', orderdetails_view, name='order-details'),
     ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

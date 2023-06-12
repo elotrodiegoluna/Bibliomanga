@@ -71,7 +71,7 @@ def adminmain_view(request):
     formatted_values = ['${:,.0f} CLP'.format(value) for value in values]
 
     # crear la figura tipo donut
-    fig = go.Figure(data=[go.Pie(labels=labels, values=values, hole=0.4, textinfo='text+label', textposition='outside')])
+    fig = go.Figure(data=[go.Pie(labels=labels, values=values, textinfo='text+label', textposition='outside')])
     # color del fondo
     fig.update_layout(
         paper_bgcolor='rgba(0,0,0,0)',
@@ -82,7 +82,7 @@ def adminmain_view(request):
         title='Ganancias',
         title_font=dict(color='white'),
         textfont_color='white',
-        marker=dict(colors=['#00A878', '#FFD23F']), # color de los valores en el pie
+        marker=dict(colors=['#00DFA2', '#F6FA70']), # color de los valores en el pie
         outsidetextfont=dict(color='white'), # mover los labels y lineas hacia afuera
         text=formatted_values, # mostrar valor formateado
         hovertemplate='<b>%{label}</b><br><br>%{percent}<extra></extra>' # mostrar porcentajes al hacer hover
@@ -111,20 +111,22 @@ def adminmain_view(request):
 
     values_usuarios_registrados = list(registros_mes.values())
 
-    fig_usuarios_registrados =  fig = go.Figure(data=go.Pie(hole=0.8, labels=labels_usuarios_registrados, values=values_usuarios_registrados, textinfo='value', textposition='outside'))
+    color_palette = ['#0079FF', '#FF0060', '#F6FA70', '#00DFA2', '#581845', '#581845']  # Lista de colores personalizados
+
+    fig_usuarios_registrados = go.Figure(data=go.Bar(x=labels_usuarios_registrados, y=values_usuarios_registrados, marker=dict(color=color_palette)))
     fig_usuarios_registrados.update_layout(
-        paper_bgcolor='rgba(0,0,0,0)',
-        legend=dict(font=dict(color='white'))
-    )
-    fig_usuarios_registrados.update_traces(
         title='Usuarios registrados por mes',
         title_font=dict(color='white'),
-        textfont_color='white',
-        outsidetextfont=dict(color='white'), # mover los labels y lineas hacia afuera
-        hovertemplate='<b>%{label}</b><br><br>%{percent}<extra></extra>' # mostrar porcentajes al hacer hover
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(0,0,0,0)',
+        xaxis=dict(title='Meses'),
+        yaxis=dict(title='Cantidad de Usuarios'),
+        font=dict(color='white'),
+        showlegend=False,
     )
-
     graph_usuarios_registrados = fig_usuarios_registrados.to_html(full_html=False)
+
+
 
     context = {
         'boletas': boletas,
@@ -190,7 +192,7 @@ def subir_manga(request):
             inner_dir = next(os.walk(temp_dir))[1][0] if len(next(os.walk(temp_dir))[1]) > 0 else None
 
             imagenes_dir = os.path.join(settings.MEDIA_ROOT, 'mangas')
-            manga_dir = os.path.join(imagenes_dir, manga.nombre)
+            manga_dir = os.path.join(imagenes_dir, manga.nombre, str(manga.tomo))
 
             if os.path.exists(manga_dir):
                 shutil.rmtree(manga_dir)

@@ -11,7 +11,9 @@
 {% block content %}
 
 {% load humanize%}
+
 <h2 class="tienda-titulo"> Nuestros productos a tu disposición, ¡Echa un vistazo!</h2>
+
 <div class="store">
     <div id="sidebar">
         <div>
@@ -43,19 +45,21 @@
             </ul>
         </div>
     </div>
+    
     <div id="products">
         <div class="container">
             <div class="row">
                 {% for producto in productos %}
-                <div class="col-lg-3 col-sm-4 col-11 offset-sm-0 offset-1">
+                <div class="col-lg-3 offset-sm-0 offset-1">
                     <div class="card">
                         <a href="{% url 'product' producto.id %}">
-                            <img class="card-img-top" src="{{ producto.imagen }}" alt="{{ producto.nombre }}">
+                            <img class="card-img-top d-flex align-items-center justify-content-center" src="{{ producto.imagen }}" alt="{{ producto.nombre }}">
                         </a>
                         <div class="card-body">
-                            <p class="manga-nombre" href="{% url 'product' producto.id %}">{{ producto.nombre }}</p>
-                            <p class="manga-precio">${{ producto.precio|intcomma }} CLP</p>
-                            <div class="col-md-12 text-center">
+
+                            <p class="manga-nombre card-title" href="{% url 'product' producto.id %}">{{ producto.nombre }}</p>
+                            <p class="manga-precio card-text">${{ producto.precio|intcomma }} CLP</p>
+                            <div class="card-footer bg-transparent text-center">
                                 <a href="{% url 'add_to_cart' producto.id %}" class="btn tienda-btn btn-lg btn-dark btn-block">Añadir al carrito</a>
                             </div>
                         </div>
@@ -75,6 +79,12 @@
     </div>
 </div>
 <script src="{% static 'js/store.js' %}"></script>
+<script>
+    $(document).ready(function() {
+      $('#productos-nuevos-carousel').carousel();
+    });
+</script>
+  
 {% endblock %}
 
 {% block scripts %}

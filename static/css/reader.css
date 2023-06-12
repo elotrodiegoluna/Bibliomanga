@@ -1,0 +1,35 @@
+.reader-container {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .reader-image-container {
+    flex: 1;
+  }
+  
+  .reader-navigation {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+  }
+  
+  .previous-page-btn,
+  .next-page-btn {
+    padding: 10px;
+    margin: 5px;
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #000;
+  }
+  
+  .previous-page-btn {
+    margin-left: auto; /* Alinear a la derecha */
+  }
+  
+  .next-page-btn {
+    margin-right: auto; /* Alinear a la izquierda */
+  }

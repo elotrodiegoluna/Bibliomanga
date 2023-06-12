@@ -28,6 +28,10 @@
                   <p class="small mb-1">N° de orden:</p>
                   <p>{{ response.buy_order }}</p>
                 </div>
+                <div class="col mb-3">
+                  <p class="small mb-1">Método de entrega:</p>
+                  <p>{{ tipo_entrega }}</p>
+                </div>
               </div>
               
               <div class="boleta-detalle mx-n5 px-5 py-4">
@@ -42,14 +46,16 @@
                     <hr>
                     {% endfor %}
                 </div>
+                {% if envio %}
                 <div class="row">
                   <div class="col-md-8">
                     <p class="mb-0">Precio del envio</p>
                   </div>
                   <div class="col-md-4">
-                    <p class="mb-0">$5.000</p>
+                    <p class="mb-0">${{ costo_envio|intcomma }}</p>
                   </div>
                 </div>
+                {% endif %}
               </div>
   
               <div class="row my-4">
@@ -57,7 +63,7 @@
                     <p class="lead fw-bold mb-4 pb-2" style="color:white;">Total pagado:</p>
                 </div>
                 <div class="col-md-4">
-                  <p class="lead fw-bold mb-0" style="color:white;">${{ boleta.detalle_compra.total|intcomma }} CLP</p>
+                  <p class="lead fw-bold mb-0" style="color:white;">${{ precio_total|intcomma }} CLP</p>
                 </div>
               </div>
               <a id="descargar-comprobante" class="mt-4 pt-2 mb-0" href="#">Descargar comprobante de pago</a>>

@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %} Pedidos en{% endblock %}
+
+{% load static %}
+
+{% block styles%}
+<link type="text/css" rel="stylesheet" href="{% static 'css/order-details.css' %}"/>
+{% endblock %}
+
+{% block content %}
+{% load humanize %}
+
+<div class="container">
+    <article class="card">
+        <header class="card-header"><a class="mis-pedidos-text" href="{% url 'myorders' %}">Mis pedidos</a> / Detalle </header>
+        <div class="card-body">
+            <h6>N° de orden: {{pedido.boleta.buy_order}}</h6>
+            <article class="card">
+                <div class="card-body row">
+                    <div class="col"> <strong>Fecha:</strong> <br> {{ pedido.boleta.fecha }} </div>
+                    <div class="col"> <strong>Cantidad de productos:</strong> <br>{{ pedido.boleta.detalle_compra.productos|length }}</div>
+                    <!--<div class="col"> <strong>Shipping BY:</strong> <br> BLUEDART, | <i class="fa fa-phone"></i> +1598675986 </div>-->
+                    <div class="col"> <strong>Costo de los productos:</strong> <br> ${{ pedido.boleta.detalle_compra.total|intcomma }} </div>
+                    <div class="col"> <strong>Estado:</strong> <br> {{ pedido.estado.texto }} </div>
+                </div>
+            </article>
+            <hr>
+            <ul class="row">
+                {% for producto in pedido.boleta.detalle_compra.productos %}
+                <li class="col-md-4">
+                    <figure class="itemside mb-3">
+                        {% for i in mis_productos %}
+                        {% if i.id == producto.id %}
+                        <div class="aside"><img src="{{ i.imagen }}" class="img-sm border"></div>
+                        {% endif %}
+                        {% endfor %}
+                        
+                        <figcaption class="info align-self-center">
+                            <a href="{% url 'product' producto.id %}" class="title">{{ producto.nombre }}</a> <span class="text">${{ producto.precio|intcomma }}</span>
+                        </figcaption>
+                    </figure>
+                </li>
+                {% endfor %}
+            </ul>
+            <hr>
+            <div class="track">
+                <div class="step {% if pedido.estado.id >= 1 %}active{% endif %}"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Pedido confirmado</span> </div>
+                <div class="step {% if pedido.estado.id >= 2 %}active{% endif %}"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text">En preparación</span> </div>
+                <div class="step {% if pedido.estado.id >= 3 %}active{% endif %}"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text">En camino </span> </div>
+                <div class="step {% if pedido.estado.id >= 4 %}active{% endif %}"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">Recibido</span> </div>
+            </div>
+            <hr>
+            <a href="{% url 'myorders' %}" class="btn btn-warning" data-abc="true"> <i class="fa fa-chevron-left"></i>  Mis pedidos</a>
+        </div>
+    </article>
+</div>
+
+<script>
+
+</script>
+{% endblock %}

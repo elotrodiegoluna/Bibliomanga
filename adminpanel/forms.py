@@ -25,7 +25,7 @@ class MangaForm(forms.ModelForm):
 
     class Meta:
         model = MangaDigital
-        fields = ['nombre', 'desc', 'portada', 'premium', 'archivo']
+        fields = ['nombre', 'tomo', 'desc', 'portada', 'premium', 'archivo']
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -34,6 +34,7 @@ class MangaForm(forms.ModelForm):
             if field:
                 field.widget.attrs.update({'class': 'product-form'})
         self.fields['nombre'].required = True
+        self.fields['tomo'].required = True
         self.fields['desc'].required = True
         self.fields['portada'].required = True
         self.fields['archivo'].required = True

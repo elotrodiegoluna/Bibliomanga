@@ -64,7 +64,7 @@
           {% for manga in mangas %}
           <div class="col-lg-3 col-sm-4 col-11 offset-sm-0 offset-1">
             <div class="card">
-              <a href="#">
+              <a href="{% url 'reader' manga.id %}">
                 <img class="card-img-top" src="{{ manga.portada }}" alt="{{ manga.nombre }}">
               </a>
               <div class="card-body card-mangadigital">

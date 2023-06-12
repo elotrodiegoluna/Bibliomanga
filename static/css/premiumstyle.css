@@ -1,14 +1,218 @@
-.celeste {
-    background-color: #00bfff; /* Color celeste */
-    padding: 50px;
-    color: #fff; /* Color de texto blanco */
-  }
-
-.blanco {
-    background-color: #fff; /* Color blanco */
-    padding: 50px;
+body {
+    background: #212529; 
 }
 
-.blanco h1 {
-    color: red;
+.premium-container {
+    margin-bottom: 30px;
+    background-color: #212529;
+}
+
+.arriba {
+    background-color: #212529; /* Color celeste */
+    padding: 50px;
+    
+}
+
+.arriba h1 {
+    color: white;
+    font-weight: 700;
+    font-size: 32px;
+    font-family: "Motiva Sans", Sans-serif;
+}
+
+.arriba a {
+    font-size: 24px;
+}
+
+.ver-planes.btn.btn-primary.btn-lg {
+    border: 2px solid black;
+    border-radius: 500px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0);
+    margin-top: 30px;
+    text-transform: uppercase;
+    font-size: 15px;
+}
+
+.ver-planes.btn.btn-primary.btn-lg:hover {
+    color: white;
+    background-color: rgba(0, 0, 0, 0);
+    border-color: black;
+    transform: scale(1.06);
+}
+
+.ver-planes.btn.btn-primary.btn-lg:active {
+    color: white;
+    background-color: rgba(0, 0, 0, 0.51);
+    border-color: black;
+}
+
+.abajo {
+    background-color: #ffffffbf; /* Color blanco */
+    padding: 50px;
+    padding-bottom: 174px;
+}
+
+.abajo h1 {
+    color: black;
+    font-weight: 700;
+    font-size: 32px;
+    font-family: "Motiva Sans", Sans-serif;
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.abajo a {
+    font-size: 24px;
+}
+
+.feature {
+    text-align: center;
+    padding: 30px;
+}
+
+.feature i {
+    font-size: 48px;
+    margin-bottom: 20px;
+    color: black;
+}
+
+.feature h3 {
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: black;
+}
+
+.feature p {
+    color: #666;
+}
+
+.pricing-section {
+    text-align: center;
+    padding: 50px 0;
+}
+  
+.card {
+    border: none;
+    box-shadow: 0 2px 6px rgb(33, 36, 41);
+}
+  
+.card-header {
+    background-color: #f8f9fa;
+    border-bottom: none;
+    padding: 20px;
+}
+  
+.card-body {
+    padding: 30px;
+}
+  
+.plan-name {
+    font-weight: bold;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+  
+.plan-price {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+  
+.plan-features {
+    list-style-type: none;
+    padding: 0;
+    margin-bottom: 30px;
+}
+  
+.plan-features li {
+    margin-bottom: 10px;
+    color: white;
+}
+  
+.plan-button.btn.btn-primary.btn-lg {
+    background-color: #aa0b36;
+    color: #fff;
+    padding: 12px 30px;
+    font-size: 18px;
+    border-radius: 5px;
+    border: none;
+}
+
+.plan-button.btn.btn-primary.btn-lg:hover {
+    scale: 1.04;
+}
+
+#scroll-target {
+    margin-bottom: 60px;
+}
+
+.arriba-confirm {
+    display: flex;
+    background-color: #212529; /* Color celeste */
+    padding: 50px;
+    justify-content: center;
+    align-items: center;
+}
+
+.arriba-confirm .card {
+    width: 35%;
+    border-radius: 20%
+}
+
+.arriba-confirm .card .card-header {
+    color: black;
+    background-color: rgb(255, 220, 188);
+    font-weight: 800;
+}
+
+.arriba-confirm .card .card-body {
+    color: black;
+    background-color: antiquewhite;
+    margin: 0;
+}
+
+.arriba-confirm .card .card-text {
+    color: black;
+    font-size: 15px;
+    font-weight: 600;
+    /*flex-basis: 50%;*/
+    position: absolute;
+    right: 0;
+    margin-right: 12px;
+}
+
+.arriba-confirm .card .card-title {
+    color: black;
+    font-size: 15px;
+    font-weight: 600;
+    /*flex-basis: 50%;*/
+    margin-left: -29px;
+    margin-bottom: 12px;    
+}
+
+.arriba-confirm .card .card-body .row {
+    display: flex;
+} 
+
+.arriba-confirm .card .card-body .col-md-4.col-left {
+    position: absolute;
+    left: 0;
+} 
+
+.arriba-confirm .card .card-body .col-md-4.col-right {
+    position: absolute;
+    right: 0;
+} 
+
+.line-items {
+    display: flex;
+}
+
+.list-with-bullets {
+    font-size: 12px;
+    color: black;
+}
+
+.list-with-bullets ul {
+    list-style-type: disc;
 }

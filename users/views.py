@@ -6,12 +6,58 @@ import random
 import string
 
 from users.forms import RegistrationForm, AuthForm
-from store.models import Cart
+from store.models import Cart, Producto
 from .models import *
 
 #TRANSBANK
 import transbank
 from transbank.webpay.webpay_plus.transaction import Transaction, WebpayOptions, IntegrationCommerceCodes, IntegrationApiKeys
+
+@login_required
+def orderdetails_view(request, buy_order):
+    if request.user.is_authenticated:
+        boleta = Boleta.objects.get(buy_order=buy_order)
+        if boleta.usuario == request.user:
+            pedido = Pedido.objects.get(boleta=boleta)
+            
+            mis_productos = []
+            for producto in boleta.detalle_compra['productos']:
+                try:
+                    producto_obj = Producto.objects.get(id=producto['id'])
+                    mis_productos.append(producto_obj)
+                except:
+                    pass
+
+            context = {
+                'pedido': pedido,
+                'mis_productos': mis_productos
+            }
+
+            return render(request, 'order/order_details.html', context)
+    return redirect('index')
+
+@login_required
+def order_view(request):
+    if request.user.is_authenticated:
+        usuario = request.user
+        pedidos = Pedido.objects.filter(usuario=usuario)
+
+        datos_json = []
+
+        for pedido in pedidos:
+            boleta = pedido.boleta
+            detalle_compra = boleta.detalle_compra
+
+            dato_json = detalle_compra.get('total')
+            datos_json.append(dato_json)
+
+
+        context = {
+            'pedidos': pedidos,
+            'datos_json': datos_json,
+        }
+        return render(request, 'order/order.html', context)
+    return redirect('index')
 
 def premiumplans_view(request):
     return render(request, 'premium_plans.html')

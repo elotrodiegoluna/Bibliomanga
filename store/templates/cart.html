@@ -39,7 +39,7 @@
                         <h6 class="mb-0">${{ cart_item.product.precio|intcomma }}</h6>
                       </div>
                       <div class="col-md-3 col-lg-3 col-xl-1">
-                        <a href="#!" class="carrito-borrar"><i class="fas fa-times"></i></a>
+                        <a href="{% url 'remove_from_cart' cart_item.id %}" class="carrito-borrar"><i class="fas fa-times"></i></a>
                       </div>
                     </div>
                     <hr class="my-4">
@@ -55,21 +55,61 @@
                   <div class="p-5">
                     <h3 class="fw-bold mb-5 mt-2 pt-1">Resumen</h3>
                     <hr class="my-4">
-  
-                    <div class="d-flex justify-content-between mb-4">
-                      <h5 class="text-uppercase">Productos: {{ request.session.cart_total_quantity }}</h5>
-                      <h5>${{ request.session.cart_total_price|intcomma }}</h5>
-                    </div>
-  
                     <h5 class="text-uppercase mb-3">Metodo de entrega</h5>
   
                     <div class="mb-4 pb-2">
-                      <select class="select">
-                        <option value="1">Envio</option>
-                        <option value="2">Retiro en tienda</option>
-                      </select>
+                      <form method="POST" id="shipping-option-form">
+                        {% csrf_token %}
+                        <select id="shipping-option" name="shipping-option" onchange="handleShippingOption()" class="select">
+                          <option value="retiro">Retiro en tienda</option>
+                          <option value="envio">Envío a domicilio</option>    
+                        </select>
+                      </form>
                     </div>
-  
+                    <div id="shipping-form" style="display: none;">
+                      <!-- Agrega aquí los campos adicionales para la dirección y la información de contacto -->
+                      <form id="shipping-details-form" method="POST">
+                        {% csrf_token %}
+                        {{ shipping_form.errors }}
+                        <div class="form-group">
+                          <label for="{{ shipping_form.comuna.id_for_label }}">Comuna:</label>
+                          <br>
+                          {{ shipping_form.comuna }}
+                        </div>
+
+                        <div class="form-group">
+                          <label for="{{ shipping_form.direccion.id_for_label }}">Dirección:</label>
+                          <br>
+                          {{ shipping_form.direccion }}
+                        </div>
+                        
+                        <div class="form-group">
+                          <label for="{{ shipping_form.departamento.id_for_label }}">N° departamento (si aplica):</label>
+                          <br>
+                          {{ shipping_form.departamento }}
+                        </div>
+
+                        <div class="form-group">
+                          <label for="{{ shipping_form.nombre.id_for_label }}">Nombre:</label>
+                          <br>
+                          {{ shipping_form.nombre }}
+                        </div>
+
+                        <div class="form-group">
+                          <label for="{{ shipping_form.apellido.id_for_label }}">Apellido:</label>
+                          <br>
+                          {{ shipping_form.apellido }}
+                        </div>
+
+                        <div class="form-group">
+                          <label for="{{ shipping_form.telefono.id_for_label }}">Teléfono:</label>
+                          <br>
+                          {{ shipping_form.telefono }}
+                        </div>
+                        <hr class="mb-1">
+                    </form>
+                    </div>
+
                     <h5 class="text-uppercase mb-3">Cupón</h5>
   
                     <div class="mb-5">
@@ -79,14 +119,24 @@
                       </div>
                     </div>
                     <hr class="my-4">
+                    <div class="d-flex justify-content-between mb-4">
+                      <h5 class="text-uppercase">Productos: {{ request.session.cart_total_quantity }}</h5>
+                      <h5>${{ request.session.cart_total_price|intcomma }}</h5>
+                    </div>
+                    <div id="shipping-cost" class="justify-content-between mb-4" style="display: none;">
+                      <h6 class="text-uppercase">Costo del envío:</h6>
+                      <h6 id="costo-envio" class="text-uppercase">$5,500</h6>
+                    </div>
+                    <hr class="my-4">
                     <div class="d-flex justify-content-between mb-5">
                       <h5 class="text-uppercase">Total a pagar:</h5>
-                      <h5>${{ request.session.cart_total_price|intcomma }}</h5>
+                      <h5 id="total-pagar" data-original-value="{{ request.session.cart_total_price }}">${{ request.session.cart_total_price|intcomma }}</h5>
                     </div>
                     <form id="payment-form" action="{{ response.url }}" method="POST">
                         {% csrf_token %}
                         <input type="hidden" name="token_ws" value="{{ response.token }}">
-                        <input type="submit" value="Pagar con Transbank" class="cart-pagar btn btn-primary btn-block btn-lg">
+                        <input id="submit_button" type="submit" value="Pagar con Transbank" class="cart-pagar btn btn-primary btn-block btn-lg">
+
                     </form>
                     <br>
                   </div>
@@ -136,19 +186,93 @@
 </section>
 <!-- JavaScript para mostrar la modal automáticamente -->
 <script>
-    $(document).ready(function() {
-      $('#error-nocartitem').modal('show');
+$(document).ready(function() {
+  $('#error-nocartitem').modal('show');
+});
+
+
+
+$('#payment-form').submit(function(event) {
+  // Evitar que se envíe el formulario automáticamente
+  event.preventDefault();
+
+  // Obtener el valor del shipping-option
+  var shippingOption = $('#shipping-option').val();
+
+  // Obtener los datos de los formularios secundarios
+  var shippingData = $('#shipping-details-form').serializeArray();
+  var shippingOptionData = $('#shipping-option-form').serializeArray();
+
+  // Crear un nuevo formulario dinámicamente
+  var newForm = document.createElement('form');
+  newForm.action = $(this).attr('action');
+  newForm.method = $(this).attr('method');
+
+  // Clonar el token CSRF y agregarlo al nuevo formulario
+  var csrfTokenInput = document.createElement('input');
+  csrfTokenInput.type = 'hidden';
+  csrfTokenInput.name = 'csrfmiddlewaretoken';
+  csrfTokenInput.value = $('input[name="csrfmiddlewaretoken"]').val();
+  newForm.appendChild(csrfTokenInput);
+
+  // Clonar los campos ocultos del formulario principal y agregarlos al nuevo formulario
+  var hiddenInputs = $(this).find('input[type="hidden"]').clone();
+  newForm.appendChild(hiddenInputs.get(0));
+
+  // Agregar los datos del formulario de envío al nuevo formulario
+  $.each(shippingData, function(index, field) {
+    var inputElement = document.createElement('input');
+    inputElement.type = 'hidden';
+    inputElement.name = field.name;
+    inputElement.value = field.value;
+    newForm.appendChild(inputElement);
+  });
+
+  // Agregar los datos del formulario de opción de envío al nuevo formulario
+  if (shippingOption === 'envio') {
+    $.each(shippingOptionData, function(index, field) {
+      var inputElement = document.createElement('input');
+      inputElement.type = 'hidden';
+      inputElement.name = field.name;
+      inputElement.value = field.value;
+      newForm.appendChild(inputElement);
     });
+  }
 
-    var form = document.getElementById('payment-form');
-    var submitButton = form.querySelector('input[type="submit"]');
+  // Agregar el nuevo formulario al documento y enviarlo
+  document.body.appendChild(newForm);
+  newForm.submit();
+});
 
-    // Manejar el evento de clic en el botón de envío
-    submitButton.addEventListener('click', function(event) {
-        event.preventDefault(); // Prevenir el envío del formulario
 
-        // Realizar la solicitud POST manualmente
-        form.submit();
-    });
+
 </script>
+
+
+
+<script> 
+function handleShippingOption() {
+  var shippingOption = document.getElementById("shipping-option").value;
+  var shippingForm = document.getElementById("shipping-form");
+  var shippingCost = document.getElementById("shipping-cost");
+
+  var costoEnvio = parseFloat($('#costo-envio').text().replace('$', '').replace(',', ''));
+  var totalPagarElement = document.getElementById("total-pagar");
+  var totalPagarOriginal = parseFloat(totalPagarElement.getAttribute("data-original-value"));
+
+  if (shippingOption === "envio") {
+    shippingForm.style.display = "block";
+    shippingCost.style.display = "flex";
+    totalPagarOriginal += costoEnvio;
+    totalPagarElement.textContent = totalPagarOriginal.toLocaleString('es-CL', { style: 'currency', currency: 'CLP' });
+  } else {
+    shippingForm.style.display = "none";
+    shippingCost.style.display = "none";
+    //totalPagar -= costoEnvio;
+    totalPagarElement.textContent = totalPagarOriginal.toLocaleString('es-CL', { style: 'currency', currency: 'CLP' });
+  }
+}
+
+</script>
+
 {% endblock %}

@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %} Pedidos en{% endblock %}
+
+{% load static %}
+
+{% block styles%}
+<link type="text/css" rel="stylesheet" href="{% static 'css/order.css' %}"/>
+{% endblock %}
+
+{% block content %}
+{% load humanize %}
+<div class="container-xl">
+    <div class="table">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <h2>Mis <b>Pedidos</b></h2>
+                    </div>
+                </div>
+            </div>
+            <table class="mis-pedidos table">
+                <thead>
+                    <tr>
+                        <th>N° de orden </th>
+                        <th>Fecha</th>
+                        <th>Productos</th>
+                        <th>Total pagado</th>
+                        <th>Estado</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pedido in pedidos %}
+                    <tr>
+                        <td>{{ pedido.boleta.buy_order }}</td>
+                        <td>{{ pedido.boleta.fecha }}</td>
+                        <td>
+                            {% for producto in pedido.boleta.detalle_compra.productos %}
+                            {{ producto.nombre }}
+                            {% if not forloop.last %},{% endif %}
+                            {% endfor %}
+                        </td>
+                        
+                        
+                        <td>${{ pedido.boleta.detalle_compra.total|intcomma }}</td>
+                        <td>{{ pedido.estado }}</td>
+                        <td><a class="" type="button" href="{% url 'order-details' pedido.boleta.buy_order %}">Ver detalles</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>        
+</div>
+</div>
+<hr>
+{% endblock %}
