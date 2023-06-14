@@ -18,7 +18,7 @@
 			<div class="carousel-inner">
 				<div class="carousel-item active">
 					<div class="row">								
-                        {% for manga_nuevo in mangas_nuevos|slice:"4:" %}
+                        {% for manga_nuevo in mangas_nuevos|slice:":4" %}
                         <div class="col-sm-3">
 							<div class="thumb-wrapper">
 								<div class="img-box">
@@ -44,7 +44,7 @@
 				</div>
 				<div class="carousel-item">
 					<div class="row">
-                        {% for manga_nuevo in mangas_nuevos|slice:":4" %}
+                        {% for manga_nuevo in mangas_nuevos|slice:"4:" %}
                         <div class="col-sm-3">
 							<div class="thumb-wrapper">
 								<div class="img-box">
@@ -96,7 +96,7 @@
                   <img class="card-img-top" src="{{ manga.portada }}" alt="{{ manga.nombre }}">
                 </a>
                 <div class="card-body card-mangadigital">
-                  <p class="manga-nombre" href="#">{{ manga.nombre }}</p>
+                  <p class="manga-nombre" href="#">{{ manga.nombre }} {{ manga.tomo }}</p>
   
                   <div class="col-md-12 text-center">
                     <a href="{% url 'reader' manga.id %}" class="btn manga-btn btn-lg btn-dark btn-block">Leer</a>
