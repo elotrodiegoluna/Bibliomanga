@@ -16,6 +16,7 @@ load_dotenv()
 import transbank
 from transbank.webpay.webpay_plus.transaction import Transaction
 
+
 transbank.webpay.webpay_plus.commerce_code = "597055555532"
 transbank.webpay.webpay_plus.api_key = "9KWITTNFZVZGI5DN4UZ1MQ=="
 
@@ -102,7 +103,12 @@ DATABASES = {
     'PORT': os.getenv('DB_PORT'),
     'USER': os.getenv('DB_USER'),
     'PASSWORD': os.getenv('DB_PASSWORD'),
-  }
+    'OPTIONS': {
+            'ssl': {
+                'enabled': False,
+            },
+        },
+    }
 }
 
 # Password validation

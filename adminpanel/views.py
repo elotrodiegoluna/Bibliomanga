@@ -215,7 +215,7 @@ def subir_manga(request):
 
             shutil.rmtree(temp_dir)
 
-            manga.path = manga_dir
+            manga.path = os.path.relpath(manga_dir, settings.MEDIA_ROOT)
             manga.activo = True
 
             manga.save()
