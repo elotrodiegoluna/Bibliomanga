@@ -23,6 +23,7 @@
                     <!--<div class="col"> <strong>Shipping BY:</strong> <br> BLUEDART, | <i class="fa fa-phone"></i> +1598675986 </div>-->
                     <div class="col"> <strong>Costo de los productos:</strong> <br> ${{ pedido.boleta.detalle_compra.total|intcomma }} </div>
                     <div class="col"> <strong>Estado:</strong> <br> {{ pedido.estado.texto }} </div>
+                    <div class="col"> <strong>Tipo Entrega:</strong> <br> {{ pedido.tipo_entrega }} </div>
                 </div>
             </article>
             <hr>
@@ -44,12 +45,21 @@
                 {% endfor %}
             </ul>
             <hr>
+            {% if pedido.tipo_entrega == 'Envío a domicilio' %}
             <div class="track">
                 <div class="step {% if pedido.estado.id >= 1 %}active{% endif %}"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Pedido confirmado</span> </div>
                 <div class="step {% if pedido.estado.id >= 2 %}active{% endif %}"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text">En preparación</span> </div>
                 <div class="step {% if pedido.estado.id >= 3 %}active{% endif %}"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text">En camino </span> </div>
-                <div class="step {% if pedido.estado.id >= 4 %}active{% endif %}"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">Recibido</span> </div>
+                <div class="step {% if pedido.estado.id >= 5 %}active{% endif %}"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">Entregado</span> </div>
             </div>
+            {% else %}
+            <div class="track">
+                <div class="step {% if pedido.estado.id >= 1 %}active{% endif %}"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Pedido confirmado</span> </div>
+                <div class="step {% if pedido.estado.id >= 2 %}active{% endif %}"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text">En preparación</span> </div>
+                <div class="step {% if pedido.estado.id >= 4 %}active{% endif %}"> <span class="icon"> <i class="fa fa-shop"></i> </span> <span class="text">Disponible para retirar</span> </div>
+                <div class="step {% if pedido.estado.id >= 5 %}active{% endif %}"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">Entregado</span> </div>
+            </div>
+            {% endif %}
             <hr>
             <a href="{% url 'myorders' %}" class="btn btn-warning" data-abc="true"> <i class="fa fa-chevron-left"></i>  Mis pedidos</a>
         </div>

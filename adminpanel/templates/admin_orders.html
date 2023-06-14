@@ -1,0 +1,72 @@
+{% extends "admin_base.html" %}
+
+{% block title %} Pedidos en{% endblock %}
+
+{% load static %}
+
+{% block styles%}
+<link type="text/css" rel="stylesheet" href="{% static 'css/order.css' %}"/>
+{% endblock %}
+
+{% block content %}
+{% load humanize %}
+<div class="container-xl">
+    <div class="table">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <h2>Administrar <b>Estado de pedidos</b></h2>
+                    </div>
+                </div>
+            </div>
+            <table class="mis-pedidos table">
+                <thead>
+                    <tr>
+                        <th>N° de orden </th>
+                        <th>Fecha</th>
+                        <th>Total pagado</th>
+                        <th>Usuario</th>
+                        <th>Estado</th>
+                        <th>asd</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pedido in pedidos %}
+                    <tr>
+                        <td>{{ pedido.boleta.buy_order }}</td>
+                        <td>{{ pedido.boleta.fecha }}</td>
+                        <td>${{ pedido.boleta.detalle_compra.total|intcomma }}</td>
+                        <td>{{ pedido.usuario }}</td>
+                        <td>{{ pedido.estado }}</td>
+                        <td>
+                            <form method="POST" action="">
+                                {% csrf_token %}
+                                <input type="hidden" name="pedido_id" value="{{ pedido.id }}">
+                                <select name="estado" onchange="this.form.submit()">
+                                    {% if pedido.tipo_entrega == 'Retiro en tienda' %}
+                                        {% for estado in estados %}
+                                            {% if estado.id != 3 %}
+                                                <option value="{{ estado }}" {% if pedido.estado == estado %}selected{% endif %}>{{ estado }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% elif pedido.tipo_entrega == 'Envío a domicilio' %}
+                                        {% for estado in estados %}
+                                            {% if estado.id != 4 %}
+                                                <option value="{{ estado }}" {% if pedido.estado == estado %}selected{% endif %}>{{ estado }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+                                </select>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>        
+</div>
+</div>
+<hr>
+{% endblock %}

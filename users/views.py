@@ -17,6 +17,7 @@ from transbank.webpay.webpay_plus.transaction import Transaction, WebpayOptions,
 def orderdetails_view(request, buy_order):
     if request.user.is_authenticated:
         boleta = Boleta.objects.get(buy_order=buy_order)
+        estados = EstadoPedido.objects.all()
         if boleta.usuario == request.user:
             pedido = Pedido.objects.get(boleta=boleta)
             
@@ -30,7 +31,8 @@ def orderdetails_view(request, buy_order):
 
             context = {
                 'pedido': pedido,
-                'mis_productos': mis_productos
+                'mis_productos': mis_productos,
+                'estados': estados,
             }
 
             return render(request, 'order/order_details.html', context)

@@ -43,6 +43,10 @@
             <i class="fas fa-building fa-fw me-3"></i>
             <span>Mangas digitales</span>
           </a>
+          <a href="{% url 'adminorder' %}" class="orders list-group-item  py-2 ripple">
+            <i class="fas fa-building fa-fw me-3"></i>
+            <span>Pedidos</span>
+          </a>
         </div>
       </div>
     </nav>
@@ -90,11 +94,10 @@
 </body>
 <script> 
   // Obtener el valor después de la última barra en la URL
-  var pathArray = window.location.pathname.split('/');
-  var currentPage = pathArray[pathArray.length - 1];
-
+  var pathArray = window.location.pathname.split('/').filter(Boolean).pop();
+  
   // Buscar elementos con la misma clase que el valor obtenido
-  var elementsWithSameClass = document.getElementsByClassName(currentPage);
+  var elementsWithSameClass = document.getElementsByClassName(pathArray);
 
   // Agregar la clase "active" a los elementos encontrados
   for (var i = 0; i < elementsWithSameClass.length; i++) {

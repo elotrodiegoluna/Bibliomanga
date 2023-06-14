@@ -8,7 +8,7 @@ import calendar, locale, datetime
 
 from django.core.files.storage import default_storage
 
-from users.models import User, Boleta
+from users.models import User, Boleta, Pedido, EstadoPedido
 from mangas.models import MangaDigital
 from store.models import Producto
 from .forms import *
@@ -226,3 +226,34 @@ def subir_manga(request):
 
     context = {'form': form}
     return render(request, 'mangas/manga_add.html', context)
+
+@user_passes_test(is_admin, login_url='index', redirect_field_name=None)
+def adminorder_view(request):
+    if request.user.is_authenticated and request.method == 'POST':
+        pedido_id = request.POST.get('pedido_id')
+        nuevo_estado = request.POST.get('estado')
+
+        print("PEDIDO: "+str(pedido_id))
+        print("NUEVO ESTADO: "+str(nuevo_estado))
+
+        #pedido = Pedido.objects.filter(id=pedido_id)
+
+        pedido , _ = Pedido.objects.update_or_create(id=pedido_id)
+        estado = EstadoPedido.objects.get(texto=nuevo_estado)
+        
+        pedido.estado = estado
+        pedido.save()
+
+        return redirect('adminorder')  # Redirige a la vista de nuevo
+
+    elif request.user.is_authenticated:
+        pedidos = Pedido.objects.all()
+        estados = EstadoPedido.objects.all()
+
+        context = {
+            'pedidos': pedidos,
+            'estados': estados
+        }
+        return render(request, 'admin_orders.html', context)
+
+    return redirect('index')

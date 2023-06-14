@@ -49,6 +49,7 @@ from adminpanel.views import (
     adminusers_view,
     adminstore_view,
     adminmangas_view,
+    adminorder_view,
     subir_manga,
     add_product_view,
     add_manga_view,
@@ -56,6 +57,7 @@ from adminpanel.views import (
 
 from mangas.views import (
     reader_view,
+    mangas_view,
 )
 
 urlpatterns = [
@@ -77,10 +79,11 @@ urlpatterns = [
     path('remove_from_cart/<pk>/', remove_from_cart, name='remove_from_cart'),
     path('cart/', cart_view, name="cart"),
     # admin
-    path('adminpanel/main', adminmain_view, name="adminmain"),
-    path('adminpanel/users', adminusers_view, name="adminusers"),
-    path('adminpanel/store', adminstore_view, name="adminstore"),
-    path('adminpanel/mangas', adminmangas_view, name="adminmangas"),
+    path('adminpanel/main/', adminmain_view, name="adminmain"),
+    path('adminpanel/users/', adminusers_view, name="adminusers"),
+    path('adminpanel/store/', adminstore_view, name="adminstore"),
+    path('adminpanel/mangas/', adminmangas_view, name="adminmangas"),
+    path('adminpanel/orders/', adminorder_view, name="adminorder"),
     # admin store
     path('adminpanel/store/add-product', add_product_view, name="addproduct"),
     # pago
@@ -90,6 +93,7 @@ urlpatterns = [
     path('adminpanel/mangas/add', add_manga_view, name='addmanga'),
     path('adminpanel/mangas-upload', subir_manga, name='subirmanga'),
     path('manga/<int:manga_id>/reader/', reader_view, name='reader'),
+    path('mangas/', mangas_view, name='mangas'),
     # usuarios
     path('user/orders', order_view, name='myorders'),
     path('user/order-details/<str:buy_order>/', orderdetails_view, name='order-details'),

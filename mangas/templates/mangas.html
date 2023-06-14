@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+
+{% block title %}Mangas digitales en{% endblock %}
+
+{% load static %}
+
+{% block styles %}
+<link type="text/css" rel="stylesheet" href="{% static 'css/mangastyle.css' %}"/>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<h2>Mangas <b>Nuevos</b></h2>
+			<div id="carouselExample" class="carousel slide">
+			<!-- Wrapper for carousel items -->
+			<div class="carousel-inner">
+				<div class="carousel-item active">
+					<div class="row">								
+                        {% for manga_nuevo in mangas_nuevos|slice:"4:" %}
+                        <div class="col-sm-3">
+							<div class="thumb-wrapper">
+								<div class="img-box">
+									<img src="{{ manga_nuevo.portada }}" class="img-fluid" alt="">
+								</div>
+								<div class="thumb-content">
+									<h4>{{ manga_nuevo.nombre }} {{ manga_nuevo.tomo }}</h4>
+									<div class="star-rating">
+										<ul class="list-inline">
+											<li class="list-inline-item"><i class="fa fa-star"></i></li>
+											<li class="list-inline-item"><i class="fa fa-star"></i></li>
+											<li class="list-inline-item"><i class="fa fa-star"></i></li>
+											<li class="list-inline-item"><i class="fa fa-star"></i></li>
+											<li class="list-inline-item"><i class="fa fa-star-o"></i></li>
+										</ul>
+									</div>
+									<a href="{% url 'reader' manga_nuevo.id %}" class="btn btn-primary">Leer</a>
+								</div>						
+							</div>
+						</div>
+                        {% endfor %}
+					</div>
+				</div>
+				<div class="carousel-item">
+					<div class="row">
+                        {% for manga_nuevo in mangas_nuevos|slice:":4" %}
+                        <div class="col-sm-3">
+							<div class="thumb-wrapper">
+								<div class="img-box">
+									<img src="{{ manga_nuevo.portada }}" class="img-fluid" alt="">
+								</div>
+								<div class="thumb-content">
+									<h4>{{ manga_nuevo.nombre }} {{ manga_nuevo.tomo }}</h4>
+									<div class="star-rating">
+										<ul class="list-inline">
+											<li class="list-inline-item"><i class="fa fa-star"></i></li>
+											<li class="list-inline-item"><i class="fa fa-star"></i></li>
+											<li class="list-inline-item"><i class="fa fa-star"></i></li>
+											<li class="list-inline-item"><i class="fa fa-star"></i></li>
+											<li class="list-inline-item"><i class="fa fa-star-o"></i></li>
+										</ul>
+									</div>
+									<a href="{% url 'reader' manga_nuevo.id %}" class="btn btn-primary">Leer</a>
+								</div>						
+							</div>
+						</div>
+                        {% endfor %}
+					</div>
+				</div>
+			</div>
+			<!-- Carousel controls -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+            
+		</div>
+		</div>
+	</div>
+</div>
+<section class="digital">
+    <div class="container mangas-digitales">
+      <h1>Todos los mangas digitales</h1>
+      <div id="mangas">
+        <div class="container">
+          <div class="row">
+            {% for manga in mangas %}
+            <div class="col-lg-3 col-sm-4 col-11 offset-sm-0 offset-1">
+              <div class="card">
+                <a href="#">
+                  <img class="card-img-top" src="{{ manga.portada }}" alt="{{ manga.nombre }}">
+                </a>
+                <div class="card-body card-mangadigital">
+                  <p class="manga-nombre" href="#">{{ manga.nombre }}</p>
+  
+                  <div class="col-md-12 text-center">
+                    <a href="{% url 'reader' manga.id %}" class="btn manga-btn btn-lg btn-dark btn-block">Leer</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+{% endblock %}

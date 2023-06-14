@@ -10,7 +10,7 @@ class MangaDigital(models.Model):
     activo = models.BooleanField(default=False)
     premium = models.BooleanField(default=False)
     path = models.CharField(max_length=255, blank=True, null=True)
-    timestamp = models.DateField(auto_now_add=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
     
     def nombre_manga(self):
         return "{} {}". format(self.nombre, self.tomo)

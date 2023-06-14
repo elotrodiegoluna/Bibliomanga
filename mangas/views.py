@@ -4,6 +4,15 @@ from users.models import MangaLeido, User
 
 import os
 
+def mangas_view(request):
+    mangas_nuevos = MangaDigital.objects.order_by('-timestamp')[:8]
+    mangas = MangaDigital.objects.all()
+    context = {
+        'mangas_nuevos': mangas_nuevos,
+        'mangas': mangas,
+    }
+    return render(request, 'mangas.html', context)
+
 # Create your views here.
 def reader_view(request, manga_id):
     user = User.objects.get(id=request.user.id)
