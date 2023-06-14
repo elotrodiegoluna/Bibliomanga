@@ -40,3 +40,4 @@ tzdata==2023.3
     # via django
 urllib3==2.0.2
     # via requests
+whitenoise==4.1.2
