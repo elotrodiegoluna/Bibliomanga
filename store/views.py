@@ -105,7 +105,6 @@ def cart_view(request):
         request.session['cart_total_price'] = 0
 
     if request.POST: # POST
-
         selected_option = request.POST.get('shipping-option') # get select de metodo entrega
 
         shipping_form = ShippingForm(request.POST) #

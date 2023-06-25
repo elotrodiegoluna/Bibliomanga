@@ -109,15 +109,6 @@
                         <hr class="mb-1">
                     </form>
                     </div>
-
-                    <h5 class="text-uppercase mb-3">Cupón</h5>
-  
-                    <div class="mb-5">
-                      <div class="form-outline">
-                        <input type="text" id="form3Examplea2" class="form-control form-control-lg" />
-                        <label class="form-label" for="form3Examplea2">Ingresa un cupón</label>
-                      </div>
-                    </div>
                     <hr class="my-4">
                     <div class="d-flex justify-content-between mb-4">
                       <h5 class="text-uppercase">Productos: {{ request.session.cart_total_quantity }}</h5>
@@ -132,12 +123,16 @@
                       <h5 class="text-uppercase">Total a pagar:</h5>
                       <h5 id="total-pagar" data-original-value="{{ request.session.cart_total_price }}">${{ request.session.cart_total_price|intcomma }}</h5>
                     </div>
+                    {% if request.user.is_authenticated %}
                     <form id="payment-form" action="{{ response.url }}" method="POST">
                         {% csrf_token %}
                         <input type="hidden" name="token_ws" value="{{ response.token }}">
                         <input id="submit_button" type="submit" value="Pagar con Transbank" class="cart-pagar btn btn-primary btn-block btn-lg">
-
                     </form>
+                    {% else %}
+                    <a style="color:red;">Debes iniciar sesión para realizar el pago.</a>
+                    <input id="submit_button" type="submit" value="Pagar con Transbank" class="cart-pagar btn btn-primary btn-block btn-lg" style="opacity:30%;">
+                    {% endif %}
                     <br>
                   </div>
                 </div>
