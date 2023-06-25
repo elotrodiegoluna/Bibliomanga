@@ -4,11 +4,14 @@ from mangas.models import MangaDigital
 # Create your views here.
 def index(request):
     context = {} 
-    manga = MangaDigital.objects.all()
+    try:
+        manga = MangaDigital.objects.all()
 
-    context = {
-        'mangas': manga
-    }
+        context = {
+            'mangas': manga
+        }
+    except:
+        pass
     return render(request, 'index.html', context)
 
 def login(request):
