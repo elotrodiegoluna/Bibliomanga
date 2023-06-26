@@ -35,6 +35,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'bibliomanga.onrender.com', 'elotrodiego.pythonanywhere.com', 'bibliomanga.azurewebsites.net']
 
+CSRF_TRUSTED_ORIGINS = ['https://bibliomanga.azurewebsites.net']
 
 # Application definition
 
