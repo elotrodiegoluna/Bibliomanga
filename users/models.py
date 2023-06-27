@@ -3,7 +3,7 @@ from django.contrib.sessions.models import Session
 from django.contrib.auth.models import AbstractBaseUser
 from django.utils import timezone
 from .manager import MyUserManager
-from store.models import CartItem, Cart
+from store.models import CartItem, Cart, Producto
 from mangas.models import MangaDigital as Manga
 
 
@@ -96,3 +96,46 @@ class MangaLeido(models.Model):
     manga = models.ForeignKey(Manga, on_delete=models.CASCADE)
     last_page = models.IntegerField(null=True)
     finished = models.BooleanField(default=False)
+
+class Review(models.Model):
+    titulo = models.CharField(max_length=64)
+    comentario = models.TextField()
+    puntuacion = models.IntegerField()
+    likes = models.IntegerField(null=True)
+    dislikes = models.IntegerField(null=True)
+    manga = models.ForeignKey(Manga, on_delete=models.CASCADE)
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def name_return(self):
+        return "{}, {}". format(self.usuario.username, self.titulo)
+    
+    def __str__(self):
+        return self.name_return()
+
+class ListaFavorito(models.Model):
+    nombre_lista = models.CharField(max_length=64)
+    publica = models.BooleanField(default=False)
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def name_return(self):
+        return "{}, {}". format(self.usuario, self.nombre_lista)
+
+    def __str__(self):
+        return self.name_return()
+
+class ItemFavorito(models.Model):
+    lista = models.ForeignKey(ListaFavorito, on_delete=models.CASCADE)
+    manga = models.ForeignKey(Manga, on_delete=models.CASCADE)
+
+    def name_return(self):
+        return "{}, {}, {}". format(self.lista.usuario, self.lista.nombre_lista, self.manga.nombre)
+
+    def __str__(self):
+        return self.name_return()
+    
+class ListaDeseados(models.Model):
+    usuario = models.OneToOneField(User, on_delete=models.CASCADE)
+
+class ItemDeseado(models.Model):
+    lista = models.ForeignKey(ListaDeseados, on_delete=models.CASCADE)
+    item = models.ForeignKey(Producto, on_delete=models.CASCADE)

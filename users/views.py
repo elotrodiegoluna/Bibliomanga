@@ -194,6 +194,8 @@ def login_view(request):
     context = {}
     print("login")
     user = request.user
+
+    next_url = request.GET.get('next')
     if user.is_authenticated:
         return redirect("index")
     if request.POST:
@@ -213,8 +215,11 @@ def login_view(request):
                     request.session['cart_total_quantity'] = cart.cart_items.count()
                     request.session['cart_total_price'] = cart.get_cart_total()
                     #print(request.session['cart_total_price'])
-
-                return redirect("index")
+                
+                if next_url:
+                    return redirect(next_url)
+                else:
+                    return redirect("index")
         else:
             context['login_form'] = form
     else:

@@ -1,0 +1,8 @@
+.scroll-box {
+    height: 300px; /* Altura fija del contenedor de desplazamiento */
+    overflow-y: auto; /* Habilitar desplazamiento vertical */
+  }
+  
+  .volume-list {
+    margin-bottom: 0; /* Eliminar el margen inferior de la lista */
+  }

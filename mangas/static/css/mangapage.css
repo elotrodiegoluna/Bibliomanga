@@ -1,0 +1,147 @@
+.scroll-box {
+    height: 320px; 
+    overflow-y: auto;
+    width: 585px;
+    margin-left:50px;
+}
+  
+.volume-list {
+    margin-bottom: 0; 
+}
+
+#manga-img {
+    max-width: 100%;
+}
+#volume-img {
+    height: 63px;
+    margin-right: 20px;
+}
+
+.manga {
+    margin-top: 20px;
+}
+
+.list-group-item {
+    height: 80px;
+    display: flex;
+    align-items: center;
+    background-color: #212529f7;
+    color: white;
+    border-color: #3c3c3c;
+}
+
+.list-group-item.clickeable:hover {
+    background-color: #1d2124;
+}
+.list-group-item.clickeable {
+    cursor: pointer;
+}
+
+.d-flex.flex-start.align-items-center {
+    position: relative;
+}
+
+.review-container {
+    display: flex;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    justify-content: center;
+}
+  
+.form-container {
+    width: 999px;
+    background-color: #212529c9;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-bottom: solid 1px #aa0b36;
+}
+
+.form-container.user-review {
+    background-color: #282f35de;
+}
+
+.rating input[type="radio"] {
+    display: none;
+}
+
+.rating label {
+    display: inline-block;
+    cursor: pointer;
+}
+
+.rating label i {
+    color: #ccc;
+}
+
+.rating label.active i,
+.rating label:hover i {
+    color: gold;
+}
+
+.rating label:hover,
+    .rating label:hover ~ label {
+        color: gold;
+        
+    }
+
+.star-container {
+    display: flex;
+    padding: 0;
+    margin: 0;
+}
+      
+.star-container label {
+    display: inline-block;
+    font-size: 24px;
+    width: 29px;
+    height: 20px;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+  }
+
+.review-button {
+    background-color: #aa0b36;
+    border-color:#aa0b36;
+}
+
+.review-button:hover {
+    background-color: #c61041;
+    border-color: #c61041;
+}
+
+#review-title {
+    display: flex;
+    justify-content: center;
+}
+
+#delete-review {
+    position: absolute;
+    right: 0;
+    color: #bb3d3d;
+}
+
+.promedio .fa-solid.fa-star {
+    color: gold;
+}
+
+.manga-title {
+    margin-left: 4%;
+}
+
+.comment {
+    text-align: center;
+}
+
+#loginbutton {
+    position: absolute;
+    right: 0;
+    margin-top: -15px;
+}
+
+.user-name {
+    text-transform: capitalize;
+    color: white;
+}

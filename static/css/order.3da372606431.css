@@ -1,0 +1,8 @@
+body {
+    background: #212529;
+}
+
+.mis-pedidos th, td {
+    color: white;
+    width: 18%;
+}

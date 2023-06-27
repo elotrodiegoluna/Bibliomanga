@@ -58,6 +58,8 @@ from adminpanel.views import (
 from mangas.views import (
     reader_view,
     mangas_view,
+    mangapage_view,
+    delete_review,
 )
 
 urlpatterns = [
@@ -94,6 +96,8 @@ urlpatterns = [
     path('adminpanel/mangas-upload', subir_manga, name='subirmanga'),
     path('manga/<int:manga_id>/reader/', reader_view, name='reader'),
     path('mangas/', mangas_view, name='mangas'),
+    path('mangas/<str:manga_name>', mangapage_view, name='mangapage'),
+    path('mangas/delete-review/<int:id>', delete_review, name='deletereview'),
     # usuarios
     path('user/orders', order_view, name='myorders'),
     path('user/order-details/<str:buy_order>/', orderdetails_view, name='order-details'),

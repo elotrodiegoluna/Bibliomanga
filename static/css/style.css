@@ -31,7 +31,11 @@
 
 .home-nav .nav-text {
     text-transform: uppercase;
-    color: #919191;
+    color: #ffffff;
+}
+
+.home-nav .nav-text:hover {
+    color: #aa0b36;
 }
 
 .home-nav-logo {
@@ -62,12 +66,12 @@
 }
 
 .carrito-boton a {
-    color: grey;
+    color: rgb(255, 255, 255);
     padding-left: 15px;
 }
 
 .carrito-boton a:hover {
-    color: white;
+    color: #aa0b36;
 }
 
 /* INDEX */

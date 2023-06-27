@@ -8,12 +8,13 @@ priceMax = document.getElementById("value-max");
 let priceGap = 1000;
 
 let minVal = 0,
-    maxVal = 200000;
+    maxVal = 100000;
 
 rangeInput.forEach(input =>{
     input.addEventListener("input", e =>{
         minVal = parseInt(rangeInput[0].value);
         maxVal = parseInt(rangeInput[1].value);
+        console.log(maxVal)
 
         if (maxVal - minVal < priceGap) {
             if (e.target.className === "range-min") {
@@ -51,7 +52,8 @@ function FilterAll() {
 
     for (let i = 0; i < cards.length; i++) {
         let title = cards[i].querySelector(".manga-nombre"),
-        price = parseInt(cards[i].querySelector(".manga-precio").innerText.replace(/[CLP$,]/g, ''));
+        price = parseInt(cards[i].querySelector(".manga-precio").innerText.replace(/[^\d]/g, ''));
+        console.log(price)
         
         if (title.innerText.toUpperCase().indexOf(filter) > -1) {
             cards[i].classList.remove("d-none");
