@@ -9,7 +9,7 @@
 <div class="account-content-settings">
     <h1>Información General</h1>
     <hr>
-    <form method="POST" action="#">
+    <form method="POST" action="{% url 'changeusername' %}">
         {% csrf_token %}
       
         <div class="row g-3 align-items-center">
@@ -20,6 +20,13 @@
                 <div class="input-group">
                     <div class="input-group-text bg-dark text-light">@</div>
                     <input type="text" id="input-username" class="form-control bg-dark text-light" value="{{ usuario.username }}" aria-labelledby="passwordHelpInline">
+                    {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                        <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
                 </div>
             </div>
             <button id="save-button" class="btn btn-primary bloqueado" disabled type="submit">Guardar cambios</button>
@@ -46,5 +53,7 @@
 
     inputUsername.addEventListener('input', checkUsername);
     checkUsername();
+
+
 </script>
 {% endblock %}

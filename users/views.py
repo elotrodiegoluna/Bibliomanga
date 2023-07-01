@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
 from dateutil.relativedelta import relativedelta
@@ -18,6 +19,27 @@ from .models import *
 #TRANSBANK
 import transbank
 from transbank.webpay.webpay_plus.transaction import Transaction, WebpayOptions, IntegrationCommerceCodes, IntegrationApiKeys
+
+
+@login_required
+def change_username(request):
+    if request.method == 'POST':
+        new_username = request.POST.get('username')
+        # verificar que sea un nuevo nombre
+        if new_username != request.user.username:
+            if len(new_username) < 4 or len(new_username) > 64:
+                messages.error(request, 'El nombre de usuario debe tener entre 4 a 64 caracteres')
+            elif User.objects.filter(username=new_username).exists():
+                messages.error(request, 'El nombre de usuario ya esta en uso')
+            else:
+                usuario = User.objects.get(id=request.user.id)
+                usuario.username = new_username
+                usuario.save()
+            
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    
+
 
 @login_required
 def change_avatar(request):

@@ -33,6 +33,7 @@ from users.views import (
     accountpremium_view,
     accountpwd_view,
     change_avatar,
+    change_username,
 )
 
 from bmanga.views import (
@@ -104,6 +105,7 @@ urlpatterns = [
     path('mangas/<str:manga_name>', mangapage_view, name='mangapage'),
     path('mangas/delete-review/<int:id>', delete_review, name='deletereview'),
     # usuarios
+    path('users/account/change-username/', change_username, name='changeusername'),
     path('users/account/change-avatar/', change_avatar, name='changeavatar'),
     path('users/account/information', accountinfo_view, name='myaccount'),
     path('users/account/premium', accountpremium_view, name='myaccount-premium'),
