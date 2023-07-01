@@ -29,6 +29,9 @@ from users.views import (
     order_view,
     orderdetails_view,
     accountinfo_view,
+    accountdelete_view,
+    accountpremium_view,
+    accountpwd_view,
     change_avatar,
 )
 
@@ -103,6 +106,9 @@ urlpatterns = [
     # usuarios
     path('users/account/change-avatar/', change_avatar, name='changeavatar'),
     path('users/account/information', accountinfo_view, name='myaccount'),
+    path('users/account/premium', accountpremium_view, name='myaccount-premium'),
+    path('users/account/password', accountpwd_view, name='myaccount-pwd'),
+    path('users/account/delete', accountdelete_view, name='myaccount-del'),
     path('user/orders', order_view, name='myorders'),
     path('user/order-details/<str:buy_order>/', orderdetails_view, name='order-details'),
     ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + \

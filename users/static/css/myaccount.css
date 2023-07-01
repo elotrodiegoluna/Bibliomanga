@@ -137,3 +137,34 @@ body {
     transition: opacity 0.3s;
     pointer-events: none;
   }
+
+#save-button.bloqueado {
+    background: #959595;
+    color: #4a4a4a;
+    border-color: #959595;
+    cursor: no-drop;
+}
+
+.btn.disabled, .btn:disabled, fieldset:disabled .btn {
+    pointer-events: inherit;
+}
+
+.account-content-settings .card {
+    color: white;
+}
+
+.btn.btn-primary.premium {
+    background-color: #aa0b36;
+    border-color:#aa0b36;
+}
+
+.btn.btn-primary.premium:hover {
+    background-color: #800a2a;
+    border-color:#800a2a;
+}
+
+.fa-solid.fa-star.premium {
+    color: gold;
+    font-size: 48px;
+    padding-bottom: 28px;
+}

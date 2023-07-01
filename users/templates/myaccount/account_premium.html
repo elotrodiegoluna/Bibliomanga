@@ -1,0 +1,33 @@
+{% extends 'myaccount/account_base.html' %}
+
+{% block title %}Mi cuenta en{% endblock %}
+
+{% load static %}
+
+
+{% block account-content %}
+<div class="account-content-settings">
+    <h1>Información de suscripción</h1>
+    <h5>Gestiona aquí tu plan</h3>
+    <hr>
+    {% if usuario.premium %}
+    <div class="card text-center mb-3">
+        <div class="card-body">
+            <h5 class="card-title">{{ suscripcion.plan.nombre_plan }}</h5>
+            <i class="fa-solid fa-star premium"></i>
+            <p class="card-text">Ya estás suscrito a un plan premium, ¡Disfruta de una gran variedad de mangas, sin anuncios y resumiento tu lectura desde tu última página!</p>
+            <p class="card-text" style="color:grey;">Tu suscripcion acaba el {{ suscripcion.fecha_caducidad }}</p>
+        </div>
+    </div>
+    {% else %}
+    <div class="card text-center mb-3">
+        <div class="card-body">
+          <h5 class="card-title">Miembro gratuito</h5>
+          <i class="fa-solid fa-star"></i>
+          <p class="card-text">Accede a una gran variedad de mangas, disfrutalos sin anuncios y resume tu lectura desde tu última página!.</p>
+          <a href="{% url 'premiumplans' %}" class="btn btn-primary premium">Suscribirme</a>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

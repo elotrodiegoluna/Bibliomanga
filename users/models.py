@@ -3,6 +3,7 @@ from django.core.validators import FileExtensionValidator
 from django.contrib.sessions.models import Session
 from django.contrib.auth.models import AbstractBaseUser
 from django.utils import timezone
+from dateutil.relativedelta import relativedelta
 
 from .manager import MyUserManager
 from store.models import CartItem, Cart, Producto
@@ -98,6 +99,12 @@ class Suscripcion(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     plan = models.ForeignKey(PlanPremium, on_delete=models.CASCADE, null=True)
     activo = models.BooleanField(default=False)
+    fecha_inicio = models.DateTimeField(default=timezone.now)
+    fecha_caducidad = models.DateTimeField()
+
+    def save(self, *args, **kwargs):
+        self.fecha_caducidad = self.fecha_inicio + relativedelta(months=1)
+        super().save(*args, **kwargs)
 
 class MangaLeido(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)

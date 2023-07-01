@@ -9,5 +9,42 @@
 <div class="account-content-settings">
     <h1>Información General</h1>
     <hr>
+    <form method="POST" action="#">
+        {% csrf_token %}
+      
+        <div class="row g-3 align-items-center">
+            <div class="col-auto">
+              <label for="username" class="col-form-label">Nombre de usuario:</label>
+            </div>
+            <div class="col-auto">
+                <div class="input-group">
+                    <div class="input-group-text bg-dark text-light">@</div>
+                    <input type="text" id="input-username" class="form-control bg-dark text-light" value="{{ usuario.username }}" aria-labelledby="passwordHelpInline">
+                </div>
+            </div>
+            <button id="save-button" class="btn btn-primary bloqueado" disabled type="submit">Guardar cambios</button>
+        </div>
+      </form>
 </div>
+
+<script>
+    const inputUsername = document.getElementById('input-username')
+    const saveButton = document.getElementById('save-button')
+
+    const userUsername = inputUsername.value;
+
+    const checkUsername = () => {
+        const enteredUsername = inputUsername.value;
+        if (enteredUsername === userUsername) {
+            saveButton.classList.add('bloqueado');
+            saveButton.disabled = true;
+        } else {
+            saveButton.classList.remove('bloqueado');
+            saveButton.disabled = false;
+        }
+    }
+
+    inputUsername.addEventListener('input', checkUsername);
+    checkUsername();
+</script>
 {% endblock %}

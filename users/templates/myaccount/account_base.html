@@ -41,11 +41,13 @@
             <div class="account-navigation">
                 <div class="navigation-section">
                     <h3>Mi cuenta</h3>
-                    <a class="information nav-link" href="#">Información general</a>
-                    <a class="premium nav-link" href="#">Suscripción</a>
-                    <a class="password-change nav-link" href="#">Cambiar contraseña</a>
-                    <a class="history nav-link" href="#">Historial de compras</a>
-                    <a class="delete-account nav-link" href="#">Eliminar cuenta</a>
+                    <a class="information nav-link" href="{% url 'myaccount' %}">Información general</a>
+                    <a class="premium nav-link" href="{% url 'myaccount-premium' %}">Suscripción</a>
+                    <a class="password nav-link" href="{% url 'myaccount-pwd' %}">Cambiar contraseña</a>
+                    
+                </div>
+                <div class="navigation-section second">
+                    <a class="delete nav-link" href="{% url 'myaccount-del' %}">Eliminar cuenta</a>
                 </div>
             </div>
             <div class="account-content">

@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
+from dateutil.relativedelta import relativedelta
+from django.utils import timezone
 from django.urls import reverse
 from django.conf import settings
 import os
@@ -72,12 +74,57 @@ def accountinfo_view(request):
         context = {}
         usuario = User.objects.get(id=request.user.id)
         
-
         context = {
             'usuario': usuario,
         }
 
         return render(request, 'myaccount/account_info.html', context)
+
+@login_required
+def accountpremium_view(request):
+    if request.user.is_authenticated:
+        context = {}
+        usuario = User.objects.get(id=request.user.id)
+        
+        try:
+            suscripcion = Suscripcion.objects.get(usuario=usuario)
+            context = {
+                'usuario': usuario,
+                'suscripcion': suscripcion,
+            }
+            return render(request, 'myaccount/account_premium.html', context)
+        except Suscripcion.DoesNotExist:
+            pass
+
+        context = {
+            'usuario': usuario,
+        }
+
+        return render(request, 'myaccount/account_premium.html', context)
+
+@login_required
+def accountpwd_view(request):
+    if request.user.is_authenticated:
+        context = {}
+        usuario = User.objects.get(id=request.user.id)
+        
+        context = {
+            'usuario': usuario,
+        }
+
+        return render(request, 'myaccount/account_pwd.html', context)
+     
+@login_required
+def accountdelete_view(request):
+    if request.user.is_authenticated:
+        context = {}
+        usuario = User.objects.get(id=request.user.id)
+        
+        context = {
+            'usuario': usuario,
+        }
+
+        return render(request, 'myaccount/account_delete.html', context)
     
 
 @login_required
@@ -228,6 +275,13 @@ def premiumconfirm_view(request, plan):
         context = {
             'already_premium': True
         }
+    
+    fecha_actual = timezone.now()
+    prox_mes = fecha_actual + relativedelta(months=1)
+    context = {
+        'fecha_actual': fecha_actual,
+        'prox_mes': prox_mes
+    }
     return render(request, 'premium_confirm.html', context)
 
 
