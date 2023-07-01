@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}{% endblock %}
+{% block title %}{{ mangas.0.nombre }} en{% endblock %}
 
 {% load static %}
 
@@ -107,7 +107,7 @@
         <div class="form-container user-review">
             <div class="d-flex flex-start align-items-center">
                 <img class="rounded-circle shadow-1-strong me-3"
-                  src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(19).webp" alt="avatar" width="60"
+                  src="{{ user_review.usuario.avatar.url }}" alt="avatar" width="60"
                   height="60" />
                 <div>
                     <h6 class="user-name fw-bold mb-1">{{ user_review.usuario.username }}</h6>
@@ -136,7 +136,7 @@
         <div class="form-container">
             <div class="d-flex flex-start align-items-center">
                 <img class="rounded-circle shadow-1-strong me-3"
-                  src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(19).webp" alt="avatar" width="60"
+                  src="{{ review.usuario.avatar.url }}" alt="avatar" width="60"
                   height="60" />
                 <div>
                     <h6 class="user-name fw-bold mb-1">{{ review.usuario.username }}</h6>

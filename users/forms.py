@@ -3,6 +3,13 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate
 
 from users.models import User
+from .validators import *
+
+class CambiarAvatarForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['avatar']
+
 
 class RegistrationForm(UserCreationForm):
     email = forms.EmailField(label='email', max_length=64)

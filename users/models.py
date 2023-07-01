@@ -1,16 +1,24 @@
 from django.db import models
+from django.core.validators import FileExtensionValidator
 from django.contrib.sessions.models import Session
 from django.contrib.auth.models import AbstractBaseUser
 from django.utils import timezone
+
 from .manager import MyUserManager
 from store.models import CartItem, Cart, Producto
 from mangas.models import MangaDigital as Manga
+from .validators import validate_file_size, validate_file_extension
 
 
 class User(AbstractBaseUser):
     email = models.EmailField(max_length=64,unique=True,)
     username = models.CharField(max_length=64, unique=True)
     premium = models.BooleanField(default=False)
+    creador = models.BooleanField(default=False)
+    fecha_nacimiento = models.DateField(null=True)
+
+    avatar = models.ImageField(upload_to='avatars', default='avatars/default.png', validators=[validate_file_size, validate_file_extension])
+    
     date_joined = models.DateTimeField(default=timezone.now)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)

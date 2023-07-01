@@ -28,6 +28,8 @@ from users.views import (
     premium_success_view,
     order_view,
     orderdetails_view,
+    accountinfo_view,
+    change_avatar,
 )
 
 from bmanga.views import (
@@ -99,6 +101,8 @@ urlpatterns = [
     path('mangas/<str:manga_name>', mangapage_view, name='mangapage'),
     path('mangas/delete-review/<int:id>', delete_review, name='deletereview'),
     # usuarios
+    path('users/account/change-avatar/', change_avatar, name='changeavatar'),
+    path('users/account/information', accountinfo_view, name='myaccount'),
     path('user/orders', order_view, name='myorders'),
     path('user/order-details/<str:buy_order>/', orderdetails_view, name='order-details'),
     ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + \

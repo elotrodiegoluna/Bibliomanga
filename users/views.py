@@ -1,17 +1,98 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
 from django.urls import reverse
+from django.conf import settings
+import os
+
 import random
 import string
 
-from users.forms import RegistrationForm, AuthForm
+from .forms import RegistrationForm, AuthForm, CambiarAvatarForm
 from store.models import Cart, Producto
 from .models import *
 
 #TRANSBANK
 import transbank
 from transbank.webpay.webpay_plus.transaction import Transaction, WebpayOptions, IntegrationCommerceCodes, IntegrationApiKeys
+
+@login_required
+def change_avatar(request):
+    print('changeavatar')
+    print(request.POST)
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            print('AVATAR POST')
+            form = CambiarAvatarForm(request.POST, request.FILES, instance=request.user)
+
+            if form.is_valid():
+                usuario = User.objects.get(id=request.user.id)
+                # guardar formulario
+                form.save()
+                # conseguir archivo subido
+                avatar_file = request.FILES['avatar_submit']
+                filename = avatar_file.name # nombre del archivo
+                user_folder = str(usuario.username) # nombre de la carpeta
+
+                # crear carpeta del usuario si no existe
+                user_folder_path = os.path.join(settings.MEDIA_ROOT, 'avatars', user_folder)
+                os.makedirs(user_folder_path, exist_ok=True)
+
+                # construir ruta completa
+                file_path = os.path.join(user_folder_path, filename)
+                print(file_path)
+
+                # guardar el archivo
+                with open(file_path, 'wb+') as destination:
+                    for chunk in avatar_file.chunks():
+                        destination.write(chunk)
+
+                # aca deberia eliminarse la foto anterior y renombrar la de ahora a avatar
+                    # no da el tiempo / no tiene importancia ahora
+
+                # path relativo a la foto (sin carpetas de windows)
+                relative_path = os.path.relpath(file_path, settings.MEDIA_ROOT)
+
+                usuario.avatar = relative_path
+                usuario.save()
+
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+            else:
+                print(form.errors)
+        else:
+            form = CambiarAvatarForm(instance=request.user)
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+@login_required
+def accountinfo_view(request):
+    if request.user.is_authenticated:
+        context = {}
+        usuario = User.objects.get(id=request.user.id)
+        
+
+        form_avatar = CambiarAvatarForm(instance=request.user)
+
+        if request.method == 'POST':
+            print('AVATAR POST')
+            print(request.POST)
+            if 'avatar_submit' in request.POST:
+                print('AVATAR SUBMIT IN REQUEST')
+                form_avatar = CambiarAvatarForm(request.POST, request.FILES, instance=usuario)
+                if form_avatar.is_valid():
+                    print('AVATAR IS VALID')
+                    form_avatar.save()
+                    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+                #elif
+
+        context = {
+            'usuario': usuario,
+            'form_avatar': form_avatar,
+        }
+
+        return render(request, 'myaccount/account_info.html', context)
+    
 
 @login_required
 def orderdetails_view(request, buy_order):
