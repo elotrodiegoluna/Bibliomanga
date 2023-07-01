@@ -17,7 +17,7 @@ class User(AbstractBaseUser):
     creador = models.BooleanField(default=False)
     fecha_nacimiento = models.DateField(null=True)
 
-    avatar = models.ImageField(upload_to='avatars', default='avatars/default.png', validators=[validate_file_size, validate_file_extension])
+    avatar = models.ImageField(upload_to='avatars', default='avatars/default.png')
     
     date_joined = models.DateTimeField(default=timezone.now)
     is_active = models.BooleanField(default=True)

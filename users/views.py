@@ -24,8 +24,9 @@ def change_avatar(request):
     if request.user.is_authenticated:
         if request.method == 'POST':
             print('AVATAR POST')
+            print(request.FILES)
+            print(request.FILES['avatar_submit'])
             form = CambiarAvatarForm(request.POST, request.FILES, instance=request.user)
-
             if form.is_valid():
                 usuario = User.objects.get(id=request.user.id)
                 # guardar formulario
@@ -72,23 +73,8 @@ def accountinfo_view(request):
         usuario = User.objects.get(id=request.user.id)
         
 
-        form_avatar = CambiarAvatarForm(instance=request.user)
-
-        if request.method == 'POST':
-            print('AVATAR POST')
-            print(request.POST)
-            if 'avatar_submit' in request.POST:
-                print('AVATAR SUBMIT IN REQUEST')
-                form_avatar = CambiarAvatarForm(request.POST, request.FILES, instance=usuario)
-                if form_avatar.is_valid():
-                    print('AVATAR IS VALID')
-                    form_avatar.save()
-                    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-                #elif
-
         context = {
             'usuario': usuario,
-            'form_avatar': form_avatar,
         }
 
         return render(request, 'myaccount/account_info.html', context)

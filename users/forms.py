@@ -10,7 +10,6 @@ class CambiarAvatarForm(forms.ModelForm):
         model = User
         fields = ['avatar']
 
-
 class RegistrationForm(UserCreationForm):
     email = forms.EmailField(label='email', max_length=64)
     #password = forms.CharField(label='password', max_length=32)
