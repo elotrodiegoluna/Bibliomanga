@@ -161,7 +161,7 @@ def adminmain_view(request):
     context = {}
     boletas = Boleta.objects.filter(pagado=True)
     total_boletas = boletas.count() # boletas generadas
-    locale.setlocale(locale.LC_TIME, 'es_CL.UTF-8')
+    #locale.setlocale(locale.LC_TIME, 'es_CL.UTF-8')
     
     # GRAFICO GANANCIAS
     ganancia_productos = 0
