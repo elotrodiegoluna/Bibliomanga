@@ -7,4 +7,34 @@
 
 {% block account-content %}
 
+<div class="account-content-settings">
+    <h1>Información General</h1>
+    <hr>
+    <form method="POST" action="{% url 'changeusername' %}">
+        {% csrf_token %}
+      
+        <div class="row g-3 align-items-center">
+            <div class="col-auto">
+              <label for="username" class="col-form-label">Nombre de usuario:</label>
+            </div>
+            <div class="col-auto">
+                <div class="input-group">
+                    <input type="text" id="input-username" name="username" class="form-control bg-dark text-light" value="{{ usuario.username }}" aria-labelledby="passwordHelpInline">
+                </div>
+            </div>
+            <div id="passwordHelpBlock" class="form-text">
+                Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
+            </div>
+            {% if messages %}
+            <ul class="messages">
+            {% for message in messages %}
+                <li style="color: red;">{{ message }}</li>
+            {% endfor %}
+            </ul>
+            {% endif %}
+            <button id="save-button" class="btn btn-primary bloqueado" disabled type="submit">Guardar cambios</button>
+        </div>
+      </form>
+</div>
+
 {% endblock %}
