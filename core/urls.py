@@ -57,8 +57,15 @@ from adminpanel.views import (
     adminmangas_view,
     adminorder_view,
     subir_manga,
+    eliminar_usuario,
+    bloquear_usuario,
+    eliminar_producto,
+    eliminar_manga,
     add_product_view,
+    edit_product_view,
     add_manga_view,
+    edit_manga_view,
+
 )
 
 from mangas.views import (
@@ -88,17 +95,24 @@ urlpatterns = [
     path('cart/', cart_view, name="cart"),
     # admin
     path('adminpanel/main/', adminmain_view, name="adminmain"),
-    path('adminpanel/users/', adminusers_view, name="adminusers"),
-    path('adminpanel/store/', adminstore_view, name="adminstore"),
     path('adminpanel/mangas/', adminmangas_view, name="adminmangas"),
     path('adminpanel/orders/', adminorder_view, name="adminorder"),
+    # admin users
+    path('adminpanel/users/', adminusers_view, name="adminusers"),
+    path('adminpanel/users/delete-user_<user_id>', eliminar_usuario, name='deleteuser'),
+    path('adminpanel/users/block-user_<user_id>', bloquear_usuario, name='blockuser'),
     # admin store
+    path('adminpanel/store/', adminstore_view, name="adminstore"),
     path('adminpanel/store/add-product', add_product_view, name="addproduct"),
+    path('adminpanel/store/edit-product/<int:product_id>', edit_product_view, name="editproduct"),
+    path('adminpanel/store/delete-product_<int:product_id>', eliminar_producto, name="deleteproduct"),
     # pago
     path('payment-confirmation/', payment_confirm_view, name='payment_confirmation'),
     path('payment-success/<uuid:boleta_token>', payment_success_view, name='payment_success'),
     # mangas digitales
     path('adminpanel/mangas/add', add_manga_view, name='addmanga'),
+    path('adminpanel/manga/delete/<int:manga_id>', eliminar_manga, name='deletemanga'),
+    path('adminpanel/mangas/edit/<int:manga_id>', edit_manga_view, name='editmanga'),
     path('adminpanel/mangas-upload', subir_manga, name='subirmanga'),
     path('manga/<int:manga_id>/reader/', reader_view, name='reader'),
     path('mangas/', mangas_view, name='mangas'),

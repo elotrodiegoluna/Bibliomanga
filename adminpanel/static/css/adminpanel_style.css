@@ -154,3 +154,53 @@ overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
     color: white;
 }
 
+
+
+/* PAGINATOR */
+.page-item .page-link {
+    border-color: #aa0b36;
+    background-color: #212529;
+    color: white;
+}
+
+.pagination .page-link:hover {
+    background-color: #aa0b36;
+  }
+
+.page-item.disabled .page-link {
+    background-color: #621329;
+    color: #979797;
+}
+
+.page-item.active .page-link {
+    background-color: #aa0b36;
+}
+
+.clearfix {
+    margin: 0 auto;
+    display: flex;
+    justify-content: left;
+}
+
+.btn.btn-primary.btn-manga:hover {
+    background-color: #86092b;
+    border-color: #86092b;
+    scale: 1.02;
+}
+.btn.btn-primary.btn-manga {
+    background-color: #aa0b36;
+    border-color: #aa0b36;
+}
+
+#morosos-title {
+    color:white;
+    padding-top: 10px;
+}
+
+td a {
+    text-decoration: none;
+}
+
+.modal-dialog {
+    color: black;
+}

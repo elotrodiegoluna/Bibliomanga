@@ -19,12 +19,6 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>
-                            <span class="custom-checkbox">
-                                <input type="checkbox" id="selectAll">
-                                <label for="selectAll"></label>
-                            </span>
-                        </th>
                         <th>Nombre </th>
                         <th>Email</th>
                         <th>Tipo de cuenta</th>
@@ -34,60 +28,184 @@
                 </thead>
                 <tbody>
                     
-                    {% for i in users %}
+                    {% for user in page_obj %}
                     <tr>
-                        <td>
-                            <span class="custom-checkbox">
-                                <input type="checkbox" id="checkbox1" name="options[]" value="1">
-                                <label for="checkbox1"></label>
-                            </span>
-                        </td>
-                        <td>{{ i.username }}</td>
-                        <td>{{ i.email }}</td>
-                        {% if i.is_staff %}
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.email }}</td>
+                        {% if user.is_staff %}
                         <td>Administrador</td>
-                        {% elif i.premium %}
+                        {% elif user.premium %}
                         <td>Premium</td>
                         {% else %}
                         <td>Gratuito</td>
                         {% endif %}
-                        {% if i.is_active %}
+                        {% if user.is_active %}
                         <td>Activo</td>
                         {% else %}
-                        <td>Suspendido</td>
+                        <td>Bloqueado</td>
                         {% endif %}
                         
                         <td>
-                            <a class="ver" href="#">
-                                <span class="fa-solid fa-eye"></span>
+                            <a class="editar" href="#" data-bs-toggle="modal" data-bs-target="#blockuser{{ user.id }}">
+                                <span class="fa-solid fa-ban"></span>
                             </a>
-                            <a class="editar" href="#">
-                                <span class="fa-solid fa-user-pen"></span>
-                            </a>
-                            <a class="eliminar" href="#">
+                            <a class="eliminar" href="#" data-bs-toggle="modal" data-bs-target="#deleteuser{{ user.id }}">
                                 <span class="fa-solid fa-trash-can"></span>
                             </a>                  
                         </td>
+                        <div class="modal fade" id="blockuser{{ user.id }}" tabindex="-1" role="dialog" aria-labelledby="blockuser" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="blockuser">Confirmación</h5>
+                                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Cerrar">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    {% if user.is_active %}
+                                    <div class="modal-body">
+                                        ¿Estás seguro de que deseas bloquear a {{ user.username }}?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <form action="{% url 'blockuser' user.id %}" method="post">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-danger">Bloquear</button>
+                                        </form>
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    </div>
+                                    {% else %}
+                                    <div class="modal-body">
+                                        ¿Estás seguro de que deseas desbloquear a {{ user.username }}?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <form action="{% url 'blockuser' user.id %}" method="post">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-success">Desbloquear</button>
+                                        </form>
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="deleteuser{{ user.id }}" tabindex="-1" role="dialog" aria-labelledby="deleteuser" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="deleteuser">Confirmación</h5>
+                                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Cerrar">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        ¿Estás seguro de que deseas eliminar a {{ user.username }}?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <form action="{% url 'deleteuser' user.id %}" method="post">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                                        </form>
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
-            <div class="clearfix">
-                <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
-                <ul class="pagination">
-                    <li class="page-item disabled"><a href="#">Previous</a></li>
-                    <li class="page-item"><a href="#" class="page-link">1</a></li>
-                    <li class="page-item"><a href="#" class="page-link">2</a></li>
-                    <li class="page-item active"><a href="#" class="page-link">3</a></li>
-                    <li class="page-item"><a href="#" class="page-link">4</a></li>
-                    <li class="page-item"><a href="#" class="page-link">5</a></li>
-                    <li class="page-item"><a href="#" class="page-link">Next</a></li>
-                </ul>
-            </div>
+            <hr>
+        </div>
+        <div class="clearfix">
+            <div class="hint-text">Showing <b>{{ page_obj.start_index }}</b> to <b>{{ page_obj.end_index }}</b> of <b>{{ page_obj.paginator.count }}</b> entries</div>
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                <li class="page-item"><a href="?page={{ page_obj.previous_page_number }}" class="page-link">Previous</a></li>
+                {% else %}
+                <li class="page-item disabled"><a href="#" class="page-link">Previous</a></li>
+                {% endif %}
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                        <li class="page-item active"><a href="#" class="page-link">{{ num }}</a></li>
+                    {% else %}
+                        <li class="page-item"><a href="?page={{ num }}" class="page-link">{{ num }}</a></li>
+                    {% endif %}
+                {% endfor %}
+                {% if page_obj.has_next %}
+                <li class="page-item"><a href="?page={{ page_obj.next_page_number }}" class="page-link">Next</a></li>
+                {% else %}
+                <li class="page-item disabled"><a href="#" class="page-link">Next</a></li>
+                {% endif %}
+            </ul>
         </div>
     </div>        
 </div>
-
+<hr>
+<div class="container">
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary btn-manga">Generar lista de morosos</button>
+    </form>
+    {% if results %}
+    <h2 id="morosos-title">Usuarios <b>Morosos</b></h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Usuario</th>
+                <th>Fecha de inicio</th>
+                <th>Fecha de caducidad</th>
+                <th>Estado de la suscripción</th>
+                <th>Plan premium</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for result in results%}
+            <tr>
+                <td>{{ result.0 }}</td>
+                <td>{{ result.1 }}</td>
+                <td>{{ result.2 }}</td>
+                <td>{{ result.3 }}</td>
+                <td>{{ result.4 }}</td>
+                <td>{{ result.5 }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
 </div>
+
+
+<div class="modal fade" id="modal-message" tabindex="-1" role="dialog" aria-labelledby="modal-messageLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal-messageLabel">Mensaje de Confirmación</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% if messages %}
+<script>
+    $(document).ready(function() {
+        $('#modal-message').modal('show');
+    });
+</script>
+{% endif %}
 
 {% endblock %}

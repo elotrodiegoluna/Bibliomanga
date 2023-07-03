@@ -13,12 +13,16 @@ class ProductoForm(forms.ModelForm):
             'stock'
         ]
     def __init__(self, *args, **kwargs):
+        instance = kwargs.get('instance')  # obtener instancia del producto
         super().__init__(*args, **kwargs)
         for field_name in self.fields:
             field = self.fields.get(field_name)
             if field:
                 field.widget.attrs.update({'class': 'product-form'})
                 field.required = True
+                # si le doy instancia, me pone los datos
+                if instance:
+                    field.initial = getattr(instance, field_name)
 
 class MangaForm(forms.ModelForm):
     archivo = forms.FileField(label='Archivo', required=True, widget=forms.ClearableFileInput(attrs={'accept': '.cbr,.cbz'}))
@@ -37,4 +41,4 @@ class MangaForm(forms.ModelForm):
         self.fields['tomo'].required = True
         self.fields['desc'].required = True
         self.fields['portada'].required = True
-        self.fields['archivo'].required = True
+        self.fields['archivo'].required = False

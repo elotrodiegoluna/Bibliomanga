@@ -24,6 +24,7 @@ from transbank.webpay.webpay_plus.transaction import Transaction, WebpayOptions,
 @login_required
 def change_username(request):
     if request.method == 'POST':
+        print(request.POST)
         new_username = request.POST.get('username')
         # verificar que sea un nuevo nombre
         if new_username != request.user.username:

@@ -6,7 +6,7 @@
 
 {% block content %}
 <form id="form-addproduct" method="POST" enctype="multipart/form-data" action="{% url 'subirmanga' %}">
-    <h1>Agregar manga</h1>
+    <h1>Editar Manga</h1>
     {% csrf_token %}
     <div class="form-group">
         <label for="{{ form.nombre.id_for_label }}">Nombre:</label>
@@ -44,7 +44,7 @@
         {{ form.archivo }}
     </div>
 
-    <button class="add-product btn btn-primary" type="submit">Subir Manga</button>
+    <button class="add-product btn btn-primary" type="submit">Guardar</button>
 </form>
 
 {% endblock %}

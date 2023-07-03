@@ -1,8 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse, get_object_or_404
+from django.http import HttpResponseRedirect
 from django.contrib.admin.views.decorators import user_passes_test
+from django.contrib import messages
 from django.conf import settings
 from django.db.models import Sum, FloatField
 from django.db.models.functions import Cast
+from django.core.paginator import Paginator
 import plotly.graph_objects as go
 import calendar, locale, datetime
 
@@ -13,8 +16,81 @@ from mangas.models import MangaDigital
 from store.models import Producto
 from .forms import *
 
+import MySQLdb
+from django.db import connection
+import datetime
+
+"""""
+def obtener_morosos(request):
+    try:
+        with connection.cursor() as cursor:
+            cursor.callproc('obtener_morosos')
+            results = cursor.fetchall()
+"""""
+
 def is_admin(user):
     return user.is_staff  # Verifica si el usuario es un administrador
+
+@user_passes_test(is_admin, login_url='index', redirect_field_name=None)
+def eliminar_manga(request, manga_id):
+    if request.method == 'POST':
+        try:
+            manga = MangaDigital.objects.get(id=manga_id)
+            messages.success(request, 'El tomo {} del manga {} se ha eliminado correctamente.'.format(manga.tomo,manga.nombre))
+            manga.delete()
+
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        except Exception as e:
+            print(e)
+            messages.error(request, 'El tomo de este manga no se pudo eliminar.\n(error:'+str(e)+')')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+@user_passes_test(is_admin, login_url='index', redirect_field_name=None)
+def eliminar_producto(request, product_id):
+    if request.method == 'POST':
+        try:
+            producto = Producto.objects.get(id=product_id)
+            messages.success(request, 'El producto {} se ha eliminado correctamente.'.format(producto.nombre))
+            producto.delete()
+
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        except Exception as e:
+            print(e)
+            messages.error(request, 'El producto no se pudo eliminar.\n(error:'+str(e)+')')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+@user_passes_test(is_admin, login_url='index', redirect_field_name=None)
+def eliminar_usuario(request, user_id):
+    if request.method == 'POST':
+        try:
+            user = User.objects.get(id=user_id)
+            messages.success(request, 'El usuario {} se ha eliminado correctamente.'.format(user.username))
+            user.delete()
+
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        except Exception as e:
+            print(e)
+            messages.error(request, 'El usuario no se pudo eliminar.\n(error:'+str(e)+')')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+@user_passes_test(is_admin, login_url='index', redirect_field_name=None)
+def bloquear_usuario(request, user_id):
+    if request.method == 'POST':
+        try:
+            user = User.objects.get(id=user_id)
+
+            if user.is_active:
+                user.is_active = False
+                messages.success(request, 'El usuario {} se ha bloqueado correctamente.'.format(user.username))
+            else:
+                user.is_active = True
+                messages.success(request, 'El usuario {} se ha desbloqueado correctamente.'.format(user.username))
+            user.save()
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        except Exception as e:
+            print(e)
+            messages.error(request, 'Hubo un error con el procedimiento.\n(error:'+str(e)+')')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 #añadir mangas digitales
 @user_passes_test(is_admin, login_url='index', redirect_field_name=None)
@@ -30,6 +106,24 @@ def add_manga_view(request):
         'form': form,
     }
     return render(request, 'mangas/manga_add.html', context)
+
+@user_passes_test(is_admin, login_url='index', redirect_field_name=None)
+def edit_manga_view(request, manga_id):
+    manga = get_object_or_404(MangaDigital, id=manga_id)
+
+    if request.method == 'POST':
+        form = MangaForm(request.POST, request.FILES, instance=manga)
+        if form.is_valid():
+            form.save()
+            return redirect('adminmangas')
+    else:
+        form = MangaForm(instance=manga)
+        
+        context = {
+            'form': form
+        }
+    return render(request, 'mangas/manga_edit.html', context)
+
 #añadir productos
 @user_passes_test(is_admin, login_url='index', redirect_field_name=None)
 def add_product_view(request):
@@ -44,6 +138,23 @@ def add_product_view(request):
         'form': form,
     }
     return render(request, 'products/product_add.html', context)
+
+@user_passes_test(is_admin, login_url='index', redirect_field_name=None)
+def edit_product_view(request, product_id):
+    producto = get_object_or_404(Producto, id=product_id)
+
+    if request.method == 'POST':
+        form = ProductoForm(request.POST, instance=producto)
+        if form.is_valid():
+            form.save()
+            return redirect('adminstore')
+    else:
+        form = ProductoForm(instance=producto)
+        
+        context = {
+            'form': form
+        }
+    return render(request, 'products/product_edit.html', context)
 
 @user_passes_test(is_admin, login_url='index', redirect_field_name=None)
 def adminmain_view(request):
@@ -142,8 +253,14 @@ def adminmangas_view(request):
     context = {}
     mangas = MangaDigital.objects.all()
 
+    # paginación
+    paginator = Paginator(mangas, 8) # listar por 5
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     context = {
-        'mangas': mangas
+        'mangas': mangas,
+        'page_obj': page_obj,
     }
     return render(request, 'admin_mangas.html', context)
 
@@ -152,8 +269,14 @@ def adminstore_view(request):
     context = {}
     productos = Producto.objects.all()
 
+    # paginación
+    paginator = Paginator(productos, 5) # listar por 5
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     context = {
-        'productos': productos
+        'productos': productos,
+        'page_obj': page_obj,
     }
     return render(request, 'admin_store.html', context)
 
@@ -162,9 +285,41 @@ def adminusers_view(request):
     context = {}
     usuarios = User.objects.all()
 
-    context = {
-        'users': usuarios
-    }
+    # paginación
+    paginator = Paginator(usuarios, 5) # listar por 5 usuarios a la vez
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    if request.method == 'POST':
+        try:
+            with connection.cursor() as cursor:
+                cursor.callproc('obtener_morosos')
+                results = cursor.fetchall()
+
+                formatted_results = []
+                for row in results:
+                    formatted_row = list(row)
+                    formatted_row[2] = row[2].strftime("%Y-%m-%d")  # convertir fecha_inicio
+                    formatted_row[3] = row[3].strftime("%Y-%m-%d")  # convertir fecha_caducidad
+                    formatted_results.append(formatted_row)
+
+                context = {
+                    'users': usuarios,
+                    'results': formatted_results,
+                    'page_obj': page_obj,
+                }
+        except Exception as e:
+            context = {
+                'users': usuarios,
+                'error_message': f"Error al generar la lista de morosos: {str(e)}",
+                'page_obj': page_obj,
+            }
+    else:
+        context = {
+            'users': usuarios,
+            'page_obj': page_obj,
+        }
+    
     return render(request, 'admin_users.html', context)
 
 
