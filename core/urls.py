@@ -34,6 +34,15 @@ from users.views import (
     accountpwd_view,
     change_avatar,
     change_username,
+    creador_view,
+    creador_crear_view,
+    creador_administrar_view,
+    subir_tomo,
+    eliminar_tomo,
+    editar_manga_comunidad,
+    eliminar_manga_comunidad,
+    comunidad_view,
+    comunidad_manga_view,
 )
 
 from bmanga.views import (
@@ -127,5 +136,17 @@ urlpatterns = [
     path('users/account/delete', accountdelete_view, name='myaccount-del'),
     path('user/orders', order_view, name='myorders'),
     path('user/order-details/<str:buy_order>/', orderdetails_view, name='order-details'),
+    # creador
+    path('creator/administrar', creador_view, name='creador'),
+    path('creator/crear', creador_crear_view, name='creador-crear'),
+    path('creador/manga/<str:manga_name>', creador_administrar_view, name='creador-administrar'),
+    path('creador/manga/subir-tomo/<int:manga_id>', subir_tomo, name='subirtomo'),
+    path('creador/manga/editar-manga/<int:manga_id>', editar_manga_comunidad, name='editarmanga'),
+    path('creador/manga/eliminar-manga/<int:manga_id>', eliminar_manga_comunidad, name='eliminarmanga'),
+    path('creador/manga/eliminar-tomo/<int:tomo_id>', eliminar_tomo, name='eliminartomo'),
+    # comunidad
+    path('comunidad/', comunidad_view, name='comunidad'),
+    path('comunidad/<str:manga_name>', comunidad_manga_view, name='mangapage-comunidad'),
+    #
     ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + \
         static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

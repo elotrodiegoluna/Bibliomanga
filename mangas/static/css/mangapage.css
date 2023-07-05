@@ -1,7 +1,7 @@
 .scroll-box {
     height: 320px; 
     overflow-y: auto;
-    width: 585px;
+    width: auto;
     margin-left:50px;
 }
   
@@ -33,6 +33,7 @@
 .list-group-item.clickeable:hover {
     background-color: #1d2124;
 }
+
 .list-group-item.clickeable {
     cursor: pointer;
 }
@@ -129,6 +130,8 @@
 
 .manga-title {
     margin-left: 4%;
+    text-align: center;
+    margin-bottom: 49px;
 }
 
 .comment {
@@ -144,4 +147,81 @@
 .user-name {
     text-transform: capitalize;
     color: white;
+}
+
+.review-button.bloqueado {
+    background-color: #515151;
+    border-color: #515151;
+    color: gray;
+}
+
+.review-button.bloqueado:active {
+    background-color: #515151;
+    border-color: #515151;
+    color: gray;
+}
+
+.btn.btn-primary.btn-manga:hover {
+    background-color: #86092b;
+    border-color: #86092b;
+    scale: 1.02;
+}
+.btn.btn-primary.btn-manga {
+    background-color: #aa0b36;
+    border-color: #aa0b36;
+    margin-right: 10px;
+}
+
+.acciones {
+    margin-top: 10px;
+}
+
+.list-inline-item {
+	font-size: 14px;
+	color: grey;
+}
+
+.list-inline-item.active {
+	font-size: 14px;
+	color: gold;
+}
+
+.puntuacion p {
+    margin-top: 5.5px;
+}
+
+
+#premium-tomo {
+    position: absolute;
+    right: 0;
+    margin-right: 15px;
+    color: gold;
+    font-size: 24px;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    display: none;
+  }
+  
+  .modal-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color:#212529;
+    padding: 20px;
+    border-radius: 5px;
+    z-index: 10000;
+    display: none;
+  }
+
+.modal-content .form-group {
+    margin-bottom: 27px;
 }

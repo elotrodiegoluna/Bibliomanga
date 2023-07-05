@@ -15,14 +15,17 @@
     <div class="container row-container">
         <h1 class="manga-title">{{ mangas.0.nombre }}</h1>
         <div class="row">
-            <div class="col-lg-6 d-flex">
+            <div class="col-md-6">
                 <div class="scroll-box">
                     <ul class="list-group">
                         {% for manga in mangas %}
-                        <li class="list-group-item clickeable" onclick="navigateToMangaPage('{{ manga.id}}')">
+                        <li class="list-group-item clickeable" onclick="{% if not manga.premium or user.is_premium %}navigateToMangaPage('{{ manga.id }}'){% else %}NoPremium(){% endif %}">
                             <div class="d-flex align-items-center">
                                 <img id="volume-img" src="{{ manga.portada }}" class="mr-3">
                                 <a>Tomo {{ manga.tomo }}</a>
+                                {% if manga.premium %}
+                                <span id="premium-tomo" class="fa-solid fa-crown"></span>
+                                {% endif %}
                             </div>
                         </li>
                         {% endfor %}
@@ -30,17 +33,43 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-lg-2 d-flex">
-                <img id="manga-img" src="{{ mangas.0.portada }}">
-            </div>
-            <div class="col-lg-4">
-                <div class="d-flex align-items-center">
-                    <p>{{ mangas.0.desc }}</p>
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-4">
+                  <img id="manga-img" src="{{ mangas.0.portada }}">
                 </div>
-                <div class="promedio">
-                    <i class="fa-solid fa-star"></i><p>{{ promedio }}</p>
-                    
-                </div>
+                <div class="col-8">
+                  <div class="d-flex align-items-center">
+                      <p><b>Descripción:</b> {{ mangas.0.desc }}</p>
+                  </div>
+                  <div class="star-rating d-flex">
+                    <div class="row puntuacion">
+                      <div class="col-auto">
+                        <ul class="list-inline">
+                          <li class="list-inline-item {% if mangas.0.promedio_puntuacion >= 1 %} active{%endif%}">
+                            <i class="fa-solid fa-star"></i>
+                          </li>
+                          <li class="list-inline-item {% if mangas.0.promedio_puntuacion >= 2 %} active{% endif %}">
+                            <i class="fa-solid fa-star"></i>
+                          </li>
+                          <li class="list-inline-item {% if mangas.0.promedio_puntuacion >= 3 %} active{% endif %}">
+                            <i class="fa-solid fa-star"></i>
+                          </li>
+                          <li class="list-inline-item {% if mangas.0.promedio_puntuacion >= 4 %} active{% endif %}">
+                            <i class="fa-solid fa-star"></i>
+                          </li>
+                          <li class="list-inline-item {% if mangas.0.promedio_puntuacion >= 5 %} active{% endif %}">
+                            <i class="fa-solid fa-star"></i>
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="col-auto">
+                        <p>{{mangas.0.promedio_puntuacion}} estrellas.</p>
+                      </div>
+                    </div>
+									</div>
+              </div>
+              </div>
             </div>
         </div>
     </div>
@@ -164,6 +193,25 @@
     <hr>
 </section>
 
+<div class="modal-overlay" id="overlay-premium"></div>
+    <div class="modal-container" id="container-premium">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">¡Ups! No tienes una suscripción.</h5>
+                <button type="button" class="btn-close btn-close-white" onclick="CerrarNoPremium()" aria-label="Close"></button>
+            </div>
+            <hr>
+            <div class="modal-body">
+                <p>Necesitas una suscripción para leer este tomo.</p>
+            </div>
+            <div class="modal-footer">
+                <a href='{% url 'premiumplans' %}' class="btn btn-primary btn-manga" type="button">¡Hazte miembro!</a>
+                <button class="btn btn-secondary" type="button" onclick="CerrarNoPremium()">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     function navigateToMangaPage(mangaId) {
         // redireccionar
@@ -254,6 +302,20 @@ rating.addEventListener("mouseout", function() {
   }
 });
 
+</script>
+
+<script>
+  function NoPremium() {
+    $('#overlay-premium').fadeIn();
+    $('#container-premium').fadeIn();
+    $('body').addClass('modal-open');
+  }
+
+  function CerrarNoPremium() {
+    $('#overlay-premium').fadeOut();
+    $('#container-premium').fadeOut();
+    $('body').removeClass('modal-open');
+  }
 </script>
 
 {% endblock %}

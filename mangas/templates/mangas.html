@@ -28,13 +28,25 @@
 								</div>
 								<div class="thumb-content">
 									<h4>{{ manga_nuevo.nombre }} {{ manga_nuevo.tomo }}</h4>
+
 									<div class="star-rating">
 										<ul class="list-inline">
-											<li class="list-inline-item"><i class="fa fa-star"></i></li>
-											<li class="list-inline-item"><i class="fa fa-star"></i></li>
-											<li class="list-inline-item"><i class="fa fa-star"></i></li>
-											<li class="list-inline-item"><i class="fa fa-star"></i></li>
-											<li class="list-inline-item"><i class="fa fa-star-o"></i></li>
+											
+											<li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 1 %} active{%endif%}">
+												<i class="fa-solid fa-star"></i>
+											</li>
+											<li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 2 %} active{% endif %}">
+												<i class="fa-solid fa-star"></i>
+											</li>
+											<li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 3 %} active{% endif %}">
+												<i class="fa-solid fa-star"></i>
+											</li>
+											<li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 4 %} active{% endif %}">
+												<i class="fa-solid fa-star"></i>
+											</li>
+											<li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 5 %} active{% endif %}">
+												<i class="fa-solid fa-star"></i>
+											</li>
 										</ul>
 									</div>
 									<a href="{% url 'reader' manga_nuevo.id %}" class="btn btn-primary">Leer</a>
@@ -58,11 +70,21 @@
 									<h4>{{ manga_nuevo.nombre }} {{ manga_nuevo.tomo }}</h4>
 									<div class="star-rating">
 										<ul class="list-inline">
-											<li class="list-inline-item"><i class="fa fa-star"></i></li>
-											<li class="list-inline-item"><i class="fa fa-star"></i></li>
-											<li class="list-inline-item"><i class="fa fa-star"></i></li>
-											<li class="list-inline-item"><i class="fa fa-star"></i></li>
-											<li class="list-inline-item"><i class="fa fa-star-o"></i></li>
+											<li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 1 %} active{%endif%}">
+												<i class="fa-solid fa-star"></i>
+											</li>
+											<li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 2 %} active{% endif %}">
+												<i class="fa-solid fa-star"></i>
+											</li>
+											<li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 3 %} active{% endif %}">
+												<i class="fa-solid fa-star"></i>
+											</li>
+											<li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 4 %} active{% endif %}">
+												<i class="fa-solid fa-star"></i>
+											</li>
+											<li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 5 %} active{% endif %}">
+												<i class="fa-solid fa-star"></i>
+											</li>
 										</ul>
 									</div>
 									<a href="{% url 'reader' manga_nuevo.id %}" class="btn btn-primary">Leer</a>

@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.http import HttpResponseRedirect
+from django.core.paginator import Paginator
+
 from .models import Producto, Cart, CartItem
 from users.models import Boleta, Pedido, EstadoPedido
 from .forms import ShippingForm
@@ -18,6 +20,11 @@ def store_view(request):
     productos = Producto.objects.all()
     productos_nuevos = Producto.objects.order_by('-timestamp')[:10]
 
+    categoria_filtro = request.GET.get('categoria')
+
+    if categoria_filtro:
+        productos = productos.filter(categoria__nombre=categoria_filtro)
+
     if request.user.is_authenticated:
         user = request.user
         cart = Cart.objects.filter(user=user, is_paid=False).first()
@@ -30,7 +37,8 @@ def store_view(request):
 
     context = {
         'productos': productos,
-        'productos_nuevos': productos_nuevos
+        'productos_nuevos': productos_nuevos,
+        'categoria': categoria_filtro
     }
     return render(request, 'store.html', context)
 

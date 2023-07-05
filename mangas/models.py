@@ -11,10 +11,12 @@ class MangaDigital(models.Model):
     premium = models.BooleanField(default=False)
     path = models.CharField(max_length=255, blank=True, null=True)
     timestamp = models.DateTimeField(auto_now_add=True)
+    promedio_puntuacion = models.IntegerField(default=0)  # Campo para almacenar el promedio de puntuación
     
     def nombre_manga(self):
         return "{} {}". format(self.nombre, self.tomo)
 
     def __str__(self):
         return self.nombre_manga()
+    
     

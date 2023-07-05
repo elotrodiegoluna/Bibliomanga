@@ -12,8 +12,10 @@
 
 {% load humanize%}
 
-<h2 class="tienda-titulo"> Nuestros productos a tu disposición, ¡Echa un vistazo!</h2>
-
+<h2 class="tienda-titulo">Nuestros productos a tu disposición, ¡Echa un vistazo!</h2>
+{% if categoria == 'manga' %}
+<h2 class="tienda-titulo">POLLO</h2>
+{% endif %}
 <div class="store">
     <div id="sidebar">
         <div>
@@ -35,15 +37,15 @@
                 <div class="flex-child" id="value-max">$ 100,000</div>
             </div>
         </div>
-        <div>
-            <h6 class="p-1 border-top">Categoria</h6>
+        <div class="categorias">
+            <h6 class="p-1 border-top">Filtrar por categorías</h6>
             <ul>
-                <li><a href="#">Mangas</a></li>
-                <li><a href="#">Figuras</a></li>
-                <li><a href="#">Ropa</a></li>
-                <li><a href="#">Misc</a></li>
+                <li><a class="mangas" href="?categoria=mangas">Mangas</a></li>
+                <li><a class="figuras" href="?categoria=figuras">Figuras</a></li>
+                <li><a class="ropa" href="?categoria=ropa">Ropa</a></li>
             </ul>
         </div>
+        <a type="button" class="btn btn-secondary" href="{% url 'store' %}">Limpiar filtros</a>
     </div>
     
     <div id="products">
@@ -66,16 +68,9 @@
                     </div>
                 </div>
                 {% endfor %}
+            </div>
+        </div>
 
-            </div>
-        </div>
-    </div>
-    <div>
-        <div class="cart-widget-side">
-            <div class="widget-heading">
-                <h3 class="widget-title">carrito</h3>
-            </div>
-        </div>
     </div>
 </div>
 <script src="{% static 'js/store.js' %}"></script>
@@ -84,7 +79,25 @@
       $('#productos-nuevos-carousel').carousel();
     });
 </script>
+
+<script>
+    // Obtener la URL actual
+    var url = new URL(window.location.href);
+    // Obtener los parámetros de la URL
+    var params = new URLSearchParams(url.search);
+    // Obtener el valor del parámetro 'categoria'
+    var categoria = params.get('categoria');
+
+
+    // Buscar elementos con la misma clase que el valor obtenido
+    var elementsWithSameClass = document.getElementsByClassName(categoria);
   
+    // Agregar la clase "active" a los elementos encontrados
+    for (var i = 0; i < elementsWithSameClass.length; i++) {
+      elementsWithSameClass[i].classList.add('active');
+    }
+  </script>
+
 {% endblock %}
 
 {% block scripts %}

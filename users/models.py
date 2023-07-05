@@ -10,6 +10,10 @@ from store.models import CartItem, Cart, Producto
 from mangas.models import MangaDigital as Manga
 from .validators import validate_file_size, validate_file_extension
 
+from django.db.models import Avg
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
 
 class User(AbstractBaseUser):
     email = models.EmailField(max_length=64,unique=True,)
@@ -112,21 +116,6 @@ class MangaLeido(models.Model):
     last_page = models.IntegerField(null=True)
     finished = models.BooleanField(default=False)
 
-class Review(models.Model):
-    titulo = models.CharField(max_length=64)
-    comentario = models.TextField()
-    puntuacion = models.IntegerField()
-    likes = models.IntegerField(null=True)
-    dislikes = models.IntegerField(null=True)
-    manga = models.ForeignKey(Manga, on_delete=models.CASCADE)
-    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
-
-    def name_return(self):
-        return "{}, {}". format(self.usuario.username, self.titulo)
-    
-    def __str__(self):
-        return self.name_return()
-
 class ListaFavorito(models.Model):
     nombre_lista = models.CharField(max_length=64)
     publica = models.BooleanField(default=False)
@@ -154,3 +143,58 @@ class ListaDeseados(models.Model):
 class ItemDeseado(models.Model):
     lista = models.ForeignKey(ListaDeseados, on_delete=models.CASCADE)
     item = models.ForeignKey(Producto, on_delete=models.CASCADE)
+
+class MangaUsuario(models.Model):
+    nombre = models.CharField(max_length=64)
+    desc = models.TextField()
+    portada = models.ImageField(upload_to='mangas_comunidad')
+    timestamp = models.DateTimeField(auto_now_add=True)
+    autor = models.ForeignKey(User, on_delete=models.CASCADE)
+    promedio_puntuacion = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.nombre
+
+class MangaTomo(models.Model):
+    tomo = models.IntegerField()
+    desc = models.TextField()
+    path = models.CharField(max_length=255, null=True)
+    manga = models.ForeignKey(MangaUsuario, on_delete=models.CASCADE)
+
+    def nombre(self):
+        return "{} {}". format(self.manga.nombre, self.tomo)
+    
+    def __str__(self):
+        return self.nombre()
+    
+class Review(models.Model):
+    titulo = models.CharField(max_length=64)
+    comentario = models.TextField()
+    puntuacion = models.IntegerField()
+    likes = models.IntegerField(null=True)
+    dislikes = models.IntegerField(null=True)
+    manga = models.ForeignKey(Manga, on_delete=models.CASCADE, null=True, default=None)
+    mangaUsuario = models.ForeignKey(MangaUsuario, on_delete=models.CASCADE, null=True, default=None)
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def name_return(self):
+        return "{}, {}". format(self.usuario.username, self.titulo)
+    
+    def __str__(self):
+        return self.name_return()
+    
+@receiver(post_save, sender=Review)
+def actualizar_promedios(sender, instance, **kwargs):
+    if instance.manga:
+        manga_nombre = instance.manga.nombre
+        manga_model = Manga
+        manga_field = 'manga'
+    elif instance.mangaUsuario:
+        manga_nombre = instance.mangaUsuario.nombre
+        manga_model = MangaUsuario
+        manga_field = 'mangaUsuario'
+    else:
+        return
+
+    promedio = Review.objects.filter(**{manga_field: instance.manga or instance.mangaUsuario}).aggregate(promedio_puntuacion=Avg('puntuacion'))['promedio_puntuacion']
+    manga_model.objects.filter(nombre=manga_nombre).update(promedio_puntuacion=promedio)

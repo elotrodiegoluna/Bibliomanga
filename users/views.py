@@ -1,18 +1,21 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib import messages
+from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
 from dateutil.relativedelta import relativedelta
 from django.utils import timezone
 from django.urls import reverse
 from django.conf import settings
+from django.db.models import Avg
 import os
 
 import random
 import string
 
-from .forms import RegistrationForm, AuthForm, CambiarAvatarForm
+from .forms import *
+from mangas.forms import *
 from store.models import Cart, Producto
 from .models import *
 
@@ -374,3 +377,359 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect('index')
+
+
+
+
+# MANGAS DE LA COMUNIDAD
+def comunidad_view(request):
+    context = {}
+
+    try:
+        # Obtener los MangaUsuario que tienen al menos un MangaTomo asociado
+        mangas_usuario = MangaUsuario.objects.filter(mangatomo__isnull=False).distinct()
+
+        context['mangas'] = mangas_usuario
+
+    except MangaUsuario.DoesNotExist:
+        mangas_usuario = None
+
+    return render(request, 'comunidad/comunidad.html', context)
+
+def comunidad_manga_view(request, manga_name):
+    context = {}
+    manga = MangaUsuario.objects.get(nombre=manga_name)
+
+    try:
+        tomos = MangaTomo.objects.filter(manga__nombre=manga_name).order_by('tomo')
+    except MangaTomo.DoesNotExist:
+        # Manejar el caso en el que no se encuentre el manga
+        return HttpResponse('Manga no encontrado', status=404)
+    
+    try:
+        if request.user.is_authenticated:
+            reviews = Review.objects.exclude(usuario=request.user).filter(mangaUsuario__nombre=manga_name)
+            user_review = Review.objects.filter(usuario=request.user, mangaUsuario__nombre=manga_name).first()
+            print(user_review)
+            print(reviews)
+        else:
+            reviews = Review.objects.filter(mangaUsuario__nombre=manga_name)
+    except Review.DoesNotExist:
+        pass
+    
+
+    if request.user.is_authenticated:
+        try:
+            existing_review = Review.objects.get(mangaUsuario__nombre=manga_name, usuario=request.user)
+            existing = True
+        except Review.DoesNotExist:
+            existing_review = None
+            existing = False
+    else:
+        existing = False
+
+    
+    
+    if request.method == 'POST':
+        print('se hizo POST')
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            print('form valido')
+            if request.user.is_authenticated:
+                usuario = request.user
+                
+                if existing_review is None:
+
+                    titulo = form.cleaned_data['titulo']
+                    comentario = form.cleaned_data['comentario']
+                    rating = form.cleaned_data['rating']
+                    review = Review(titulo=titulo, comentario=comentario, puntuacion=rating, mangaUsuario=manga, usuario=usuario)
+                    review.save()
+                    print('reseña guardada')
+                    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+            else:
+                return HttpResponse('Acceso no autorizado', status=401)
+        else:
+            print(form.errors)
+    else:
+        form = ReviewForm()
+
+        #calcular calificacion
+        all_review = Review.objects.filter(mangaUsuario__nombre=manga_name)
+        promedio = all_review.aggregate(promedio_puntuacion=Avg('puntuacion'))['promedio_puntuacion']
+        manga.promedio_puntuacion = promedio
+        manga.save()
+    
+    if request.user.is_authenticated:
+        context = {
+            'tomos': tomos,
+            'manga': manga,
+            'form': form,
+            'existing': existing,
+            'reviews': reviews,
+            'promedio': promedio,
+            'user_review': user_review
+        }
+    else:
+        context = {
+            'tomos': tomos,
+            'manga': manga,
+            'form': form,
+            'existing': existing,
+            'promedio': promedio,
+            'reviews': reviews,
+        }
+    return render(request, 'comunidad/comunidad_mangapage.html', context)
+
+@login_required
+def creador_view(request):
+    context = {}
+
+    usuario = get_object_or_404(User, id=request.user.id)
+
+    try:
+        mangas = MangaUsuario.objects.filter(autor=request.user)
+        # paginación
+        paginator = Paginator(mangas, 6) # listar por 5
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+
+        context = {
+            'usuario': usuario,
+            'mangas': mangas,
+            'page_obj': page_obj
+        }
+
+    except MangaUsuario.DoesNotExist:
+        mangas = None
+        context = {
+            'usuario': usuario,
+            'mangas': mangas,
+        }
+
+    return render(request, 'comunidad/creador/creador_main.html', context)
+
+@login_required
+def creador_crear_view(request):
+    context = {}
+
+    usuario = get_object_or_404(User, id=request.user.id)
+
+    if request.method == 'POST':
+        form = MangaUsuarioForm(request.POST, request.FILES)
+        if form.is_valid():
+            manga_usuario = form.save(commit=False)
+            manga_usuario.autor = request.user
+            manga_usuario.save()
+
+            # nombre del manga
+            nombre_manga = manga_usuario.nombre
+
+            # ruta de la carpeta del manga
+            manga_folder = os.path.join('mangas_comunidad', nombre_manga)
+
+            # crear la carpeta
+            media_root = settings.MEDIA_ROOT
+            manga_folder_path = os.path.join(media_root, manga_folder)
+            if not os.path.exists(manga_folder_path):
+                os.makedirs(manga_folder_path)
+
+            # cambiar nombre de la foto
+            portada = request.FILES['portada']
+            portada_extension = os.path.splitext(portada.name)[1]
+            portada_nombre = 'portada' + portada_extension
+            portada_path = os.path.join(manga_folder_path, portada_nombre)
+
+            # guardar portada con el nuevo nombre
+            with open(portada_path, 'wb') as file:
+                for chunk in portada.chunks():
+                    file.write(chunk)
+
+            messages.success(request, 'Tu manga {} se ha creado correctamente.'.format(nombre_manga))
+            return redirect('creador')
+        
+        else:
+            messages.success(request, 'Hubo un error con el formulario, tu manga {} no se pudo crear.'.format(nombre_manga))
+            HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+            
+    else:
+        form = MangaUsuarioForm()
+
+    context = {
+        'form': form,
+        'usuario': usuario
+    }
+    return render(request, 'comunidad/creador/creador_crear.html', context)
+
+def creador_administrar_view(request, manga_name):
+    context = {}
+
+    manga = get_object_or_404(MangaUsuario, nombre=manga_name)
+
+    if manga:
+        try:
+            tomos = MangaTomo.objects.filter(manga=manga).order_by('tomo')
+        except MangaTomo.DoesNotExist:
+            tomos = None
+
+
+    try:
+        if request.user.is_authenticated:
+            reviews = Review.objects.exclude(usuario=request.user).filter(mangaUsuario__nombre=manga_name)
+            user_review = Review.objects.filter(usuario=request.user, mangaUsuario__nombre=manga_name).first()
+            print(user_review)
+            print(reviews)
+        else:
+            reviews = Review.objects.filter(mangaUsuario__nombre=manga_name)
+    except Review.DoesNotExist:
+        pass
+    
+
+    if request.user.is_authenticated:
+        try:
+            existing_review = Review.objects.get(mangaUsuario__nombre=manga_name, usuario=request.user)
+            existing = True
+        except Review.DoesNotExist:
+            existing_review = None
+            existing = False
+    else:
+        existing = False
+    
+
+
+    #calcular calificacion
+    all_review = Review.objects.filter(mangaUsuario__nombre=manga_name)
+    promedio = all_review.aggregate(promedio_puntuacion=Avg('puntuacion'))['promedio_puntuacion']
+    manga.promedio_puntuacion = promedio
+    manga.save()
+
+    
+    if request.user.is_authenticated:
+        context = {
+            'manga': manga,
+            'existing': existing,
+            'reviews': reviews,
+            'user_review': user_review,
+            'tomos': tomos,
+        }
+    else:
+        context = {
+            'manga': manga,
+            'existing': existing,
+            'reviews': reviews,
+            'tomos': tomos,
+        }
+    return render(request, 'comunidad/creador/creador_manga.html', context)
+
+
+
+import os, tempfile, shutil, patoolib
+from patoolib import extract_archive
+def subir_tomo(request, manga_id):
+    manga = MangaUsuario.objects.get(id=manga_id)
+    if request.method == 'POST':
+        print('POST:'+str(request.POST))
+        print(request.FILES)
+        form = MangaTomoForm(request.POST, request.FILES)
+        if form.is_valid():
+            manga_tomo = form.save(commit=False)
+            print(request.FILES)
+            tomo = form.cleaned_data['tomo']
+            desc = form.cleaned_data['desc']
+            archivo = form.cleaned_data['archivo']
+
+            # verificar si ya esta subido un tomo con el mismo numero
+            try:
+                tomo_existente = MangaTomo.objects.get(manga=manga, tomo=tomo)
+                # redirigir
+                messages.error(request, 'Ya subiste un tomo con esa numeración.')
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+            except MangaTomo.DoesNotExist: # no existe
+                pass # seguir
+
+
+            # extraer archivo
+
+            temp_dir = tempfile.mkdtemp()
+            file_path = os.path.join(temp_dir, archivo.name)
+
+            with open(file_path, 'wb') as file:
+                for chunk in archivo.chunks():
+                    file.write(chunk)
+            
+            # extraer archivo en temp
+            patoolib.extract_archive(file_path, outdir=temp_dir)
+            # obtener carpeta
+            inner_dir = next(os.walk(temp_dir))[1][0] if len(next(os.walk(temp_dir))[1]) > 0 else None
+
+            imagenes_dir = os.path.join(settings.MEDIA_ROOT, 'mangas_comunidad')
+            manga_dir = os.path.join(imagenes_dir, manga.nombre, str(tomo))
+
+            if os.path.exists(manga_dir):
+                shutil.rmtree(manga_dir)
+            os.makedirs(manga_dir)
+
+            if inner_dir:
+                inner_temp_dir = os.path.join(temp_dir, inner_dir)
+                for filename in os.listdir(inner_temp_dir):
+                    archivo_actual = os.path.join(inner_temp_dir, filename)
+                    if filename.lower().endswith(('.jpg', '.jpeg', '.png')):
+                        try:
+                            shutil.move(archivo_actual, manga_dir)
+                        except Exception as e:
+                            print("Error al mover el archivo:", str(e))
+            else:
+                for filename in os.listdir(temp_dir):
+                    archivo_actual = os.path.join(temp_dir, filename)
+                    if filename.lower().endswith(('.jpg', '.jpeg', '.png')):
+                        shutil.move(archivo_actual, manga_dir)
+
+            shutil.rmtree(temp_dir)
+
+            manga_tomo.path = os.path.relpath(manga_dir, settings.MEDIA_ROOT)
+            manga_tomo.manga = manga
+            manga_tomo.save()
+
+            messages.error(request, 'El tomo se subió correctamente')
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        else:
+            messages.error(request, 'Hubo un error con el formulario, el tomo no se subió.')
+            print(form.errors)
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    messages.error(request, 'Sucedió un error, no se realizó ningún cambio')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+def editar_manga_comunidad(request, manga_id):
+    if request.method == 'POST':
+        manga = MangaUsuario.objects.get(id=manga_id)
+        form = EditarMangaForm(request.POST, instance=manga)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'El manga se editó correctamente.')
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        else:
+            messages.error(request, 'Hubo un error con el formumlario.')
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        
+def eliminar_manga_comunidad(request, manga_id):
+    if request.method == 'POST':
+        try:
+            manga = MangaUsuario.objects.get(id=manga_id)
+            manga.delete()
+            messages.success(request, 'El manga se eliminó correctamente.')
+            return redirect('creador')
+        except Exception as e:
+            messages.error(request, 'No se pudo eliminar el manga: {}'.format(e))
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+def eliminar_tomo(request, tomo_id):
+    if request.method == 'POST':
+        try:
+            tomo = MangaTomo.objects.get(id=tomo_id)
+            tomo.delete()
+            messages.success(request, 'Tomo eliminado correctamente.')
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        except Exception as e:
+            messages.error(request, 'No se pudo eliminar este tomo.')
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}Creador en{% endblock %}
+
+{% load static %}
+
+{% block styles %}
+<link type="text/css" rel="stylesheet" href="{% static 'css/myaccount.css' %}"/>
+{% endblock %}
+
+{% block content %}
+
+<div class="erc-account">
+    <div class="account-header">
+        <div class="content-wrapper section-avatar">
+            <div class="account-user-info">
+                <div class="avatar-image-wrapper">
+                    <div class="avatar">
+                        <div class="content-image">
+                            <picture>
+                                <img class="content-image-img" src=" {{ usuario.avatar.url }}" alt="avatar">
+                            </picture>
+                        </div>
+                    </div>
+                </div>
+                <div class="user-info-wrapper">
+                    <h1>{{ usuario.username }}</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content-wrapper">
+        <div class="page-layout">
+            <div class="account-navigation">
+                <div class="navigation-section">
+                    <h3>Herramientas de gestión</h3>
+                    <a class="administrar nav-link" href="{% url 'creador' %}">Administrar mis mangas</a>
+                </div>
+                <div class="navigation-section second">
+                    <a class="crear nav-link" href="{% url 'creador-crear' %}">Crear nuevo manga</a>
+                </div>
+            </div>
+            <div class="account-content">
+                {% block account-content %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>  
+</div>
+<hr>
+
+<script> 
+    // Obtener el valor después de la última barra en la URL
+    var pathArray = window.location.pathname.split('/').filter(Boolean).pop();
+    // Buscar elementos con la misma clase que el valor obtenido
+    var elementsWithSameClass = document.getElementsByClassName(pathArray);
+    // Agregar la clase "active" a los elementos encontrados
+    for (var i = 0; i < elementsWithSameClass.length; i++) {
+      elementsWithSameClass[i].classList.add('active');
+    }
+</script>
+{% endblock %}

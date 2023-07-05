@@ -42,7 +42,11 @@
             Página {{ current_image }} de {{ total_images }}
         </div>
         <div class="reader-exit">
+            {% if manga_comunidad %}
+            <a class="btn btn-primary" type="button" href="{% url 'mangapage-comunidad' manga.manga.nombre %}">Salir del lector</a>
+            {% else %}
             <a class="btn btn-primary" type="button" href="{% url 'mangapage' manga.nombre %}">Salir del lector</a>
+            {% endif %}
         </div>
     </div>
 <script>

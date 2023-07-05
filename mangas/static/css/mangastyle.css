@@ -139,7 +139,13 @@ h2::after {
 .star-rating li {
 	padding: 0;
 }
-.star-rating i {
+
+.list-inline-item {
 	font-size: 14px;
-	color: #ffc000;
+	color: grey;
+}
+
+.list-inline-item.active {
+	font-size: 14px;
+	color: gold;
 }

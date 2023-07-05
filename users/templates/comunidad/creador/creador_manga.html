@@ -1,0 +1,318 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ manga.nombre }} en{% endblock %}
+
+{% load static %}
+
+{% block styles %}
+<link type="text/css" rel="stylesheet" href="{% static 'css/mangapage.css' %}"/>
+<link type="text/css" rel="stylesheet" href="{% static 'css/myaccount.css' %}"/>
+{% endblock %}
+
+{% block content %}
+
+
+<section class="manga">
+    <div class="container row-container">
+        <a id='volver-panel' class="btn btn-primary btn-manga" type="button" href="{% url 'creador' %}">Volver al Panel</a>
+        <h1 class="manga-title">{{ manga.nombre }}</h1>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <div class="scroll-box">
+                    <ul class="list-group">
+                        {% for tomo in tomos %}
+                        <li class="list-group-item clickeable" onclick="EliminarTomo('{{ tomo.id }}')">
+                            <div class="d-flex align-items-center">
+                                <a>Tomo {{ tomo.tomo }} </a>
+                                <span id="opciones-tomo" class="fa-solid fa-trash"></span>
+                            </div>
+                        </li>
+                        {% endfor %}
+                        {% if not tomos %}
+                        <h3> ¡Aún no has subido tomos!</h3>
+                        {% endif %}
+                        <!-- ... -->
+                    </ul>
+                </div>
+                <div class="acciones justify-content-center d-flex">
+                    <a class="btn btn-primary btn-manga" type="button" href="{% url 'mangapage-comunidad' manga.nombre %}">Ver manga</a>
+                    <br>
+                    <button onclick="EditarManga()" class="btn btn-primary btn-manga">Editar manga</button>
+                    <br>
+                    <button id="subir-btn" onclick="AgregarTomo()" class="btn btn-primary btn-manga">Agregar tomo</button>
+                    <br>
+                    <button onclick="EliminarManga()" class="btn btn-primary btn-manga eliminar">Eliminar manga</button>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-4">
+                        <img id="manga-img" src="{{ manga.portada.url }}">
+                    </div>
+                    <div class="col-8">
+                        <div class="d-flex align-items-center">
+                            <p><b>Descripción:</b> {{ manga.desc }}</p>
+                        </div>
+                        <div class="star-rating d-flex">
+                            <div class="row puntuacion">
+                              <div class="col-auto">
+                                <ul class="list-inline">
+                                  <li class="list-inline-item {% if manga.promedio_puntuacion >= 1 %} active{%endif%}">
+                                    <i class="fa-solid fa-star"></i>
+                                  </li>
+                                  <li class="list-inline-item {% if manga.promedio_puntuacion >= 2 %} active{% endif %}">
+                                    <i class="fa-solid fa-star"></i>
+                                  </li>
+                                  <li class="list-inline-item {% if manga.promedio_puntuacion >= 3 %} active{% endif %}">
+                                    <i class="fa-solid fa-star"></i>
+                                  </li>
+                                  <li class="list-inline-item {% if manga.promedio_puntuacion >= 4 %} active{% endif %}">
+                                    <i class="fa-solid fa-star"></i>
+                                  </li>
+                                  <li class="list-inline-item {% if manga.promedio_puntuacion >= 5 %} active{% endif %}">
+                                    <i class="fa-solid fa-star"></i>
+                                  </li>
+                                </ul>
+                              </div>
+                              <div class="col-auto">
+                                <p>{{manga.promedio_puntuacion}} estrellas.</p>
+                              </div>
+                            </div>
+                          </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-overlay" id="modal-overlay"></div>
+            <div class="modal-container" id="modal-container">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Agregar tomo</h5>
+                        <button type="button" class="btn-close btn-close-white" onclick="CerrarAgregarTomo()" aria-label="Close"></button>
+                    </div>
+                    <hr>
+                    <form method="POST" action="{% url 'subirtomo' manga.id %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                        <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="tomo">Número del Tomo:</label>
+                                    <input type="number" class="form-control bg-dark text-light" id="tomo" name="tomo" placeholder="Número del Tomo" required>
+                                    </div>
+                                    <div class="form-group">
+                                    <label for="desc">Descripción:</label>
+                                    <textarea class="form-control bg-dark text-light" id="desc" name="desc" placeholder="Descripción" required></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                    <label for="archivo">Archivo:</label>
+                                    <input type="file" class="form-control-file bg-dark text-light" id="archivo" name="archivo" accept=".cbr, .cbz" required>
+                                </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-primary btn-manga" type="submit">Subir</button>
+                            <button class="btn btn-secondary" type="button" onclick="CerrarAgregarTomo()">Cerrar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="modal-overlay" id="overlay-editar"></div>
+            <div class="modal-container" id="container-editar">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Editar manga</h5>
+                        <button type="button" class="btn-close btn-close-white" onclick="CerrarEditarManga()" aria-label="Close"></button>
+                    </div>
+                    <hr>
+                    <form method="POST" action="{% url 'editarmanga' manga.id %}">
+                    {% csrf_token %}
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="tomo">Nombre del manga:</label>
+                                <input readonly value="{{manga.nombre}}" type="text" class="form-control bg-dark text-light" id="nombre" name="nombre" placeholder="Nombre del manga">
+                            </div>
+                            <div class="form-group">
+                                <label for="desc">Descripción:</label>
+                                <textarea class="form-control bg-dark text-light" value="{{manga.desc}}" id="desc" name="desc" placeholder="{{manga.desc}}" required>{{manga.desc}}</textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-primary btn-manga" type="submit">Guardar</button>
+                            <button class="btn btn-secondary" type="button" onclick="CerrarEditarManga()">Cerrar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="modal-overlay" id="overlay-eliminar"></div>
+            <div class="modal-container" id="container-eliminar">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Eliminar manga</h5>
+                        <button type="button" class="btn-close btn-close-white" onclick="CerrarEliminarManga()" aria-label="Close"></button>
+                    </div>
+                    <hr>
+                    <form method="POST" action="{% url 'eliminarmanga' manga.id %}">
+                    {% csrf_token %}
+                        <div class="modal-body">
+                            <p>¿Estas seguro de eliminar {{manga.nombre}}?</p>
+                            <p>Esta acción no se puede deshacer.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-primary btn-manga" type="submit">Eliminar</button>
+                            <button class="btn btn-secondary" type="button" onclick="CerrarEliminarManga()">Cerrar</button>
+                        </div>
+                </form>
+                </div>
+            </div>
+        </div>
+        <div class="modal-overlay" id="overlay-eliminar-tomo"></div>
+            <div class="modal-container" id="container-eliminar-tomo">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Eliminar tomo</h5>
+                        <button type="button" class="btn-close btn-close-white" onclick="CerrarEliminarManga()" aria-label="Close"></button>
+                    </div>
+                    <hr>
+                    <form id='form-eliminar-tomo' method="POST" action="">
+                    {% csrf_token %}
+                        <div class="modal-body">
+                            <p>¿Estas seguro de eliminar el tomo {{ tomo.tomo }} de {{manga.nombre}}?</p>
+                            <p>Esta acción no se puede deshacer.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-primary btn-manga" type="submit">Eliminar</button>
+                            <button class="btn btn-secondary" type="button" onclick="CerrarEliminarTomo()">Cerrar</button>
+                        </div>
+                </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <br>
+    {% for review in reviews %}
+    <h1 id="review-title">Reseñas</h1>
+    <div class="review-container">
+        <div class="form-container">
+            <div class="d-flex flex-start align-items-center">
+                <img class="rounded-circle shadow-1-strong me-3"
+                  src="{{ review.usuario.avatar.url }}" alt="avatar" width="60"
+                  height="60" />
+                <div>
+                    <h6 class="user-name fw-bold mb-1">{{ review.usuario.username }}</h6>
+                    <label for="star5" title="Excelente">{% if review.puntuacion > 0 %}<i class="fa-solid fa-star" style="color: gold;"></i>{% else %}<i class="fa-solid fa-star"></i>{% endif %}</label>
+                    <label for="star4" title="Muy bueno" >{% if review.puntuacion > 1 %}<i class="fa-solid fa-star" style="color: gold;"></i>{% else %}<i class="fa-solid fa-star"></i>{% endif %}</label>
+                    <label for="star3" title="Bueno">{% if review.puntuacion > 2 %}<i class="fa-solid fa-star" style="color: gold;"></i>{% else %}<i class="fa-solid fa-star"></i>{% endif %}</label>
+                    <label for="star2" title="Regular" >{% if review.puntuacion > 3 %}<i class="fa-solid fa-star" style="color: gold;"></i>{% else %}<i class="fa-solid fa-star"></i>{% endif %}</label>
+                    <label for="star1" title="Malo" >{% if review.puntuacion > 4 %}<i class="fa-solid fa-star" style="color: gold;"></i>{% else %}<i class="fa-solid fa-star"></i>{% endif %}</label>
+                </div>
+                {% if request.user.is_staff %}
+                <a id='delete-review' href="{% url 'deletereview' review.id %}"><i class="fa-sharp fa-solid fa-trash"></i></a>
+                {% endif %}
+              </div>
+              <br>
+              <h3>
+                {{ review.titulo }}
+              </h3>
+              <p class="mt-3 mb-4 pb-2">
+                {{ review.comentario }}
+              </p>
+        </div>
+        </div>
+    </div>
+    {% endfor %}
+    <hr>
+</section>
+
+
+<div class="modal fade" id="modal-message" tabindex="-1" role="dialog" aria-labelledby="modal-messageLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal-messageLabel">Mensaje de Confirmación</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% if messages %}
+<script>
+    $(document).ready(function() {
+        $('#modal-message').modal('show');
+    });
+</script>
+{% endif %}
+
+<script>
+    
+    function AgregarTomo() {
+    $('#modal-overlay').fadeIn();
+    $('#modal-container').fadeIn();
+    $('body').addClass('modal-open');
+  }
+  function CerrarAgregarTomo() {
+    console.log("close");
+    $('#modal-overlay').fadeOut();
+    $('#modal-container').fadeOut();
+    $('body').removeClass('modal-open');
+  }
+
+  function EditarManga() {
+    console.log("open editarmanga");
+    $('#overlay-editar').fadeIn();
+    $('#container-editar').fadeIn();
+    $('body').addClass('modal-open');
+  }
+
+  function CerrarEditarManga() {
+    console.log("close editarmanga");
+    $('#overlay-editar').fadeOut();
+    $('#container-editar').fadeOut();
+    $('body').removeClass('modal-open');
+  }
+
+  function EliminarManga() {
+    $('#overlay-eliminar').fadeIn();
+    $('#container-eliminar').fadeIn();
+    $('body').addClass('modal-open');
+  }
+
+  function CerrarEliminarManga() {
+    $('#overlay-eliminar').fadeOut();
+    $('#container-eliminar').fadeOut();
+    $('body').removeClass('modal-open');
+  }
+
+  function EliminarTomo(tomoId) {
+    console.log(tomoId);
+    var form = document.getElementById('form-eliminar-tomo');
+    form.action = `/creador/manga/eliminar-tomo/${tomoId}`;
+
+    $('#overlay-eliminar-tomo').fadeIn();
+    $('#container-eliminar-tomo').fadeIn();
+    $('body').addClass('modal-open');
+  }
+
+  function CerrarEliminarTomo() {
+    $('#overlay-eliminar-tomo').fadeOut();
+    $('#container-eliminar-tomo').fadeOut();
+    $('body').removeClass('modal-open');
+  }
+</script>
+
+{% endblock %}

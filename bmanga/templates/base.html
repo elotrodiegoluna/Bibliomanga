@@ -41,7 +41,7 @@
               <a class="nav-text" type="button" href="{% url 'store' %}">tienda</a>
             </li>
             <li class="nav-item-left">
-              <a class="nav-text" type="button" href="#">comunidad</a>
+              <a class="nav-text" type="button" href="{% url 'comunidad' %}">comunidad</a>
             </li>
             <li class="nav-item-left">
               <a class="nav-text" type="button" href="{% url 'mangas' %}">Mangas</a>
@@ -69,11 +69,13 @@
                   Mi cuenta
                 </a>
                 <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="homenav-dropdown">
-                  <li><a class="dropdown-item" href="{% url 'myaccount' %}">Configurar cuenta</a></li>
-                  <li><a class="dropdown-item" href="{% url 'myorders' %}">Mis pedidos</a></li>
+                  
                   {% if user.is_superuser or user.is_admin or user.is_staff %}
                     <li><a class="dropdown-item" href="{% url 'adminmain' %}">Panel administrador</a></li>
                   {% endif %}
+                  <li><a class="dropdown-item" href="{% url 'creador' %}">Panel de creador</a></li>
+                  <li><a class="dropdown-item" href="{% url 'myorders' %}">Mis pedidos</a></li>
+                  <li><a class="dropdown-item" href="{% url 'myaccount' %}">Configurar cuenta</a></li>
                   <li><a class="dropdown-item" href="{% url 'logout' %}">Cerrar sesión</a></li>
                 </ul>
               </div>

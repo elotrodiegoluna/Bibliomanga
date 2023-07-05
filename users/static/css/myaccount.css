@@ -168,3 +168,117 @@ body {
     font-size: 48px;
     padding-bottom: 28px;
 }
+
+
+
+/* COMUNIDAD */
+
+.creador-crear {
+    margin-bottom: 70px;
+}
+
+#modal-message {
+    color: black;
+}
+
+.mangas-digitales .col-md {
+    margin-bottom: 50px;
+}
+
+.mangas-digitales .card-img-top {
+    max-width: 100%;
+    height: 300px;
+}
+
+/* PAGINATOR */
+.page-item .page-link {
+    border-color: #aa0b36;
+    background-color: #212529;
+    color: white;
+}
+
+.pagination .page-link:hover {
+    background-color: #aa0b36;
+  }
+
+.page-item.disabled .page-link {
+    background-color: #621329;
+    color: #979797;
+}
+
+.page-item.active .page-link {
+    background-color: #aa0b36;
+}
+
+.clearfix {
+    margin: 0 auto;
+    justify-content: left;
+}
+
+.pagination {
+    display:inline-flex;
+}
+
+.btn.btn-primary.btn-manga:hover {
+    background-color: #86092b;
+    border-color: #86092b;
+    scale: 1.02;
+}
+.btn.btn-primary.btn-manga {
+    background-color: #aa0b36;
+    border-color: #aa0b36;
+    margin-right: 10px;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    display: none;
+  }
+  
+  .modal-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color:#212529;
+    padding: 20px;
+    border-radius: 5px;
+    z-index: 10000;
+    display: none;
+  }
+
+.modal-content .form-group {
+    margin-bottom: 27px;
+}
+
+.btn.btn-primary.btn-manga.eliminar:hover {
+    color: #aa0b36;
+}
+
+.btn.btn-primary.btn-manga.eliminar {
+    background-color: #000;
+    color: #fff;
+    border-color: #000;
+}
+
+#opciones-tomo {
+    position: absolute;
+    right: 0;
+    margin-right: 15px;
+    color: #c4c4c4;
+    font-size: 24px;
+}
+
+.acciones {
+    margin-top: 10px;
+}
+
+#volver-panel {
+    margin-bottom: 15px;
+}
