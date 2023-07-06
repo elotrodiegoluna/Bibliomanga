@@ -55,7 +55,7 @@
                 <div class="col-lg-3 offset-sm-0 offset-1">
                     <div class="card">
                         <a href="{% url 'product' producto.id %}">
-                            <img class="card-img-top d-flex align-items-center justify-content-center" src="{{ producto.imagen }}" alt="{{ producto.nombre }}">
+                            <img class="card-img-top d-flex align-items-center justify-content-center" src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}">
                         </a>
                         <div class="card-body">
 

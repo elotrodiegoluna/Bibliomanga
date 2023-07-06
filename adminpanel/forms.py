@@ -1,8 +1,10 @@
 from django import forms
-from store.models import Producto
+from store.models import Producto, Categoria
 from mangas.models import MangaDigital
 
 class ProductoForm(forms.ModelForm):
+    categoria = forms.ModelChoiceField(queryset=Categoria.objects.all())
+
     class Meta:
         model = Producto
         fields = [

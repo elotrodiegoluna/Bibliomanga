@@ -325,6 +325,7 @@ def adminusers_view(request):
 
 import os, tempfile, shutil, patoolib
 from patoolib import extract_archive
+from pyunpack import Archive
 @user_passes_test(is_admin, login_url='index', redirect_field_name=None)
 def subir_manga(request):
     if request.method == 'POST':
@@ -341,8 +342,9 @@ def subir_manga(request):
                     file.write(chunk)
 
             # extraer archivo en temp
-            patoolib.extract_archive(file_path, outdir=temp_dir)
-
+            #patoolib.extract_archive(file_path, outdir=temp_dir)
+            Archive(file_path).extractall(temp_dir)
+            
             # obtener carpeta
             inner_dir = next(os.walk(temp_dir))[1][0] if len(next(os.walk(temp_dir))[1]) > 0 else None
 

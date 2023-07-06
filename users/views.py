@@ -659,6 +659,7 @@ def creador_administrar_view(request, manga_name):
 
 import os, tempfile, shutil, patoolib
 from patoolib import extract_archive
+from pyunpack import Archive
 def subir_tomo(request, manga_id):
     manga = MangaUsuario.objects.get(id=manga_id)
     if request.method == 'POST':
@@ -696,7 +697,8 @@ def subir_tomo(request, manga_id):
                     file.write(chunk)
             
             # extraer archivo en temp
-            patoolib.extract_archive(file_path, outdir=temp_dir)
+            #patoolib.extract_archive(file_path, outdir=temp_dir)
+            Archive(file_path).extractall(temp_dir)
             # obtener carpeta
             inner_dir = next(os.walk(temp_dir))[1][0] if len(next(os.walk(temp_dir))[1]) > 0 else None
 
