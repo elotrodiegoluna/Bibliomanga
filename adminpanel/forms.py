@@ -27,7 +27,7 @@ class ProductoForm(forms.ModelForm):
                     field.initial = getattr(instance, field_name)
 
 class MangaForm(forms.ModelForm):
-    archivo = forms.FileField(label='Archivo', required=True, widget=forms.ClearableFileInput(attrs={'accept': '.cbr,.cbz'}))
+    archivo = forms.FileField(label='Archivo', required=True, widget=forms.ClearableFileInput(attrs={'accept': '.cbr,.cbz,.7z'}))
 
     class Meta:
         model = MangaDigital

@@ -658,16 +658,7 @@ def creador_administrar_view(request, manga_name):
 
 
 import os, tempfile, shutil
-import rarfile
-def extract_cbr(file_path, output_dir):
-    try:
-        with rarfile.RarFile(file_path) as rf:
-            rf.extractall(output_dir)
-        return True
-    except Exception as e:
-        print(f"Error al descomprimir el archivo CBR: {str(e)}")
-        return False
-    
+from py7zr import SevenZipFile
 def subir_tomo(request, manga_id):
     manga = MangaUsuario.objects.get(id=manga_id)
     if request.method == 'POST':
@@ -681,7 +672,7 @@ def subir_tomo(request, manga_id):
             desc = form.cleaned_data['desc']
             archivo = form.cleaned_data['archivo']
 
-            if not archivo.name.lower().endswith(('.cbz', '.cbr')):
+            if not archivo.name.lower().endswith(('.cbz', '.cbr', '.7z')):
                 messages.success(request, 'El tomo que quieres subir no es un formato admitido, por favor usa un formato .cbr o .cbz')
                 return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
@@ -703,14 +694,10 @@ def subir_tomo(request, manga_id):
             with open(file_path, 'wb') as file:
                 for chunk in archivo.chunks():
                     file.write(chunk)
-            
+                    
             # Extraer archivo CBR en temp_dir
-            if file_path.lower().endswith('.cbr'):
-                if not extract_cbr(file_path, temp_dir):
-                    # Error al descomprimir el archivo CBR
-                    shutil.rmtree(temp_dir)
-                    messages.error(request, 'Error al descomprimir el archivo CBR.')
-                    return redirect('adminmangas')
+            with SevenZipFile(file_path, mode='r') as z:
+                z.extractall(temp_dir)
 
             # obtener carpeta
             inner_dir = next(os.walk(temp_dir))[1][0] if len(next(os.walk(temp_dir))[1]) > 0 else None

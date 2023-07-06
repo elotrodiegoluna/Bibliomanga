@@ -63,7 +63,7 @@ class MangaUsuarioForm(forms.ModelForm):
     
 
 class MangaTomoForm(forms.ModelForm):
-    archivo = forms.FileField(label='Archivo', required=True, widget=forms.ClearableFileInput(attrs={'accept': '.cbr,.cbz'}))
+    archivo = forms.FileField(label='Archivo', required=True, widget=forms.ClearableFileInput(attrs={'accept': '.cbr,.cbz,.7z'}))
 
     class Meta:
         model = MangaTomo

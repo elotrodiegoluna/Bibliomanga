@@ -33,7 +33,7 @@
                     <figure class="itemside mb-3">
                         {% for i in mis_productos %}
                         {% if i.id == producto.id %}
-                        <div class="aside"><img src="{{ i.imagen }}" class="img-sm border"></div>
+                        <div class="aside"><img src="{{ i.imagen.url }}" class="img-sm border"></div>
                         {% endif %}
                         {% endfor %}
                         

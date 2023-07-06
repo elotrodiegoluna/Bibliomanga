@@ -329,16 +329,7 @@ def adminusers_view(request):
 
 
 import os, tempfile, shutil
-import rarfile
-
-def extract_cbr(file_path, output_dir):
-    try:
-        with rarfile.RarFile(file_path) as rf:
-            rf.extractall(output_dir)
-        return True
-    except Exception as e:
-        print(f"Error al descomprimir el archivo CBR: {str(e)}")
-        return False
+from py7zr import SevenZipFile
     
 @user_passes_test(is_admin, login_url='index', redirect_field_name=None)
 def subir_manga(request):
@@ -356,12 +347,8 @@ def subir_manga(request):
                     file.write(chunk)
 
             # Extraer archivo CBR en temp_dir
-            if file_path.lower().endswith('.cbr'):
-                if not extract_cbr(file_path, temp_dir):
-                    # Error al descomprimir el archivo CBR
-                    shutil.rmtree(temp_dir)
-                    messages.error(request, 'Error al descomprimir el archivo CBR.')
-                    return redirect('adminmangas')
+            with SevenZipFile(file_path, mode='r') as z:
+                z.extractall(temp_dir)
 
             # obtener carpeta
             inner_dir = next(os.walk(temp_dir))[1][0] if len(next(os.walk(temp_dir))[1]) > 0 else None
