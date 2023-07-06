@@ -23,7 +23,7 @@
 							<div class="thumb-wrapper">
 								<div class="img-box">
 									<a href="{% url 'mangapage' manga_nuevo.nombre %}">
-										<img src="{{ manga_nuevo.portada }}" class="img-fluid" alt="">
+										<img src="{{ manga_nuevo.portada.url }}" class="img-fluid" alt="">
 									</a>
 								</div>
 								<div class="thumb-content">
@@ -63,7 +63,7 @@
 							<div class="thumb-wrapper">
 								<div class="img-box">
 									<a href="{% url 'mangapage' manga_nuevo.nombre %}">
-										<img src="{{ manga_nuevo.portada }}" class="img-fluid" alt="">
+										<img src="{{ manga_nuevo.portada.url }}" class="img-fluid" alt="">
 									</a>
 								</div>
 								<div class="thumb-content">
@@ -130,7 +130,7 @@
             <div class="col-lg-3 col-sm-4 col-11 offset-sm-0 offset-1">
               <div class="card">
                 <a href="{% url 'mangapage' manga.nombre %}">
-                  <img class="card-img-top" src="{{ manga.portada }}" alt="{{ manga.nombre }}">
+                  <img class="card-img-top" src="{{ manga.portada.url }}" alt="{{ manga.nombre }}">
                 </a>
                 <div class="card-body card-mangadigital">
                   <p class="manga-nombre" href="#">{{ manga.nombre }} {{ manga.tomo }}</p>

@@ -1,0 +1,388 @@
+#wrapper { 
+    position: relative; 
+}
+
+/* NEW NAVBAR START */
+#logo {
+    width: 260px;
+    height: 80px;
+    margin-right: 4%;
+}
+
+.home-nav-main {
+    margin-top: 2%;
+}
+
+.home-nav {
+    display: flex;
+}
+#homenav-dropdown {
+    margin-right: 15px;
+    text-transform: uppercase;
+}
+
+.home-nav .nav-item-left{
+    padding-left: 5%;
+}
+
+.home-nav .nav-item-right{
+    padding-right: 5%;
+}
+
+.home-nav .nav-text {
+    text-transform: uppercase;
+    color: #ffffff;
+}
+
+.home-nav .nav-text:hover {
+    color: #aa0b36;
+}
+
+.home-nav-logo {
+    padding-right: 15px;
+}
+/* NEW NAVBAR END */
+
+.navbar {
+    background-color: #0000001f;
+    padding-top: 4%;
+    padding-bottom: 4%;
+}
+
+.navbar-brand {
+    position: absolute;
+    display: flex;
+    left: 40%;
+}
+
+#options-left {
+    position: absolute;
+    right: 64%;
+}
+
+#options-right {
+    position: absolute;
+    left: 62%;
+}
+
+.carrito-boton a {
+    color: rgb(255, 255, 255);
+    padding-left: 15px;
+}
+
+.carrito-boton a:hover {
+    color: #aa0b36;
+}
+
+/* INDEX */
+body {
+	color: #E9E9E9;
+	background: radial-gradient(30% 40% at 40% 30%, rgba(33, 36, 41, .5) 0%, rgba(33, 36, 41, 0) 100%) no-repeat, url("../img/acc_account_back.6f6174af7acf.png") -30vw 0 no-repeat, #212429;
+	font-family: "Motiva Sans", Sans-serif;
+	font-weight: normal;
+    background-color: #1f2428;
+}
+/* LOGIN */
+
+.form-signin {
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+
+.form-signin .mb-4 {
+    margin-bottom: 1.5rem !important;
+}
+
+.form-signin .form-control {
+    padding: 10px;
+}
+
+.form-signin h1 {
+    font-family: 'Noto Sans JP', sans-serif;
+    text-transform: uppercase;
+    color: #b8b6b4;
+    text-align: center;
+    padding-top: 40%;
+    padding-bottom: 5%;
+}
+
+.form-signin p {
+    color: white;
+    font-size: 13px;
+}
+
+#checkbox-text {
+    color: #b8b6b4;
+}
+
+.form-signin input {
+    background-color:#32353C;
+    border: 1px solid #26282D;
+    color: #E9E9E9;
+}
+
+body.login {
+	color: #E9E9E9;
+	background: radial-gradient(30% 40% at 40% 30%, rgba(33, 36, 41, .5) 0%, rgba(33, 36, 41, 0) 100%) no-repeat, url("../img/acc_account_back.6f6174af7acf.png") -30vw 0 no-repeat, #212429;
+	font-family: "Motiva Sans", Sans-serif;
+	font-weight: normal;
+}
+
+.login-title {
+    font-family: 'Noto Sans JP', sans-serif;
+    text-transform: uppercase;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    font-size: 34px;
+    color:white;
+    margin-bottom:30px;
+    margin-top: 50px;
+    font-weight: 200;
+    letter-spacing: 2px;
+    text-align: center;
+}
+
+.login .form-control, .login select {
+	max-width: 300px;
+	background: #32353C;
+	border-radius: 3px;
+	color: #E9E9E9;
+	padding: 8px 6px;
+	display: block;
+	box-shadow: none;
+	width: 100%;
+	transition: border ease-in-out .5s;
+	border: 1px solid #26282D;
+	outline: none;
+	font-family: "Motiva Sans", Sans-serif;
+	font-weight: normal;
+}
+
+.joinmanga {
+    padding-top: 15%;
+    padding-left: 92px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.joinmanga a {
+    margin-top: 5%;
+}
+
+#join-photo{
+    border-radius: 244px;
+}
+
+.login .signin-join {
+	max-width: 60%;
+	text-align: center;
+	font-size: 14px;
+    margin-top: 15%;
+}
+
+.login .signup-join {
+	max-width: 60%;
+	text-align: center;
+	font-size: 14px;
+    margin-top: 61%;
+}
+
+.signup-join-image {
+    width: 320px;
+}
+
+/* FOOTER */
+
+#footer-enlaces {
+    margin-left: 140px;
+}
+
+ul {
+    list-style: none;
+    padding: 5px;
+}
+
+li a{
+    color: darkgray;
+    text-decoration: none;
+}
+
+li a:hover {
+    text-decoration: none;
+    color:#AA0B36;
+}
+
+/* CAROUSEL */
+
+.container-carousel {
+    width: 65%;
+    margin-top: 5%;
+}
+
+.carousel-control.left {
+    left: 0;
+    margin-left: 5%;
+}
+
+.carousel-control.right {
+    right: 0;
+    margin-right: 5%;
+}
+
+.carousel-control:hover {
+    color: red;
+}
+
+.carousel-control {
+    top: auto;
+    bottom: 50%;
+    position: absolute;
+    background: rgb(0, 0, 0);
+    opacity: 0.6;
+    border: 0;
+    border-radius: 50%;
+    width: 4%;
+    height: 10%;
+    z-index: 5;
+}
+
+.carousel-control .bi {
+    font-size: 24px;
+    color: white;
+    line-height: 35px;
+    margin-left: 5px;
+}
+
+.carousel-news {
+    background: #0000009c;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+}
+
+.carousel-caption h5 {
+    color: white;
+}
+
+.carousel-caption p {
+    color: white;
+}
+
+.carousel-indicators {
+    margin-bottom: 0rem;
+}
+
+.carousel-inner > .item {
+    position: relative;
+    display: none;
+    -webkit-transition: 0.1s ease-in-out left;
+    -moz-transition: 0.1s ease-in-out left;
+    -o-transition: 0.1s ease-in-out left;
+    transition: 0.1s ease-in-out left;
+}
+
+/* CAROUSEL TENDENCIAS */
+.tendencias h1 {
+    font-family: 'Noto Sans JP', sans-serif;
+    text-transform: uppercase;
+    color: white;
+    text-align: center;
+    font-size: 17px;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+/* MANGAS DIGITALES */
+.mangas-digitales h1 {
+    font-family: 'Noto Sans JP', sans-serif;
+    text-transform: uppercase;
+    color: white;
+    text-align: center;
+    font-size: 17px;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+#mangas {
+    padding-left: 10%;
+    padding-right: 10%
+}
+
+.border-bottom {
+    border-bottom: 1px solid #626262 !important
+}
+
+.border-top {
+    border-top: 1px solid #626262 !important
+}
+
+.column {
+    float: left;
+    width: 24%;
+    padding: 16px;
+}
+
+.card-img-top{
+    max-width: 100%;
+    height: 358px;
+}
+
+.card {
+    background-color:#22252A;
+    border-color: #000;
+    border-width: 1px;
+    display: inline-block;
+}
+
+.card-body {
+    padding: 0;
+    margin: 12px;
+}
+
+.manga-nombre {
+    text-align: center;
+    margin-bottom: 2px;
+    color:white;
+}
+
+.btn-dark{
+    color:white;
+    background-color: #aa0b3600;
+    border-color: #aa0b36;
+    margin-top:4%
+}
+
+ul {
+    list-style: none;
+    padding: 5px;
+}
+
+li a{
+    color: darkgray;
+    text-decoration: none;
+}
+
+li a:hover {
+    text-decoration: none;
+    color:#AA0B36;
+}
+
+.col-lg-3 {
+    padding-bottom: 25px;
+}
+
+.card-mangadigital .btn {
+    color: white;
+    border-color: black;
+    background-color: black;
+    text-transform: uppercase;
+    font-size: 10px;
+}
+
+.card-mangadigital .btn:hover {
+    background-color: #aa0b36;
+    color: white;
+}
+
+/* ADMIN PANEL */

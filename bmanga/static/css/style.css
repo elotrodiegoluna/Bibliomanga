@@ -77,7 +77,7 @@
 /* INDEX */
 body {
 	color: #E9E9E9;
-	background: radial-gradient(30% 40% at 40% 30%, rgba(33, 36, 41, .5) 0%, rgba(33, 36, 41, 0) 100%) no-repeat, url( '../img/acc_account_back.png' ) -30vw 0 no-repeat, #212429;
+	background: radial-gradient(30% 40% at 40% 30%, rgba(33, 36, 41, .5) 0%, rgba(33, 36, 41, 0) 100%) no-repeat, url('../img/acc_account_back.png') -30vw 0 no-repeat, #212429;
 	font-family: "Motiva Sans", Sans-serif;
 	font-weight: normal;
     background-color: #1f2428;
@@ -125,7 +125,7 @@ body {
 
 body.login {
 	color: #E9E9E9;
-	background: radial-gradient(30% 40% at 40% 30%, rgba(33, 36, 41, .5) 0%, rgba(33, 36, 41, 0) 100%) no-repeat, url( '../img/acc_account_back.png' ) -30vw 0 no-repeat, #212429;
+	background: radial-gradient(30% 40% at 40% 30%, rgba(33, 36, 41, .5) 0%, rgba(33, 36, 41, 0) 100%) no-repeat, url('../img/acc_account_back.png') -30vw 0 no-repeat, #212429;
 	font-family: "Motiva Sans", Sans-serif;
 	font-weight: normal;
 }

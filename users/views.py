@@ -480,9 +480,12 @@ def comunidad_manga_view(request, manga_name):
 
         #calcular calificacion
         all_review = Review.objects.filter(mangaUsuario__nombre=manga_name)
-        promedio = all_review.aggregate(promedio_puntuacion=Avg('puntuacion'))['promedio_puntuacion']
-        manga.promedio_puntuacion = promedio
-        manga.save()
+        promedio = 0
+        if all_review:
+            promedio = all_review.aggregate(promedio_puntuacion=Avg('puntuacion'))['promedio_puntuacion']
+            manga.promedio_puntuacion = promedio
+            manga.save()
+
     
     if request.user.is_authenticated:
         context = {
@@ -628,6 +631,7 @@ def creador_administrar_view(request, manga_name):
 
     #calcular calificacion
     all_review = Review.objects.filter(mangaUsuario__nombre=manga_name)
+    promedio = 0
     if all_review:
         promedio = all_review.aggregate(promedio_puntuacion=Avg('puntuacion'))['promedio_puntuacion']
         manga.promedio_puntuacion = promedio

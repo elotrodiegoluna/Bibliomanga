@@ -81,9 +81,10 @@ def mangapage_view(request, manga_name):
 
         #calcular calificacion
         all_review = Review.objects.filter(manga__nombre=manga_name)
-
-        promedio = all_review.aggregate(promedio_puntuacion=Avg('puntuacion'))['promedio_puntuacion']
-        print(promedio)
+        promedio = 0
+        if all_review:
+            promedio = all_review.aggregate(promedio_puntuacion=Avg('puntuacion'))['promedio_puntuacion']
+            print(promedio)
     
     if request.user.is_authenticated:
         context = {
@@ -125,7 +126,8 @@ def mangas_view(request):
     for manga in mangas_nuevos:
         mangas_con_mismo_nombre = MangaDigital.objects.filter(nombre=manga.nombre)
         promedio_puntuacion = Review.objects.filter(manga__in=mangas_con_mismo_nombre, manga__tomo=1).aggregate(promedio=Avg('puntuacion'))['promedio']
-        mangas_con_mismo_nombre.update(promedio_puntuacion=promedio_puntuacion)
+        if promedio_puntuacion:
+            mangas_con_mismo_nombre.update(promedio_puntuacion=promedio_puntuacion)
 
     context = {
         'mangas_nuevos': mangas_nuevos,

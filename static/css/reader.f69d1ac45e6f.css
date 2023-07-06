@@ -1,0 +1,81 @@
+.manga-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.manga-container img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.manga-container .btn-prev {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.manga-container .btn-next {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.manga-container:hover .btn-prev,
+.manga-container:hover .btn-next {
+    opacity: 1;
+}
+
+.navbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    background-color: #0707075d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Estilos adicionales de la barra de navegación */
+}
+
+.nav-text {
+    font-size: 18px;
+    color: #ffffff;
+}
+
+.logo {
+    max-width: 135px;
+}
+
+.navbar-brand {
+    position: fixed;
+    left: 0;
+}
+
+.reader-exit {
+    position:fixed;
+    right: 0;
+}
+
+.reader-exit .btn {
+    background-color: #aa0b36;
+    border-color:#aa0b36;
+}
+
+.reader-exit .btn:hover {
+    scale: 1.02;
+}

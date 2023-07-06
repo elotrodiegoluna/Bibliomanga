@@ -33,7 +33,7 @@ SECRET_KEY = 'django-insecure-7f43l$*2%2%ahk07q6!l3gq&wr1%@a6!0i_)&=*%%ex=$x=1j*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG_MODE')
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'bibliomanga.onrender.com', 'elotrodiego.pythonanywhere.com', 'bibliomanga.azurewebsites.net']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'bibliomanga.onrender.com', 'elotrodiego.pythonanywhere.com', 'bibliomanga.azurewebsites.net', '*']
 
 CSRF_TRUSTED_ORIGINS = ['https://bibliomanga.azurewebsites.net']
 
