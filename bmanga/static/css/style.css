@@ -21,6 +21,10 @@
     text-transform: uppercase;
 }
 
+.dropdown-item:active {
+    background-color:#aa0b36;
+}
+
 .home-nav .nav-item-left{
     padding-left: 5%;
 }
@@ -385,4 +389,6 @@ li a:hover {
     color: white;
 }
 
-/* ADMIN PANEL */
+#modal-message {
+    color: black;
+}

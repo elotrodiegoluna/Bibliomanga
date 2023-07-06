@@ -39,6 +39,7 @@ from users.views import (
     creador_administrar_view,
     subir_tomo,
     eliminar_tomo,
+    eliminar_cuenta,
     editar_manga_comunidad,
     eliminar_manga_comunidad,
     comunidad_view,
@@ -57,6 +58,7 @@ from store.views import (
     cart_view,
     payment_confirm_view,
     payment_success_view,
+    descargar_boleta,
 )
 
 from adminpanel.views import (
@@ -118,6 +120,7 @@ urlpatterns = [
     # pago
     path('payment-confirmation/', payment_confirm_view, name='payment_confirmation'),
     path('payment-success/<uuid:boleta_token>', payment_success_view, name='payment_success'),
+    path('payment-succes/descargar-boleta/<int:boleta_id>', descargar_boleta, name='descargarboleta'),
     # mangas digitales
     path('adminpanel/mangas/add', add_manga_view, name='addmanga'),
     path('adminpanel/manga/delete/<int:manga_id>', eliminar_manga, name='deletemanga'),
@@ -128,6 +131,7 @@ urlpatterns = [
     path('mangas/<str:manga_name>', mangapage_view, name='mangapage'),
     path('mangas/delete-review/<int:id>', delete_review, name='deletereview'),
     # usuarios
+    path('users/account/delete-account/', eliminar_cuenta, name='eliminarcuenta'),
     path('users/account/change-username/', change_username, name='changeusername'),
     path('users/account/change-avatar/', change_avatar, name='changeavatar'),
     path('users/account/information', accountinfo_view, name='myaccount'),

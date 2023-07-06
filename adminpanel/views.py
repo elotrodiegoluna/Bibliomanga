@@ -127,8 +127,11 @@ def edit_manga_view(request, manga_id):
 #añadir productos
 @user_passes_test(is_admin, login_url='index', redirect_field_name=None)
 def add_product_view(request):
+    context = {}
     if request.method == 'POST':
-        form = ProductoForm(request.POST)
+        form = ProductoForm(request.POST, request.FILES)
+        print(request.POST)
+        print(request.FILES)
         if form.is_valid():
             form.save()
             return redirect('adminstore')
@@ -142,9 +145,11 @@ def add_product_view(request):
 @user_passes_test(is_admin, login_url='index', redirect_field_name=None)
 def edit_product_view(request, product_id):
     producto = get_object_or_404(Producto, id=product_id)
-
+    context = {}
     if request.method == 'POST':
-        form = ProductoForm(request.POST, instance=producto)
+        form = ProductoForm(request.POST, request.FILES, instance=producto)
+        print(request.POST)
+        print(request.FILES)
         if form.is_valid():
             form.save()
             return redirect('adminstore')
@@ -344,7 +349,7 @@ def subir_manga(request):
             # extraer archivo en temp
             #patoolib.extract_archive(file_path, outdir=temp_dir)
             Archive(file_path).extractall(temp_dir)
-            
+
             # obtener carpeta
             inner_dir = next(os.walk(temp_dir))[1][0] if len(next(os.walk(temp_dir))[1]) > 0 else None
 

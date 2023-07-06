@@ -5,7 +5,7 @@
 {% load static %}
 
 {% block content %}
-<form method="POST" id="form-addproduct">
+<form method="POST" id="form-addproduct" enctype="multipart/form-data">
     <h1> Editar producto</h1>
     {% csrf_token %}
 
@@ -37,6 +37,12 @@
         <label for="{{ form.stock.id_for_label }}">Stock:</label>
         <br>
         {{ form.stock }}
+    </div>
+
+    <div class="form-group">
+        <label for="{{ form.categoria.id_for_label }}">Categoría:</label>
+        <br>
+        {{ form.categoria }}
     </div>
 
     <button class="add-product btn btn-primary" type="submit">Guardar</button>

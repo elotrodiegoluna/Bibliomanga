@@ -6,5 +6,15 @@
 
 
 {% block account-content %}
-
+<div class="account-content-settings">
+    <h1>Eliminar mi cuenta</h1>
+    <hr>
+    <div class="card text-center mb-3">
+        <div class="card-body">
+          <h5 class="card-title">Estas a punto de eliminar tu cuenta</h5>
+          <p class="card-text">Se perderan todos tus datos, esto es irreversible</p>
+          <a href="{% url 'eliminarcuenta' %}" class="btn btn-primary premium">Eliminar</a>
+        </div>
+    </div>
+</div>
 {% endblock %}

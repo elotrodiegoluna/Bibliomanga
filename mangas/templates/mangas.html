@@ -109,6 +109,106 @@
 		</div>
 	</div>
 </div>
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<h2>Mangas <b>Mejor Valorados</b></h2>
+			<div id="carouselExample2" class="carousel slide">
+			<!-- Wrapper for carousel items -->
+			<div class="carousel-inner">
+				<div class="carousel-item active">
+					<div class="row">								
+                        {% for manga_nuevo in mangas_valor|slice:":4" %}
+                        <div class="col-sm-3">
+							<div class="thumb-wrapper">
+								<div class="img-box">
+									<a href="{% url 'mangapage' manga_nuevo.nombre %}">
+										<img src="{{ manga_nuevo.portada.url }}" class="img-fluid" alt="">
+									</a>
+								</div>
+								<div class="thumb-content">
+									<h4>{{ manga_nuevo.nombre }}</h4>
+
+									<div class="star-rating">
+										<ul class="list-inline">
+											
+											<li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 1 %} active{%endif%}">
+												<i class="fa-solid fa-star"></i>
+											</li>
+											<li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 2 %} active{% endif %}">
+												<i class="fa-solid fa-star"></i>
+											</li>
+											<li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 3 %} active{% endif %}">
+												<i class="fa-solid fa-star"></i>
+											</li>
+											<li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 4 %} active{% endif %}">
+												<i class="fa-solid fa-star"></i>
+											</li>
+											<li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 5 %} active{% endif %}">
+												<i class="fa-solid fa-star"></i>
+											</li>
+										</ul>
+									</div>
+									<a href="{% url 'mangapage' manga_nuevo.nombre %}" class="btn btn-primary">Ver</a>
+								</div>						
+							</div>
+						</div>
+                        {% endfor %}
+					</div>
+				</div>
+				<div class="carousel-item">
+					<div class="row">
+                        {% for manga_nuevo in mangas_valor|slice:"4:" %}
+                        <div class="col-sm-3">
+							<div class="thumb-wrapper">
+								<div class="img-box">
+									<a href="{% url 'mangapage' manga_nuevo.nombre %}">
+										<img src="{{ manga_nuevo.portada.url }}" class="img-fluid" alt="">
+									</a>
+								</div>
+								<div class="thumb-content">
+									<h4>{{ manga_nuevo.nombre }}</h4>
+									<div class="star-rating">
+										<ul class="list-inline">
+											<li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 1 %} active{%endif%}">
+												<i class="fa-solid fa-star"></i>
+											</li>
+											<li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 2 %} active{% endif %}">
+												<i class="fa-solid fa-star"></i>
+											</li>
+											<li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 3 %} active{% endif %}">
+												<i class="fa-solid fa-star"></i>
+											</li>
+											<li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 4 %} active{% endif %}">
+												<i class="fa-solid fa-star"></i>
+											</li>
+											<li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 5 %} active{% endif %}">
+												<i class="fa-solid fa-star"></i>
+											</li>
+										</ul>
+									</div>
+									<a href="{% url 'mangapage' manga_nuevo.nombre %}" class="btn btn-primary">Ver</a>
+								</div>						
+							</div>
+						</div>
+                        {% endfor %}
+					</div>
+				</div>
+			</div>
+			<!-- Carousel controls -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample2" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#carouselExample2" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+            
+		</div>
+		</div>
+	</div>
+</div>
 <section class="digital">
     <div class="container mangas-digitales">
       <h1>Todos los mangas digitales</h1>

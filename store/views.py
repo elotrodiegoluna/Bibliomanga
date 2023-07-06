@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.core.paginator import Paginator
 
 from .models import Producto, Cart, CartItem
@@ -14,7 +14,45 @@ import string
 import transbank
 from transbank.webpay.webpay_plus.transaction import Transaction, WebpayOptions, IntegrationCommerceCodes, IntegrationApiKeys
 
+from reportlab.pdfgen import canvas
 # Create your views here.
+
+def descargar_boleta(request, boleta_id):
+    try:
+        boleta = Boleta.objects.get(id=boleta_id)
+    except Boleta.DoesNotExist:
+        return HttpResponse("Boleta no encontrada", status=404)
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="boleta_{boleta.buy_order}.pdf"'
+
+    # Generar el contenido del PDF usando ReportLab
+    p = canvas.Canvas(response)
+    
+    # Agregar contenido a la boleta
+    p.setFont("Helvetica-Bold", 16)
+    p.drawString(100, 800, "Comprobante de pago")
+    
+    p.setFont("Helvetica", 12)
+    
+    p.drawString(100, 720, f"N° de orden: {boleta.buy_order}")
+    p.drawString(100, 750, f"Fecha: {boleta.fecha.strftime('%d/%m/%Y %H:%M:%S')}")
+    
+    y = 700
+    for producto in boleta.detalle_compra['productos']:
+        p.drawString(100, y, producto['nombre'])
+        p.drawString(250, y, f"${producto['precio']}")
+        y -= 20
+    
+    p.setFont("Helvetica-Bold", 12)
+    p.drawString(100, y, "Total pagado:")
+    p.drawString(300, y, f"${boleta.detalle_compra['total']}")
+    
+    p.showPage()
+    p.save()
+
+    return response
+
 def store_view(request):
     context = {}
     productos = Producto.objects.all()

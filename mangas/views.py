@@ -107,6 +107,13 @@ def mangapage_view(request, manga_name):
 
 def mangas_view(request):
     mangas_nuevos = MangaDigital.objects.order_by('-timestamp').distinct()[:8]
+    mangas_valor = (
+    MangaDigital.objects
+    .filter(tomo=1)  # Filtrar por tomo igual a 1
+    .order_by('-promedio_puntuacion')
+    .distinct()
+    [:8]
+)
     mangas = MangaDigital.objects.all()
 
     # Filtrar por nombre si se proporciona un valor en la consulta
@@ -134,6 +141,7 @@ def mangas_view(request):
         'mangas': mangas,
         'page_obj': page_obj,
         'query': query,
+        'mangas_valor': mangas_valor
     }
     return render(request, 'mangas.html', context)
 

@@ -772,3 +772,10 @@ def eliminar_tomo(request, tomo_id):
         except Exception as e:
             messages.error(request, 'No se pudo eliminar este tomo.')
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+def eliminar_cuenta(request):
+    user = request.user
+    user.delete()
+    logout(request)
+    messages.success(request, 'Tu cuenta se eliminó con éxito.')
+    return redirect('index')

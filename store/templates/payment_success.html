@@ -66,8 +66,8 @@
                   <p class="lead fw-bold mb-0" style="color:white;">${{ precio_total|intcomma }} CLP</p>
                 </div>
               </div>
-              <a id="descargar-comprobante" class="mt-4 pt-2 mb-0" href="#">Descargar comprobante de pago</a>>
-  
+              <a id="descargar-comprobante" class="mt-4 pt-2 mb-0" href="{% url 'descargarboleta' boleta.id %}">Descargar comprobante de pago</a>
+
             </div>
           </div>
         </div>

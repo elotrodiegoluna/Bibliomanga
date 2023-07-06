@@ -4,6 +4,10 @@
 
 {% load static %}
 
+{% block styles %}
+<link type="text/css" rel="stylesheet" href="{% static 'css/mangastyle.css' %}"/>
+{% endblock %}
+
 {% block content %}
 
 <section class="carousel">
@@ -51,9 +55,506 @@
 
 <section class="popular">
   <div class="container tendencias">
-    <h1>Lo más leido esta semana (usar carousel)</h1>
+    <!--FIN-->
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h2>Productos <b>Nuevos</b></h2>
+          <div id="carouselExample5" class="carousel slide">
+          <!-- Wrapper for carousel items -->
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <div class="row">								
+                            {% for producto in productos_nuevos|slice:":4" %}
+                            <div class="col-sm-3">
+                  <div class="thumb-wrapper">
+                    <div class="img-box">
+                      <a href="{% url 'product' producto.id %}">
+                        <img src="{{ producto.imagen.url }}" class="img-fluid" alt="">
+                      </a>
+                    </div>
+                    <div class="thumb-content">
+                      <h4>{{ producto.nombre }}</h4>
+    
+                      <a href="{% url 'product' producto.id %}" class="btn btn-primary">Ver</a>
+                    </div>						
+                  </div>
+                </div>
+                            {% endfor %}
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div class="row">
+                            {% for producto in productos_nuevos|slice:"4:" %}
+                            <div class="col-sm-3">
+                  <div class="thumb-wrapper">
+                    <div class="img-box">
+                      <a href="{% url 'product' producto.id %}">
+                        <img src="{{ producto.imagen.url }}" class="img-fluid" alt="">
+                      </a>
+                    </div>
+                    <div class="thumb-content">
+                      <h4>{{ producto.nombre }}</h4>
+                      <a href="{% url 'product' producto.id %}" class="btn btn-primary">Ver</a>
+                    </div>						
+                  </div>
+                </div>
+                            {% endfor %}
+              </div>
+            </div>
+          </div>
+          <!-- Carousel controls -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample5" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                  </button>
+                  <button class="carousel-control-next" type="button" data-bs-target="#carouselExample5" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                  </button>
+                
+        </div>
+        </div>
+      </div>
+    </div>
+    <!--fin-->
+  </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h2>Mangas <b>Nuevos</b></h2>
+          <div id="carouselExample" class="carousel slide">
+          <!-- Wrapper for carousel items -->
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <div class="row">								
+                            {% for manga_nuevo in mangas_nuevos|slice:":4" %}
+                            <div class="col-sm-3">
+                  <div class="thumb-wrapper">
+                    <div class="img-box">
+                      <a href="{% url 'mangapage' manga_nuevo.nombre %}">
+                        <img src="{{ manga_nuevo.portada.url }}" class="img-fluid" alt="">
+                      </a>
+                    </div>
+                    <div class="thumb-content">
+                      <h4>{{ manga_nuevo.nombre }} {{ manga_nuevo.tomo }}</h4>
+    
+                      <div class="star-rating">
+                        <ul class="list-inline">
+                          
+                          <li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 1 %} active{%endif%}">
+                            <i class="fa-solid fa-star"></i>
+                          </li>
+                          <li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 2 %} active{% endif %}">
+                            <i class="fa-solid fa-star"></i>
+                          </li>
+                          <li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 3 %} active{% endif %}">
+                            <i class="fa-solid fa-star"></i>
+                          </li>
+                          <li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 4 %} active{% endif %}">
+                            <i class="fa-solid fa-star"></i>
+                          </li>
+                          <li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 5 %} active{% endif %}">
+                            <i class="fa-solid fa-star"></i>
+                          </li>
+                        </ul>
+                      </div>
+                      <a href="{% url 'reader' manga_nuevo.id %}" class="btn btn-primary">Leer</a>
+                    </div>						
+                  </div>
+                </div>
+                            {% endfor %}
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div class="row">
+                            {% for manga_nuevo in mangas_nuevos|slice:"4:" %}
+                            <div class="col-sm-3">
+                  <div class="thumb-wrapper">
+                    <div class="img-box">
+                      <a href="{% url 'mangapage' manga_nuevo.nombre %}">
+                        <img src="{{ manga_nuevo.portada.url }}" class="img-fluid" alt="">
+                      </a>
+                    </div>
+                    <div class="thumb-content">
+                      <h4>{{ manga_nuevo.nombre }} {{ manga_nuevo.tomo }}</h4>
+                      <div class="star-rating">
+                        <ul class="list-inline">
+                          <li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 1 %} active{%endif%}">
+                            <i class="fa-solid fa-star"></i>
+                          </li>
+                          <li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 2 %} active{% endif %}">
+                            <i class="fa-solid fa-star"></i>
+                          </li>
+                          <li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 3 %} active{% endif %}">
+                            <i class="fa-solid fa-star"></i>
+                          </li>
+                          <li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 4 %} active{% endif %}">
+                            <i class="fa-solid fa-star"></i>
+                          </li>
+                          <li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 5 %} active{% endif %}">
+                            <i class="fa-solid fa-star"></i>
+                          </li>
+                        </ul>
+                      </div>
+                      <a href="{% url 'reader' manga_nuevo.id %}" class="btn btn-primary">Leer</a>
+                    </div>						
+                  </div>
+                </div>
+                            {% endfor %}
+              </div>
+            </div>
+          </div>
+          <!-- Carousel controls -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                  </button>
+                  <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                  </button>
+                
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h2>Mangas <b>Mejor Valorados</b></h2>
+          <div id="carouselExample2" class="carousel slide">
+          <!-- Wrapper for carousel items -->
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <div class="row">								
+                            {% for manga_nuevo in mangas_valor|slice:":4" %}
+                            <div class="col-sm-3">
+                  <div class="thumb-wrapper">
+                    <div class="img-box">
+                      <a href="{% url 'mangapage' manga_nuevo.nombre %}">
+                        <img src="{{ manga_nuevo.portada.url }}" class="img-fluid" alt="">
+                      </a>
+                    </div>
+                    <div class="thumb-content">
+                      <h4>{{ manga_nuevo.nombre }}</h4>
+    
+                      <div class="star-rating">
+                        <ul class="list-inline">
+                          
+                          <li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 1 %} active{%endif%}">
+                            <i class="fa-solid fa-star"></i>
+                          </li>
+                          <li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 2 %} active{% endif %}">
+                            <i class="fa-solid fa-star"></i>
+                          </li>
+                          <li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 3 %} active{% endif %}">
+                            <i class="fa-solid fa-star"></i>
+                          </li>
+                          <li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 4 %} active{% endif %}">
+                            <i class="fa-solid fa-star"></i>
+                          </li>
+                          <li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 5 %} active{% endif %}">
+                            <i class="fa-solid fa-star"></i>
+                          </li>
+                        </ul>
+                      </div>
+                      <a href="{% url 'mangapage' manga_nuevo.nombre %}" class="btn btn-primary">Ver</a>
+                    </div>						
+                  </div>
+                </div>
+                            {% endfor %}
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div class="row">
+                            {% for manga_nuevo in mangas_valor|slice:"4:" %}
+                            <div class="col-sm-3">
+                  <div class="thumb-wrapper">
+                    <div class="img-box">
+                      <a href="{% url 'mangapage' manga_nuevo.nombre %}">
+                        <img src="{{ manga_nuevo.portada.url }}" class="img-fluid" alt="">
+                      </a>
+                    </div>
+                    <div class="thumb-content">
+                      <h4>{{ manga_nuevo.nombre }}</h4>
+                      <div class="star-rating">
+                        <ul class="list-inline">
+                          <li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 1 %} active{%endif%}">
+                            <i class="fa-solid fa-star"></i>
+                          </li>
+                          <li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 2 %} active{% endif %}">
+                            <i class="fa-solid fa-star"></i>
+                          </li>
+                          <li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 3 %} active{% endif %}">
+                            <i class="fa-solid fa-star"></i>
+                          </li>
+                          <li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 4 %} active{% endif %}">
+                            <i class="fa-solid fa-star"></i>
+                          </li>
+                          <li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 5 %} active{% endif %}">
+                            <i class="fa-solid fa-star"></i>
+                          </li>
+                        </ul>
+                      </div>
+                      <a href="{% url 'mangapage' manga_nuevo.nombre %}" class="btn btn-primary">Ver</a>
+                    </div>						
+                  </div>
+                </div>
+                            {% endfor %}
+              </div>
+            </div>
+          </div>
+          <!-- Carousel controls -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample2" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                  </button>
+                  <button class="carousel-control-next" type="button" data-bs-target="#carouselExample2" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                  </button>
+                
+        </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h2>Mangas de la comunidad <b>Nuevos</b></h2>
+          <div id="carouselExample3" class="carousel slide">
+          <!-- Wrapper for carousel items -->
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <div class="row">								
+                            {% for manga_nuevo in cmangas_nuevos|slice:":4" %}
+                            <div class="col-sm-3">
+                  <div class="thumb-wrapper">
+                    <div class="img-box">
+                      <a href="{% url 'mangapage-comunidad' manga_nuevo.nombre %}">
+                        <img src="{{ manga_nuevo.portada.url }}" class="img-fluid" alt="">
+                      </a>
+                    </div>
+                    <div class="thumb-content">
+                      <h4>{{ manga_nuevo.nombre }}</h4>
+    
+                      <div class="star-rating">
+                        <ul class="list-inline">
+                          
+                          <li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 1 %} active{%endif%}">
+                            <i class="fa-solid fa-star"></i>
+                          </li>
+                          <li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 2 %} active{% endif %}">
+                            <i class="fa-solid fa-star"></i>
+                          </li>
+                          <li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 3 %} active{% endif %}">
+                            <i class="fa-solid fa-star"></i>
+                          </li>
+                          <li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 4 %} active{% endif %}">
+                            <i class="fa-solid fa-star"></i>
+                          </li>
+                          <li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 5 %} active{% endif %}">
+                            <i class="fa-solid fa-star"></i>
+                          </li>
+                        </ul>
+                      </div>
+                      <a href="{% url 'reader' manga_nuevo.id %}" class="btn btn-primary">Leer</a>
+                    </div>						
+                  </div>
+                </div>
+                            {% endfor %}
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div class="row">
+                            {% for manga_nuevo in cmangas_nuevos|slice:"4:" %}
+                            <div class="col-sm-3">
+                  <div class="thumb-wrapper">
+                    <div class="img-box">
+                      <a href="{% url 'mangapage-comunidad' manga_nuevo.nombre %}">
+                        <img src="{{ manga_nuevo.portada.url }}" class="img-fluid" alt="">
+                      </a>
+                    </div>
+                    <div class="thumb-content">
+                      <h4>{{ manga_nuevo.nombre }}</h4>
+                      <div class="star-rating">
+                        <ul class="list-inline">
+                          <li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 1 %} active{%endif%}">
+                            <i class="fa-solid fa-star"></i>
+                          </li>
+                          <li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 2 %} active{% endif %}">
+                            <i class="fa-solid fa-star"></i>
+                          </li>
+                          <li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 3 %} active{% endif %}">
+                            <i class="fa-solid fa-star"></i>
+                          </li>
+                          <li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 4 %} active{% endif %}">
+                            <i class="fa-solid fa-star"></i>
+                          </li>
+                          <li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 5 %} active{% endif %}">
+                            <i class="fa-solid fa-star"></i>
+                          </li>
+                        </ul>
+                      </div>
+                      <a href="{% url 'reader' manga_nuevo.id %}" class="btn btn-primary">Leer</a>
+                    </div>						
+                  </div>
+                </div>
+                            {% endfor %}
+              </div>
+            </div>
+          </div>
+          <!-- Carousel controls -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample3" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                  </button>
+                  <button class="carousel-control-next" type="button" data-bs-target="#carouselExample3" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                  </button>
+                
+        </div>
+        </div>
+      </div>
+    </div>
+    <!--FIN-->
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h2>Mangas de la comunidad <b>Mejor Valorados</b></h2>
+          <div id="carouselExample4" class="carousel slide">
+          <!-- Wrapper for carousel items -->
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <div class="row">								
+                            {% for manga_nuevo in cmangas_valor|slice:":4" %}
+                            <div class="col-sm-3">
+                  <div class="thumb-wrapper">
+                    <div class="img-box">
+                      <a href="{% url 'mangapage-comunidad' manga_nuevo.nombre %}">
+                        <img src="{{ manga_nuevo.portada.url }}" class="img-fluid" alt="">
+                      </a>
+                    </div>
+                    <div class="thumb-content">
+                      <h4>{{ manga_nuevo.nombre }}</h4>
+    
+                      <div class="star-rating">
+                        <ul class="list-inline">
+                          
+                          <li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 1 %} active{%endif%}">
+                            <i class="fa-solid fa-star"></i>
+                          </li>
+                          <li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 2 %} active{% endif %}">
+                            <i class="fa-solid fa-star"></i>
+                          </li>
+                          <li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 3 %} active{% endif %}">
+                            <i class="fa-solid fa-star"></i>
+                          </li>
+                          <li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 4 %} active{% endif %}">
+                            <i class="fa-solid fa-star"></i>
+                          </li>
+                          <li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 5 %} active{% endif %}">
+                            <i class="fa-solid fa-star"></i>
+                          </li>
+                        </ul>
+                      </div>
+                      <a href="{% url 'mangapage-comunidad' manga_nuevo.nombre %}" class="btn btn-primary">Ver</a>
+                    </div>						
+                  </div>
+                </div>
+                            {% endfor %}
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div class="row">
+                            {% for manga_nuevo in cmangas_valor|slice:"4:" %}
+                            <div class="col-sm-3">
+                  <div class="thumb-wrapper">
+                    <div class="img-box">
+                      <a href="{% url 'mangapage-comunidad' manga_nuevo.nombre %}">
+                        <img src="{{ manga_nuevo.portada.url }}" class="img-fluid" alt="">
+                      </a>
+                    </div>
+                    <div class="thumb-content">
+                      <h4>{{ manga_nuevo.nombre }}</h4>
+                      <div class="star-rating">
+                        <ul class="list-inline">
+                          <li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 1 %} active{%endif%}">
+                            <i class="fa-solid fa-star"></i>
+                          </li>
+                          <li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 2 %} active{% endif %}">
+                            <i class="fa-solid fa-star"></i>
+                          </li>
+                          <li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 3 %} active{% endif %}">
+                            <i class="fa-solid fa-star"></i>
+                          </li>
+                          <li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 4 %} active{% endif %}">
+                            <i class="fa-solid fa-star"></i>
+                          </li>
+                          <li class="list-inline-item {% if manga_nuevo.promedio_puntuacion >= 5 %} active{% endif %}">
+                            <i class="fa-solid fa-star"></i>
+                          </li>
+                        </ul>
+                      </div>
+                      <a href="{% url 'mangapage-comunidad' manga_nuevo.nombre %}" class="btn btn-primary">Ver</a>
+                    </div>						
+                  </div>
+                </div>
+                            {% endfor %}
+              </div>
+            </div>
+          </div>
+          <!-- Carousel controls -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample4" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                  </button>
+                  <button class="carousel-control-next" type="button" data-bs-target="#carouselExample4" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                  </button>
+                
+        </div>
+        </div>
+      </div>
+    </div>
+    <!--fin-->
   </div>
 </section>
 
 
+<div class="modal fade" id="modal-message" tabindex="-1" role="dialog" aria-labelledby="modal-messageLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="modal-messageLabel">Mensaje de Confirmación</h5>
+              <button type="button" class="close" data-bs-dismiss="modal" aria-label="Cerrar">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body">
+              {% if messages %}
+                  <ul class="messages">
+                      {% for message in messages %}
+                          <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                      {% endfor %}
+                  </ul>
+              {% endif %}
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          </div>
+      </div>
+  </div>
+</div>
+{% if messages %}
+<script>
+  $(document).ready(function() {
+      $('#modal-message').modal('show');
+  });
+</script>
+{% endif %}
 {% endblock %}
