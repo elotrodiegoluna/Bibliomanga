@@ -112,10 +112,21 @@
 <section class="digital">
     <div class="container mangas-digitales">
       <h1>Todos los mangas digitales</h1>
+	  
       <div id="mangas">
         <div class="container">
+			<form class="search-form" method="GET" action="{% url 'mangas' %}">
+			<div class="row buscador">
+				<div class="col-md-4">
+					<label for="q">Buscar por nombre:</label>
+					<input id="q" class="form-control bg-dark text-light" type="text" name="q" placeholder="Buscar por nombre" value="{% if query %}{{ query }}{% endif%}">
+					<button class="btn btn-secondary" type="submit">Buscar</button>
+					<a class="btn btn-secondary" type="button" href="{% url 'mangas' %}">Limpiar</a>
+				</div>
+			</div>
+			</form>	
           <div class="row">
-            {% for manga in mangas %}
+            {% for manga in page_obj %}
             <div class="col-lg-3 col-sm-4 col-11 offset-sm-0 offset-1">
               <div class="card">
                 <a href="{% url 'mangapage' manga.nombre %}">
@@ -132,6 +143,28 @@
             </div>
             {% endfor %}
           </div>
+        </div>
+		<div class="clearfix">
+            <div class="hint-text">Mostrando <b>{{ page_obj.start_index }}</b> - <b>{{ page_obj.end_index }}</b> de <b>{{ page_obj.paginator.count }}</b> mangas.</div>
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                <li class="page-item"><a href="?page={{ page_obj.previous_page_number }}" class="page-link">Anterior</a></li>
+                {% else %}
+                <li class="page-item disabled"><a href="#" class="page-link">Anterior</a></li>
+                {% endif %}
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                        <li class="page-item active"><a href="#" class="page-link">{{ num }}</a></li>
+                    {% else %}
+                        <li class="page-item"><a href="?page={{ num }}" class="page-link">{{ num }}</a></li>
+                    {% endif %}
+                {% endfor %}
+                {% if page_obj.has_next %}
+                <li class="page-item"><a href="?page={{ page_obj.next_page_number }}" class="page-link">Siguiente</a></li>
+                {% else %}
+                <li class="page-item disabled"><a href="#" class="page-link">Siguiente</a></li>
+                {% endif %}
+            </ul>
         </div>
       </div>
     </div>

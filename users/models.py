@@ -104,11 +104,12 @@ class Suscripcion(models.Model):
     plan = models.ForeignKey(PlanPremium, on_delete=models.CASCADE, null=True)
     activo = models.BooleanField(default=False)
     fecha_inicio = models.DateTimeField(default=timezone.now)
-    fecha_caducidad = models.DateTimeField()
+    fecha_caducidad = models.DateTimeField(null=True)
 
-    def save(self, *args, **kwargs):
+    """def save(self, *args, **kwargs):
         self.fecha_caducidad = self.fecha_inicio + relativedelta(months=1)
         super().save(*args, **kwargs)
+    """
 
 class MangaLeido(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)

@@ -8,7 +8,7 @@ from dateutil.relativedelta import relativedelta
 from django.utils import timezone
 from django.urls import reverse
 from django.conf import settings
-from django.db.models import Avg
+from django.db.models import Avg, Q
 import os
 
 import random
@@ -34,7 +34,7 @@ def change_username(request):
             if len(new_username) < 4 or len(new_username) > 64:
                 messages.error(request, 'El nombre de usuario debe tener entre 4 a 64 caracteres')
             elif User.objects.filter(username=new_username).exists():
-                messages.error(request, 'El nombre de usuario ya esta en uso')
+                messages.error(request, 'El nombre de usuario ya está en uso')
             else:
                 usuario = User.objects.get(id=request.user.id)
                 usuario.username = new_username
@@ -51,16 +51,24 @@ def change_avatar(request):
     print(request.POST)
     if request.user.is_authenticated:
         if request.method == 'POST':
+            """""
             print('AVATAR POST')
             print(request.FILES)
             print(request.FILES['avatar_submit'])
+            """""
             form = CambiarAvatarForm(request.POST, request.FILES, instance=request.user)
             if form.is_valid():
                 usuario = User.objects.get(id=request.user.id)
-                # guardar formulario
-                form.save()
+
                 # conseguir archivo subido
                 avatar_file = request.FILES['avatar_submit']
+                if avatar_file.content_type not in ['image/jpeg', 'image/png']:
+                    messages.success(request, 'El avatar que quieres subir no es un formato admitido.')
+                    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+                # guardar formulario
+                form.save()
+                #
                 filename = avatar_file.name # nombre del archivo
                 user_folder = str(usuario.username) # nombre de la carpeta
 
@@ -248,6 +256,7 @@ def premium_pay(request):
         sub , _ = Suscripcion.objects.get_or_create(usuario=usuario) # el nombre lo dice
         sub.activo = True # tambien deberia poner fecha limite y correr un PLSQL para verificar la fecha y quitarle el activo
         sub.plan = PlanPremium.objects.filter(nombre_plan=plan_comprado).first()
+        sub.fecha_caducidad = sub.fecha_inicio + relativedelta(months=1)
         sub.save()
 
         user_db = User.objects.get(id=request.user.id)
@@ -385,15 +394,29 @@ def logout_view(request):
 def comunidad_view(request):
     context = {}
 
+    mangas_usuario = None
     try:
         # Obtener los MangaUsuario que tienen al menos un MangaTomo asociado
         mangas_usuario = MangaUsuario.objects.filter(mangatomo__isnull=False).distinct()
 
-        context['mangas'] = mangas_usuario
+        query = request.GET.get('q')
+        if query:
+            mangas_usuario = mangas_usuario.filter(Q(nombre__icontains=query))
 
     except MangaUsuario.DoesNotExist:
         mangas_usuario = None
+    
+    # paginación
+    paginator = Paginator(mangas_usuario, 12) # listar por 5
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
 
+
+    context = {
+        'mangas': mangas_usuario,
+        'page_obj': page_obj,
+        'query': query,
+    }
     return render(request, 'comunidad/comunidad.html', context)
 
 def comunidad_manga_view(request, manga_name):
@@ -519,6 +542,11 @@ def creador_crear_view(request):
     if request.method == 'POST':
         form = MangaUsuarioForm(request.POST, request.FILES)
         if form.is_valid():
+            portada_file = request.FILES['portada']
+            if portada_file.content_type not in ['image/jpeg', 'image/png']:
+                messages.success(request, 'La portada que quieres subir no es un formato admitido.')
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
             manga_usuario = form.save(commit=False)
             manga_usuario.autor = request.user
             manga_usuario.save()
@@ -550,7 +578,7 @@ def creador_crear_view(request):
             return redirect('creador')
         
         else:
-            messages.success(request, 'Hubo un error con el formulario, tu manga {} no se pudo crear.'.format(nombre_manga))
+            messages.success(request, 'Hubo un error con el formulario, tu manga no se pudo crear.')
             HttpResponseRedirect(request.META.get('HTTP_REFERER'))
             
     else:
@@ -600,9 +628,10 @@ def creador_administrar_view(request, manga_name):
 
     #calcular calificacion
     all_review = Review.objects.filter(mangaUsuario__nombre=manga_name)
-    promedio = all_review.aggregate(promedio_puntuacion=Avg('puntuacion'))['promedio_puntuacion']
-    manga.promedio_puntuacion = promedio
-    manga.save()
+    if all_review:
+        promedio = all_review.aggregate(promedio_puntuacion=Avg('puntuacion'))['promedio_puntuacion']
+        manga.promedio_puntuacion = promedio
+        manga.save()
 
     
     if request.user.is_authenticated:
@@ -638,6 +667,10 @@ def subir_tomo(request, manga_id):
             tomo = form.cleaned_data['tomo']
             desc = form.cleaned_data['desc']
             archivo = form.cleaned_data['archivo']
+
+            if not archivo.name.lower().endswith(('.cbz', '.cbr')):
+                messages.success(request, 'El tomo que quieres subir no es un formato admitido, por favor usa un formato .cbr o .cbz')
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
             # verificar si ya esta subido un tomo con el mismo numero
             try:

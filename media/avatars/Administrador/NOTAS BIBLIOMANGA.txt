@@ -1,0 +1,11 @@
+Usuarios:
+admin@admin.com:admin
+usuario1@gmail.com:ninguna0
+usuario2@gmail.com:ninguna0
+
+
+Tarjeta de credito entorno de integración:
+- Tarjeta de prueba transbank:
+    - 4051885600446623 
+    - fecha: cualquiera mayor a la actual
+    - cvv: 123

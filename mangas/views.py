@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect
-from django.db.models import Avg
+from django.db.models import Avg, Q
+from django.core.paginator import Paginator
 
 from .forms import *
 from .models import *
@@ -107,15 +108,30 @@ def mangas_view(request):
     mangas_nuevos = MangaDigital.objects.order_by('-timestamp').distinct()[:8]
     mangas = MangaDigital.objects.all()
 
+    # Filtrar por nombre si se proporciona un valor en la consulta
+    query = request.GET.get('q')
+    print(query)
+    if query:
+        mangas = mangas.filter(Q(nombre__icontains=query))
+        print('mangas')
+
+
+    # paginación
+    paginator = Paginator(mangas, 12) # listar por 5
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+
     for manga in mangas_nuevos:
         mangas_con_mismo_nombre = MangaDigital.objects.filter(nombre=manga.nombre)
         promedio_puntuacion = Review.objects.filter(manga__in=mangas_con_mismo_nombre, manga__tomo=1).aggregate(promedio=Avg('puntuacion'))['promedio']
         mangas_con_mismo_nombre.update(promedio_puntuacion=promedio_puntuacion)
-        print(manga.promedio_puntuacion)
 
     context = {
         'mangas_nuevos': mangas_nuevos,
         'mangas': mangas,
+        'page_obj': page_obj,
+        'query': query,
     }
     return render(request, 'mangas.html', context)
 

@@ -149,3 +149,37 @@ h2::after {
 	font-size: 14px;
 	color: gold;
 }
+
+/* PAGINATOR */
+.page-item .page-link {
+    border-color: #aa0b36;
+    background-color: #212529;
+    color: white;
+}
+
+.pagination .page-link:hover {
+    background-color: #aa0b36;
+  }
+
+.page-item.disabled .page-link {
+    background-color: #621329;
+    color: #979797;
+}
+
+.page-item.active .page-link {
+    background-color: #aa0b36;
+}
+
+.clearfix {
+    margin: 0 auto;
+    justify-content: left;
+}
+
+.row.buscador {
+	margin-bottom: 18px;
+}
+
+.buscador .btn.btn-secondary {
+	margin-top: 15px;
+	margin-bottom:10px;
+}
