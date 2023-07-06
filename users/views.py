@@ -657,9 +657,17 @@ def creador_administrar_view(request, manga_name):
 
 
 
-import os, tempfile, shutil, patoolib
-from patoolib import extract_archive
-from pyunpack import Archive
+import os, tempfile, shutil
+import rarfile
+def extract_cbr(file_path, output_dir):
+    try:
+        with rarfile.RarFile(file_path) as rf:
+            rf.extractall(output_dir)
+        return True
+    except Exception as e:
+        print(f"Error al descomprimir el archivo CBR: {str(e)}")
+        return False
+    
 def subir_tomo(request, manga_id):
     manga = MangaUsuario.objects.get(id=manga_id)
     if request.method == 'POST':
@@ -696,9 +704,14 @@ def subir_tomo(request, manga_id):
                 for chunk in archivo.chunks():
                     file.write(chunk)
             
-            # extraer archivo en temp
-            #patoolib.extract_archive(file_path, outdir=temp_dir)
-            Archive(file_path).extractall(temp_dir)
+            # Extraer archivo CBR en temp_dir
+            if file_path.lower().endswith('.cbr'):
+                if not extract_cbr(file_path, temp_dir):
+                    # Error al descomprimir el archivo CBR
+                    shutil.rmtree(temp_dir)
+                    messages.error(request, 'Error al descomprimir el archivo CBR.')
+                    return redirect('adminmangas')
+
             # obtener carpeta
             inner_dir = next(os.walk(temp_dir))[1][0] if len(next(os.walk(temp_dir))[1]) > 0 else None
 
@@ -779,3 +792,46 @@ def eliminar_cuenta(request):
     logout(request)
     messages.success(request, 'Tu cuenta se eliminó con éxito.')
     return redirect('index')
+
+def comunidad_reader(request, tomo_id):
+    #VOLVER A LA PAGINA DEL HISTORIAL
+    try:
+        user = User.objects.get(id=request.user.id)
+    except:
+        pass
+    #FIN
+
+    manga = MangaTomo.objects.get(id=tomo_id)
+    manga_folder = os.path.join('media', 'mangas_comunidad', manga.manga.nombre, str(manga.tomo))
+    manga_comunidad = True
+
+    images = sorted([image for image in os.listdir(manga_folder) if image.endswith(('.jpg', '.jpeg', '.png'))])
+
+
+    total_images = len(images)
+
+    current_image = request.GET.get('image', 1)
+
+    try:
+        current_image = int(current_image)
+    except ValueError:
+        current_image = 1
+
+    
+    if current_image < 1:
+        current_image = 1
+    elif current_image > total_images:
+        current_image = total_images
+    
+    current_image_path = os.path.join('/', manga_folder, images[current_image - 1])
+
+    context = {
+        'manga': manga,
+        'current_image': current_image,
+        'total_images': total_images,
+        'current_image_path': current_image_path,
+        'images': images,
+        'manga_comunidad': manga_comunidad,
+    }
+
+    return render(request, 'reader.html', context)

@@ -44,6 +44,7 @@ from users.views import (
     eliminar_manga_comunidad,
     comunidad_view,
     comunidad_manga_view,
+    comunidad_reader,
 )
 
 from bmanga.views import (
@@ -151,6 +152,7 @@ urlpatterns = [
     # comunidad
     path('comunidad/', comunidad_view, name='comunidad'),
     path('comunidad/<str:manga_name>', comunidad_manga_view, name='mangapage-comunidad'),
+    path('comunidad/<int:tomo_id>/reader/', comunidad_reader, name='comunidadreader'),
     #
     ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + \
         static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

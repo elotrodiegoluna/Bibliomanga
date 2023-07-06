@@ -203,7 +203,7 @@
 <script>
     function navigateToMangaPage(mangaId) {
         // redireccionar
-        var url = "{% url 'reader' 0 %}".replace('0', mangaId);
+        var url = "{% url 'comunidadreader' 0 %}".replace('0', mangaId);
         window.location.href = url;
     }
 

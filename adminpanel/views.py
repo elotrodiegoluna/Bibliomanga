@@ -328,9 +328,18 @@ def adminusers_view(request):
     return render(request, 'admin_users.html', context)
 
 
-import os, tempfile, shutil, patoolib
-from patoolib import extract_archive
-from pyunpack import Archive
+import os, tempfile, shutil
+import rarfile
+
+def extract_cbr(file_path, output_dir):
+    try:
+        with rarfile.RarFile(file_path) as rf:
+            rf.extractall(output_dir)
+        return True
+    except Exception as e:
+        print(f"Error al descomprimir el archivo CBR: {str(e)}")
+        return False
+    
 @user_passes_test(is_admin, login_url='index', redirect_field_name=None)
 def subir_manga(request):
     if request.method == 'POST':
@@ -346,9 +355,13 @@ def subir_manga(request):
                 for chunk in archivo.chunks():
                     file.write(chunk)
 
-            # extraer archivo en temp
-            #patoolib.extract_archive(file_path, outdir=temp_dir)
-            Archive(file_path).extractall(temp_dir)
+            # Extraer archivo CBR en temp_dir
+            if file_path.lower().endswith('.cbr'):
+                if not extract_cbr(file_path, temp_dir):
+                    # Error al descomprimir el archivo CBR
+                    shutil.rmtree(temp_dir)
+                    messages.error(request, 'Error al descomprimir el archivo CBR.')
+                    return redirect('adminmangas')
 
             # obtener carpeta
             inner_dir = next(os.walk(temp_dir))[1][0] if len(next(os.walk(temp_dir))[1]) > 0 else None

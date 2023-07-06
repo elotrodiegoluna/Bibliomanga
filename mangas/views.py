@@ -209,12 +209,9 @@ def reader_view(request, manga_id):
     except MangaDigital.DoesNotExist:
         manga = None
 
-    if manga:
+    if manga is not None:
+        print('manga true')
         manga_folder = os.path.join('media', 'mangas', manga.nombre, str(manga.tomo))
-    else:
-        manga = MangaTomo.objects.get(id=manga_id)
-        manga_folder = os.path.join('media', 'mangas_comunidad', manga.manga.nombre, str(manga.tomo))
-        manga_comunidad = True
 
     images = sorted([image for image in os.listdir(manga_folder) if image.endswith(('.jpg', '.jpeg', '.png'))])
 
